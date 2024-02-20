@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.shape.*;
 
 public class Main extends Application {
 
@@ -12,10 +13,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         Group root = new Group();
         Scene scene = new Scene(root, 400, 400, Color.WHITE);
+        Hexagon[] hexagons = new Hexagon[300];
 
-        Hexagon hexagon = new Hexagon(200, 200);
-        hexagon.draw(root, 50); // Draw the hexagon with size 50
-
+        for (int i = 0;i< 5;i++) {
+            Hexagon h1 = new Hexagon(600+(87*i), 200);
+            h1.draw(root, 50); // Draw the hexagon with size 50
+            hexagons[i] = h1;
+        }
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -50,17 +54,19 @@ public class Main extends Application {
             this.y = y;
         }
 
-        // Method to draw the hexagon
+        // Method to draw the hexagon with the bottom as an apex
         public void draw(Group root, double size) {
             double[] points = new double[12];
 
             for (int i = 0; i < 6; i++) {
-                points[i * 2] = x + size * Math.cos(Math.toRadians(60 * i));
-                points[i * 2 + 1] = y + size * Math.sin(Math.toRadians(60 * i));
+                // Rotate the hexagon by 30 degrees to make the bottom an apex
+                double angle = Math.toRadians(60 * i + 30);
+                points[i * 2] = x + size * Math.cos(angle);
+                points[i * 2 + 1] = y + size * Math.sin(angle);
             }
 
-            javafx.scene.shape.Polygon hexagon = new javafx.scene.shape.Polygon(points);
-            hexagon.setFill(Color.TRANSPARENT);
+            Polygon hexagon = new javafx.scene.shape.Polygon(points);
+            hexagon.setFill(Color.YELLOW);
             hexagon.setStroke(Color.BLACK);
 
             root.getChildren().add(hexagon);
