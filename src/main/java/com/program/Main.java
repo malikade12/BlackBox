@@ -38,7 +38,7 @@ public class Main extends Application {
                 h1.draw(root, 50); // Draw the hexagon with size 50
                 hexagons[k++] = h1;
             }
-            if(j>3 && j <5){
+            if(j == 4){
                 Hexagon h1 = new Hexagon(xdefault + (87 * 8), ydefault);
                 h1.draw(root, 50); // Draw the hexagon with size 50
                 hexagons[k++] = h1;
