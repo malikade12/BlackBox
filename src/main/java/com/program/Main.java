@@ -7,19 +7,56 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.shape.*;
 
+import java.util.ArrayList;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
         Scene scene = new Scene(root, 400, 400, Color.WHITE);
-        Hexagon[] hexagons = new Hexagon[300];
+        Hexagon[] hexagons = new Hexagon[10];
+        ArrayList<ArrayList<Hexagon>> board = new ArrayList<>();
+        int xdefault = 600;
+        for (int i = 0; i < 9; i++) {
+            int ydefault = 100;
+            ydefault+=75*i;
+            ArrayList<Hexagon> row = new ArrayList<>();
+            for (int j = 5; j < 9; j++) {
 
-        for (int i = 0;i< 5;i++) {
-            Hexagon h1 = new Hexagon(600+(87*i), 200);
-            h1.draw(root, 50); // Draw the hexagon with size 50
-            hexagons[i] = h1;
+                Hexagon h = new Hexagon(xdefault + (87 * i), ydefault);
+                row.add(h);
+                h.draw(root, 50);
+            }
+            board.add(row);
         }
+
+        for(int j = 0;j<9;j++) {
+            int ydefault = 100;
+            ydefault+=75*j;
+            for (int i = 0; i < 5+j; i++) {
+                if (j < 5) {
+                    Hexagon h1 = new Hexagon(xdefault + (87 * i), ydefault);
+                    h1.draw(root, 50); // Draw the hexagon with size 50
+                    hexagons[i] = h1;
+                    System.out.println(hexagons[i]);
+
+                }
+                board.add(hexagons);
+
+            else{
+                    Hexagon h1 = new Hexagon(xdefault + (87 * i), ydefault);
+                    h1.draw(root, 50); // Draw the hexagon with size 50
+                    hexagons[i] = h1;
+                    System.out.println(hexagons[i]);
+
+                }
+
+                board.add(hexagons);
+            }
+            }
+        }
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }
