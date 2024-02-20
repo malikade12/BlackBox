@@ -1,5 +1,3 @@
-package com.example.demo1;
-
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -9,7 +7,7 @@ import javafx.stage.Stage;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class HexagonalGridPrinter extends Application {
+public class BlackBox extends Application {
 
     private static final int HEX_SIZE = 50;
     private static final double HEX_VERTICAL_OFFSET = HEX_SIZE * Math.sqrt(3);
@@ -20,10 +18,10 @@ public class HexagonalGridPrinter extends Application {
         Scene scene = new Scene(root, 600, 400, Color.WHITE);
 
         // Calculate the starting X position for the first row to center it
-        double startXRow1 = calculateStartX(scene.getWidth(), 5);
+        AtomicReference<Double> startXRow1 = new AtomicReference<>((scene.getWidth() - 5 * HEX_SIZE * 1.5) / 2.0);
 
         // Calculate the starting X position for the second row to center it
-        double startXRow2 = calculateStartX(scene.getWidth(), 6);
+        AtomicReference<Double> startXRow2 = new AtomicReference<>((scene.getWidth() - 6 * HEX_SIZE * 1.5) / 2.0);
 
         double startY = 100;
 
