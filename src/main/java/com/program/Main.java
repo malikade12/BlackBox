@@ -13,6 +13,7 @@ public class Main extends Application {
         Group root = new Group();
         Scene scene = new Scene(root, 400, 400, Color.WHITE);
         Hexagon[] hexagons = new Hexagon[300];
+        Hexagon h1;
         int k=0;
         int l=0;
         for(int j=0;j<9;j++) {
@@ -23,46 +24,58 @@ public class Main extends Application {
             if (j>4) l++;
             xdefault+=87*l;
             for (int i = 0; i < 5; i++) {
-                Hexagon h1 = new Hexagon(xdefault + (87 * i), ydefault);
+                 h1 = new Hexagon(xdefault + (87 * i), ydefault);
                 h1.draw(root, 50); // Draw the hexagon with size 50
                 hexagons[k++] = h1;
             }
             if(j>0 && j !=8){
-                Hexagon h1 = new Hexagon(xdefault + (87 * 5), ydefault);
+                 h1 = new Hexagon(xdefault + (87 * 5), ydefault);
                 h1.draw(root, 50); // Draw the hexagon with size 50
                 hexagons[k++] = h1;
             }
             if(j>1&& j <7){
-                Hexagon h1 = new Hexagon(xdefault + (87 * 6), ydefault);
+                 h1 = new Hexagon(xdefault + (87 * 6), ydefault);
                 h1.draw(root, 50); // Draw the hexagon with size 50
                 hexagons[k++] = h1;
             }
             if(j>2&& j <6){
-                Hexagon h1 = new Hexagon(xdefault + (87 * 7), ydefault);
+                 h1 = new Hexagon(xdefault + (87 * 7), ydefault);
                 h1.draw(root, 50); // Draw the hexagon with size 50
                 hexagons[k++] = h1;
             }
             if(j == 4){
-                Hexagon h1 = new Hexagon(xdefault + (87 * 8), ydefault);
+                 h1 = new Hexagon(xdefault + (87 * 8), ydefault);
                 h1.draw(root, 50); // Draw the hexagon with size 50
                 hexagons[k++] = h1;
             }
-            primaryStage.setScene(scene);
-            primaryStage.show();
         }
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    static class Hexagon {
+    static class Hexagon extends Polygon{
         private double x;
         private double y;
 
         public Hexagon(double x, double y) {
             this.x = x;
             this.y = y;
+
+            this.setOnMouseClicked(event -> {
+                System.out.println("hises");
+                double centerX = x;
+                double centerY = y;
+
+                // Create circle at centroid
+                Circle circle = new Circle(233, 233, 200, Color.RED);
+
+                // Add circle to the root
+                ((Group) this.getParent()).getChildren().add(circle);
+            });
         }
 
         // Getters and setters for x and y coordinates
@@ -94,10 +107,11 @@ public class Main extends Application {
             }
 
             Polygon hexagon = new javafx.scene.shape.Polygon(points);
-            hexagon.setFill(Color.YELLOW);
-            hexagon.setStroke(Color.BLACK);
+            hexagon.setFill(Color.BLACK);
+            hexagon.setStroke(Color.RED);
 
             root.getChildren().add(hexagon);
         }
+
     }
 }
