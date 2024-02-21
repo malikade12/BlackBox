@@ -14,32 +14,14 @@ public class Main extends Application {
         Scene scene = new Scene(root, 400, 400, Color.WHITE);
         Hexagon[] hexagons = new Hexagon[300];
         int k=0;
+        int l=0;
         for(int j=0;j<9;j++) {
             int ydefault = 100;
             int xdefault = 600;
             ydefault+=75*j;
             xdefault-=44*j;
-            switch (j){
-                case 5 -> {
-                    xdefault+=87;
-                    break;
-                }
-                case 6 -> {
-                    xdefault+=174;
-                    break;
-                }
-                case 7 -> {
-                    xdefault+=261;
-                    break;
-                }
-                case 8 -> {
-                    xdefault+=348;
-                    break;
-                }
-                default -> {
-                    break;
-                }
-            }
+            if (j>4) l++;
+            xdefault+=87*l;
             for (int i = 0; i < 5; i++) {
                 Hexagon h1 = new Hexagon(xdefault + (87 * i), ydefault);
                 h1.draw(root, 50); // Draw the hexagon with size 50
