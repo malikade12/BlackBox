@@ -15,6 +15,7 @@ public class ChangeView {
 
         // Set the action for the button
         button1.setOnAction(event);
+
     }
 
     // Method to get the button
