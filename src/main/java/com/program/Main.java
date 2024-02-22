@@ -11,6 +11,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         Group root = new Group();
+        ChangeView test = new ChangeView();
+        test.testButton();
+        root.getChildren().add(test.getButton1());
+
         Scene scene = new Scene(root, 400, 400, Color.WHITE);
         Hexagon[] hexagons = new Hexagon[300];
         int k=0;
@@ -47,9 +51,14 @@ public class Main extends Application {
                 h1.draw(root, 50); // Draw the hexagon with size 50
                 hexagons[k++] = h1;
             }
-            primaryStage.setScene(scene);
-            primaryStage.show();
         }
+
+
+
+
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
