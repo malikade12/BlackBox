@@ -19,6 +19,7 @@ public class Main extends Application {
         Hexagon[] hexagons = new Hexagon[300];
         int k=0;
         int l=0;
+        int id = 0;
         for(int j=0;j<9;j++) {
             int ydefault = 100;
             int xdefault = 600;
@@ -27,27 +28,27 @@ public class Main extends Application {
             if (j>4) l++;
             xdefault+=87*l;
             for (int i = 0; i < 5; i++) {
-                Hexagon h1 = new Hexagon(xdefault + (87 * i), ydefault);
+                Hexagon h1 = new Hexagon(xdefault + (87 * i), ydefault,id++);
                 h1.draw(root, 50); // Draw the hexagon with size 50
                 hexagons[k++] = h1;
             }
             if(j>0 && j !=8){
-                Hexagon h1 = new Hexagon(xdefault + (87 * 5), ydefault);
+                Hexagon h1 = new Hexagon(xdefault + (87 * 5), ydefault,id++);
                 h1.draw(root, 50); // Draw the hexagon with size 50
                 hexagons[k++] = h1;
             }
             if(j>1&& j <7){
-                Hexagon h1 = new Hexagon(xdefault + (87 * 6), ydefault);
+                Hexagon h1 = new Hexagon(xdefault + (87 * 6), ydefault,id++);
                 h1.draw(root, 50); // Draw the hexagon with size 50
                 hexagons[k++] = h1;
             }
             if(j>2&& j <6){
-                Hexagon h1 = new Hexagon(xdefault + (87 * 7), ydefault);
+                Hexagon h1 = new Hexagon(xdefault + (87 * 7), ydefault,id++);
                 h1.draw(root, 50); // Draw the hexagon with size 50
                 hexagons[k++] = h1;
             }
             if(j == 4){
-                Hexagon h1 = new Hexagon(xdefault + (87 * 8), ydefault);
+                Hexagon h1 = new Hexagon(xdefault + (87 * 8), ydefault,id++);
                 h1.draw(root, 50); // Draw the hexagon with size 50
                 hexagons[k++] = h1;
             }
@@ -68,10 +69,12 @@ public class Main extends Application {
     static class Hexagon {
         private double x;
         private double y;
+        private int id;
 
-        public Hexagon(double x, double y) {
+        public Hexagon(double x, double y,int id) {
             this.x = x;
             this.y = y;
+            this.id = id;
         }
 
         // Getters and setters for x and y coordinates
@@ -89,6 +92,10 @@ public class Main extends Application {
 
         public void setY(double y) {
             this.y = y;
+        }
+
+        public int getId(){
+            return this.id;
         }
 
         // Method to draw the hexagon with the bottom as an apex
