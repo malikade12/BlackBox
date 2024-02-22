@@ -1,18 +1,23 @@
 package com.program;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.shape.*;
 
+import java.util.*;
+
 public class Main extends Application {
+    Group root;
     @Override
     public void start(Stage primaryStage) {
-        Group root = new Group();
-        Scene scene = new Scene(root, 400, 400, Color.WHITE);
-        Hexagon[] hexagons = new Hexagon[300];
+         root = new Group();
+        root.setMouseTransparent(false);
+       ArrayList<ArrayList<Polygon>> AllRows = new ArrayList<>();
         Hexagon h1;
         int k=0;
         int l=0;
@@ -23,32 +28,37 @@ public class Main extends Application {
             xdefault-=44*j;
             if (j>4) l++;
             xdefault+=87*l;
+            ArrayList<Polygon> rows = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
-                 h1 = new Hexagon(xdefault + (87 * i), ydefault);
-                h1.draw(root, 50); // Draw the hexagon with size 50
-                hexagons[k++] = h1;
+                 h1 = new Hexagon(xdefault + (87 * i), ydefault, j, k);
+                 Polygon hex = h1.draw(root, 50); // Draw the hexagon with size 50
+                 rows.add(hex);
             }
             if(j>0 && j !=8){
-                 h1 = new Hexagon(xdefault + (87 * 5), ydefault);
-                h1.draw(root, 50); // Draw the hexagon with size 50
-                hexagons[k++] = h1;
+                 h1 = new Hexagon(xdefault + (87 * 5), ydefault, j, k);
+                Polygon hex = h1.draw(root, 50); // Draw the hexagon with size 50
+                rows.add(hex);
             }
             if(j>1&& j <7){
-                 h1 = new Hexagon(xdefault + (87 * 6), ydefault);
-                h1.draw(root, 50); // Draw the hexagon with size 50
-                hexagons[k++] = h1;
+                 h1 = new Hexagon(xdefault + (87 * 6), ydefault, j, k);
+                Polygon hex = h1.draw(root, 50); // Draw the hexagon with size 50
+                rows.add(hex);
             }
             if(j>2&& j <6){
-                 h1 = new Hexagon(xdefault + (87 * 7), ydefault);
-                h1.draw(root, 50); // Draw the hexagon with size 50
-                hexagons[k++] = h1;
+                 h1 = new Hexagon(xdefault + (87 * 7), ydefault, j, k);
+                Polygon hex = h1.draw(root, 50); // Draw the hexagon with size 50
+                rows.add(hex);
             }
             if(j == 4){
-                 h1 = new Hexagon(xdefault + (87 * 8), ydefault);
-                h1.draw(root, 50); // Draw the hexagon with size 50
-                hexagons[k++] = h1;
+                 h1 = new Hexagon(xdefault + (87 * 8), ydefault, j, k);
+                Polygon hex = h1.draw(root, 50); // Draw the hexagon with size 50
+                rows.add(hex);;
             }
+            k++;
+            AllRows.add(rows);
         }
+
+        Scene scene = new Scene(root, 400, 400, Color.WHITE);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -57,46 +67,28 @@ public class Main extends Application {
         launch(args);
     }
 
-    static class Hexagon extends Polygon{
+    public static class Hexagon extends Polygon {
         private double x;
         private double y;
+        private int RowId;
 
-        public Hexagon(double x, double y) {
+        private int HexId;
+
+         boolean HasAtom;
+        public Hexagon(double x, double y, int Row, int id) {
             this.x = x;
             this.y = y;
-
-            this.setOnMouseClicked(event -> {
-                System.out.println("hises");
-                double centerX = x;
-                double centerY = y;
-
-                // Create circle at centroid
-                Circle circle = new Circle(233, 233, 200, Color.RED);
-
-                // Add circle to the root
-                ((Group) this.getParent()).getChildren().add(circle);
-            });
+            RowId = Row;
+            HexId = id;
         }
 
-        // Getters and setters for x and y coordinates
-        public double getX() {
-            return x;
+        public void SetAtom(){
+            this.HasAtom = true;
         }
 
-        public void setX(double x) {
-            this.x = x;
-        }
-
-        public double getY() {
-            return y;
-        }
-
-        public void setY(double y) {
-            this.y = y;
-        }
 
         // Method to draw the hexagon with the bottom as an apex
-        public void draw(Group root, double size) {
+        public Polygon draw(Group root, double size) {
             double[] points = new double[12];
 
             for (int i = 0; i < 6; i++) {
@@ -106,12 +98,26 @@ public class Main extends Application {
                 points[i * 2 + 1] = y + size * Math.sin(angle);
             }
 
-            Polygon hexagon = new javafx.scene.shape.Polygon(points);
+            Polygon hexagon = new Polygon(points);
             hexagon.setFill(Color.BLACK);
             hexagon.setStroke(Color.RED);
-
+            hexagon.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    double[] center = calculatePolygonCenter(hexagon);
+                    Atoms at = new Atoms(root, center[0], center[1]);
+                }
+            });
             root.getChildren().add(hexagon);
+            return hexagon;
         }
-
+        private double[] calculatePolygonCenter(Polygon polygon) {
+            javafx.geometry.Bounds bounds = polygon.getBoundsInLocal();
+            double centerX = (bounds.getMinX() + bounds.getMaxX()) / 2;
+            double centerY = (bounds.getMinY() + bounds.getMaxY()) / 2;
+            return new double[]{centerX, centerY};
+        }
     }
+
+
 }
