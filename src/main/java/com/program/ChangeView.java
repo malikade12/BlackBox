@@ -12,15 +12,15 @@ public class ChangeView {
     EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Main.Atoms.makeAllAtomsInvisible();
-            Main.Hexagon.mode = 1;
+            Atoms.makeAllAtomsInvisible();
+            Hexagon.mode = 1;
         }
     };
     EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Main.Atoms.makeAllAtomsVisible();
-            Main.Hexagon.mode=0;
+            Atoms.makeAllAtomsVisible();
+            Hexagon.mode=0;
         }
     };
 
