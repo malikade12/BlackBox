@@ -19,13 +19,15 @@ public class Main extends Application {
     private Group root;
     private static List<Atoms> allAtoms;
 
+
     @Override
     public void start(Stage primaryStage) {
         root = new Group();
         root.setMouseTransparent(false);
 
         ChangeView test = new ChangeView();
-        test.testButton();
+
+        test.experimenterButton();
         test.setterButton();
 
 
@@ -47,6 +49,7 @@ public class Main extends Application {
 
         int k = 0;
         int l = 0;
+
         for (int j = 0; j < 9; j++) {
             int ydefault = 100;
             int xdefault = 600;
@@ -96,6 +99,8 @@ public class Main extends Application {
         private double x;
         private double y;
         private int rowId;
+        static int mode;
+        static int counter =0;
 
         public Hexagon(double x, double y, int row, int id) {
             this.x = x;
@@ -115,14 +120,20 @@ public class Main extends Application {
             Polygon hexagon = new Polygon(points);
             hexagon.setFill(Color.BLACK);
             hexagon.setStroke(Color.RED);
+
+
             hexagon.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
+                    if (mode != 1 && counter < 6){
                     double[] center = calculatePolygonCenter(hexagon);
                     Atoms at = new Atoms(root, center[0], center[1]);
                     allAtoms.add(at);  // Add the created Atom to the list
+                        counter++;
+                }
                 }
             });
+
             root.getChildren().add(hexagon);
             return hexagon;
         }

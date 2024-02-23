@@ -9,12 +9,23 @@ public class ChangeView {
 
 
     // EventHandler for the button click event
-    EventHandler<ActionEvent> event = e -> Main.Atoms.makeAllAtomsInvisible();
-    EventHandler<ActionEvent> event2 = e -> Main.Atoms.makeAllAtomsVisible();
-
+    EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+            Main.Atoms.makeAllAtomsInvisible();
+            Main.Hexagon.mode = 1;
+        }
+    };
+    EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+            Main.Atoms.makeAllAtomsVisible();
+            Main.Hexagon.mode=0;
+        }
+    };
 
     // Method to initialize the button
-    public void testButton() {
+    public void experimenterButton() {
         button1 = new Button("Change to Experimenter view");
 
         // Set the action for the button
@@ -27,6 +38,7 @@ public class ChangeView {
 
         // Set the action for the button
         button2.setOnAction(event2);
+
 
     }
 
