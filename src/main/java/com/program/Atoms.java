@@ -8,13 +8,14 @@ import javafx.stage.Stage;
 import javafx.scene.shape.*;
 
 public class Atoms extends Sphere {
+    Circle orbit;
     public Atoms(Group root, double x, double y) {
         super(20); // Set the radius of the sphere
         setTranslateX(x); // Set the x position
         setTranslateY(y); // Set the y position
         setTranslateZ(0); // Set the z position (for 3D, 0 would represent the screen)
         // Create a circle to represent the orbit
-        Circle orbit = new Circle(x, y, 50); // Set the radius of the orbit
+         orbit = new Circle(x, y, 50); // Set the radius of the orbit
         orbit.setStroke(Color.WHITE); // Set the color of the orbit
         orbit.setFill(null); // Set the fill of the orbit to transparent
         orbit.setStrokeWidth(2); // Set the width of the orbit
@@ -31,6 +32,7 @@ public class Atoms extends Sphere {
     public static void makeAllAtomsInvisible() {
         for (Atoms atom : Main.allAtoms) {
             atom.setVisible(false);
+            atom.orbit.setVisible(false);
         }
     }
 
