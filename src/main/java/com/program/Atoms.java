@@ -39,6 +39,7 @@ public class Atoms extends Sphere {
     public static void makeAllAtomsVisible() {
         for (Atoms atom : Main.allAtoms) {
             atom.setVisible(true);
+            atom.orbit.setVisible(true);
         }
     }
 }
