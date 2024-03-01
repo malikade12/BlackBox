@@ -86,7 +86,7 @@ public class Main extends Application {
             k++;
         }
 
-        Scene scene = new Scene(root, 400, 400, Color.WHITE);
+        Scene scene = new Scene(root, 400, 400, Color.BLACK);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

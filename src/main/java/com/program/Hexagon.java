@@ -31,7 +31,7 @@ public  class Hexagon extends Polygon {
         Polygon hexagon = new Polygon(points);
         hexagon.setFill(Color.BLACK);
         hexagon.setStroke(Color.YELLOW);
-
+        hexagon.setStrokeWidth(3);
 
         hexagon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
