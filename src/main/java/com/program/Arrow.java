@@ -1,62 +1,78 @@
 package com.program;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
+import javafx.scene.shape.*;
 
-public class Arrow{
-    private
-    public static Polygon createArrow(double x, double y, double z){
+public class Arrow {
+    private Polygon triangle;
+    public static double[] midpoints;
 
-
-        // Create a skinny arrow shape
-        Polygon arrow = new Polygon();
-        arrow.getPoints().addAll(
-                0.0, 5.0,
-                15.0, 5.0,
-                15.0, 0.0,
-                20.0, 10.0,
-                15.0, 20.0,
-                15.0, 15.0,
-                0.0, 15.0
-        );
-        arrow.setFill(Color.YELLOW);
-        arrow.setScaleY(0.3);
-        arrow.setScaleX(2.6);
-            // Update arrow position to the mouse click position
-            arrow.setTranslateX(x);
-            arrow.setTranslateY(y);
-           switch ((int) z){
-               case 0:
-                  arrow.setRotate(45);
-
-                  break;
-               case 2:
-                   arrow.setRotate(-45);
-                   break;
-               case 3:
-                   arrow.setRotate(-120);
-                   break;
-               case 4:
-                   arrow.setRotate(-180);
-                   break;
-               case 5:
-                   arrow.setRotate(125);
+    public static Polygon createArrow(double[] p1, double[] p2, Main.directions z){
+        double midX = (p1[0] + p2[0] ) / 2;
+        double midY = (p1[1] + p2[1] ) / 2;
+        double y1 = p1[1];
+        double x1 = p1[0];
+        double y2 = p2[1];
+        double x2 = p2[0];
+        double x3 = 0;
+        double y3 = 0;
+       switch (z){
+           case midRight -> {
+               y3 = midY - 3;
+               x3 = midX + 20;
+               y1 += 9;
+               y2 -= 5;
+               break;
            }
-        arrow.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                double x = event.getX();
-                double y = event.getY();
-                System.out.println("Clicked at: (" + x + ", " + y + ")");
+           case southEast -> {
+               y1 += 3;
+               y2 -= 3;
+               x1 = x1 - 7;
+               x2 += 7;
+               x3 = midX + 15;
+               y3 = midY + 20;
+           }
+           case northEast -> {
+               y1 += 3;
+               y2 -= 3;
+               x1 = x1 + 9;
+               x2 -= 7;
+               x3 = midX + 15;
+               y3 = midY - 20;
+           }
+           case northWest -> {
+               y1 += 4;
+               y2 += 3;
+               x2 -= 9;
+               x3 = midX - 15;
+               y3 = midY - 20;
+           }
+           case midLeft -> {
+               y3 = midY + 3;
+               x3 = midX - 20;
+               y1 -= 9;
+               y2 += 5;
+           }
+           case southWest -> {
 
+               x1 -= 9;
+               y1 -= 3;
+               x2 += 9;
+               y2 += 2;
+               x3 = midX - 10;
+               y3 = midY + 18;
+           }
 
-            }
-        });
+       }
+        midpoints = new double[]{midX, midY};
 
-        return arrow;
+        Polygon polygon = new Polygon();
+        polygon.getPoints().addAll(new Double[]{
+                x1, y1,   // Point 1
+                x2, y2,   // Point 2
+                x3, y3}); // Point 3
+        polygon.setFill(Color.YELLOW);
 
+        polygon.setFill(Color.YELLOW);
+       return polygon;
     }
-
-
 }
