@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Text;
 
 public  class Hexagon extends Polygon {
     private double x;
@@ -16,6 +17,7 @@ public  class Hexagon extends Polygon {
     public Hexagon(double x, double y, int row, int id) {
         this.x = x;
         this.y = y;
+
         rowId = row;
     }
 

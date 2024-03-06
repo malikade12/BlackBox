@@ -16,9 +16,11 @@ import javafx.scene.shape.*;
 import java.util.*;
 
 public class Main extends Application {
-    private Group root;
+    public static   Group root;
     static List<Atoms> allAtoms;
+   static List<Polygon> allArrows;
 
+   static List<List<Polygon>> allHexagons;
 
     @Override
     public void start(Stage primaryStage) {
@@ -46,7 +48,8 @@ public class Main extends Application {
         root.getChildren().add(container);
 
         allAtoms = new ArrayList<>();
-
+       allHexagons = new ArrayList<>();
+       allArrows = new ArrayList<>();
         int k = 0;
         int l = 0;
 
@@ -84,9 +87,151 @@ public class Main extends Application {
                 rows.add(hex);
             }
             k++;
+            allHexagons.add(rows);
+        }
+        System.out.println(allHexagons.get(0).size());
+        Scene scene = new Scene(root, 400, 400, Color.BLACK);
+        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                double x = event.getX();
+                double y = event.getY();
+                System.out.println(Math.round(x) + "  " + Math.round(y));
+
+
+            }
+        });
+        double initX = 564;
+        double initY = 43;
+
+        double angleArrow = 0;
+        for (int i = 1; i <= 10; i++) {
+            Polygon a1 = Arrow.createArrow(initX, initY, angleArrow);
+            allArrows.add(a1);
+            if (i < 9) {
+                if (i % 2 == 1) {
+                    initX -= (33 + (i * 2));
+                    initY += (56 + (i * 1.3));
+                    angleArrow = 1;
+                } else {
+                    initX -= 7;
+                    initY += 13;
+                    angleArrow = 0;
+                }
+            } else if (i == 9) {
+                initX -= 18;
+                initY += 60;
+                angleArrow = 1;
+            }
+
+        } initX = 380;
+                initY = 455;
+                angleArrow = 2;
+        for (int i = 0; i < 9; i++) {
+            Polygon a1 = Arrow.createArrow(initX, initY, angleArrow);
+            allArrows.add(a1);
+            if (i % 2 == 1) {
+                initX += (30 + (i / 2));
+                initY += (59 + (i / 1.3));
+                angleArrow = 2;
+            } else {
+                initX += 7;
+                initY += 13;
+                angleArrow = 1;
+            }
         }
 
-        Scene scene = new Scene(root, 400, 400, Color.BLACK);
+
+        initX = 617;
+        initY = 753;
+        angleArrow = 3;
+        for (int i = 0; i < 9; i++) {
+            Polygon a1 = Arrow.createArrow(initX, initY, angleArrow);
+            allArrows.add(a1);
+            if (i == 7){
+                initX = 975;
+                initY = 749
+
+                ;
+                angleArrow= 3;
+            }
+            else if (i % 2 == 1) {
+                initX += (52 + (i * 5.4));
+                angleArrow = 3;
+            } else {
+                initX += 20;
+                angleArrow = 2;
+            }
+        }
+
+        initX = 1027;
+        initY = 693;
+        angleArrow = 4;
+
+        for (int i = 0; i < 9; i++) {
+            Polygon a1 = Arrow.createArrow(initX, initY, angleArrow);
+            allArrows.add(a1);
+            if (i % 2 == 1) {
+                initX += (30 + (i / 2));
+                initY -= (59 + (i / 1.3));
+                angleArrow = 4;
+            } else {
+                initX += 7;
+                initY -= 13;
+                angleArrow = 3;
+            }
+        }
+
+        initX = 1151;
+        initY = 349;
+        angleArrow = 5;
+
+        for (int i = 0; i < 9; i++) {
+            Polygon a1 = Arrow.createArrow(initX, initY, angleArrow);
+            allArrows.add(a1);
+            if (i % 2 == 1) {
+                initX -= (33 + (i * 2));
+                initY -= (56 -
+                        (i * 1.3));
+                angleArrow = 5
+                ;
+            } else {
+                initX += 17;
+                initY -= 23;
+                angleArrow = 4;
+            }
+        }
+
+
+
+
+
+
+        /*initX = 374;
+        initY = 336;
+            for (int j = 0; j < ; j++) {
+
+            }
+               initX = 374;
+               initY = 336;
+           }
+            if(i >= 10){
+                if (i % 2 == 1) {
+                    initX += (34 + (i / 2));
+                    initY += (53 + (i * 1.3));
+                    angleArrow = 1;
+                } else {
+                    initX += 7;
+                    initY += 13;
+                    angleArrow = 2;
+                }
+            }*/
+
+
+
+        root.getChildren().addAll(allArrows);
+
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }
