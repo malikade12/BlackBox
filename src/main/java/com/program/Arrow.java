@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
 public class Arrow{
-    private
+
     public static Polygon createArrow(double x, double y, double z){
 
 

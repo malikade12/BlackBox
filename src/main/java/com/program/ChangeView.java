@@ -21,6 +21,7 @@ public class ChangeView {
         public void handle(ActionEvent e) {
             Atoms.makeAllAtomsVisible();
             Hexagon.mode=0;
+
         }
     };
 

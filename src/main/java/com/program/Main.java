@@ -17,10 +17,10 @@ import java.util.*;
 
 public class Main extends Application {
     public static   Group root;
-    static List<Atoms> allAtoms;
+   public static List<Atoms> allAtoms;
    static List<Polygon> allArrows;
 
-   static List<List<Polygon>> allHexagons;
+   public static List<List<Polygon>> allHexagons;
 
     @Override
     public void start(Stage primaryStage) {
@@ -168,6 +168,13 @@ public class Main extends Application {
         initY = 693;
         angleArrow = 4;
 
+        Rays ray = new Rays();
+        ray.makeHorizontalRay(root,518,627);//near done for coming from right
+        ray.makeDiagonalRay(root,578,65);
+        ray.makeDiagonalRayUpRight(root,571,737);
+        ray.makeHorizontalRay2(root,1077,249);
+
+
         for (int i = 0; i < 9; i++) {
             Polygon a1 = Arrow.createArrow(initX, initY, angleArrow);
             allArrows.add(a1);
@@ -200,7 +207,9 @@ public class Main extends Application {
                 initY -= 23;
                 angleArrow = 4;
             }
+
         }
+
 
 
 

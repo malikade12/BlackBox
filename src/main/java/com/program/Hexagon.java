@@ -13,6 +13,13 @@ public  class Hexagon extends Polygon {
     private int rowId;
     static int mode;
     static int counter =0;
+    private boolean atomPresent = false;
+
+    public boolean getAtomPresent(){
+        return atomPresent;
+    }
+
+
 
     public Hexagon(double x, double y, int row, int id) {
         this.x = x;
@@ -34,6 +41,9 @@ public  class Hexagon extends Polygon {
         hexagon.setFill(Color.BLACK);
         hexagon.setStroke(Color.YELLOW);
         hexagon.setStrokeWidth(3);
+        hexagon.setOnMouseEntered(e -> hexagon.setFill(Color.RED));
+        hexagon.setOnMouseExited(e -> hexagon.setFill(Color.BLACK));
+
 
         hexagon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -42,6 +52,7 @@ public  class Hexagon extends Polygon {
                     double[] center = calculatePolygonCenter(hexagon);
                     Atoms at = new Atoms(root, center[0], center[1]);
                     Main.allAtoms.add(at);  // Add the created Atom to the list
+                    atomPresent = true;
                     counter++;
                 }
             }
