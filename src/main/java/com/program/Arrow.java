@@ -2,11 +2,11 @@ package com.program;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
-public class Arrow {
-    private Polygon triangle;
+public class Arrow extends Polygon{
+    private  Polygon triangle;
     public static double[] midpoints;
 
-    public static Polygon createArrow(double[] p1, double[] p2, Main.directions z){
+    public Polygon createArrow(double[] p1, double[] p2, Main.directions z){
         double midX = (p1[0] + p2[0] ) / 2;
         double midY = (p1[1] + p2[1] ) / 2;
         double y1 = p1[1];
@@ -71,7 +71,8 @@ public class Arrow {
                 x2, y2,   // Point 2
                 x3, y3}); // Point 3
         polygon.setFill(Color.YELLOW);
-
+        triangle = polygon;
+        Main.root.getChildren().add(triangle);
         polygon.setFill(Color.YELLOW);
        return polygon;
     }
