@@ -77,7 +77,22 @@ public class Arrow {
                 if(z == Main.directions.midRight){
                     System.out.println("hello");
 
-                    ray.makeHorizontalRay(root,583,100);
+                    ray.makeHorizontalRay(root,(int)midX,(int)midY);
+
+                }
+                else if(z == Main.directions.southEast){
+                    ray.makeDiagonalDownRay(root,(int)midX,(int)midY);
+                }
+                else if(z == Main.directions.northEast){
+                    ray.makeDiagonalRayUpRight(root,(int)midX,(int)midY);
+                }
+                else if (z == Main.directions.northWest) {
+                    ray.makeDiagonalUpLeft(root,(int)midX,(int)midY);
+                }
+                else if (z == Main.directions.midLeft) {
+                    ray.makeHorizontalRay2(root,(int)midX,(int)midY);
+                } else if (z == Main.directions.southWest) {
+                    ray.makeDiagonalDownLeft(root,(int)midX,(int)midY);
 
                 }
             }

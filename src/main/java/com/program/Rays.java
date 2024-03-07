@@ -60,8 +60,7 @@ public class Rays {
             System.out.println("1");
             for (Hexagon hexagon : innerList) {
 
-                System.out.println(hexagon.x);
-                if (hexagon.contains(x, y)) {
+                if ((x>370 && y>50) && (x<1160 && y <754)){
 
                     rayPoints.add(x);
                     rayPoints.add(y);
@@ -89,9 +88,9 @@ public class Rays {
 
         for (List<Hexagon> innerList : reverseHexagons) {
             // Iterate through the inner list
-            for (Hexagon polygon : innerList) {
+            for (Hexagon hexagon : innerList) {
                 // Perform operations on each Polygon
-                if (polygon.contains(x,y)){
+                if ((x>370 && y>50) && (x<1160 && y <754)){
                     rayPoints2.add(x);
                     rayPoints2.add(y);
 
@@ -115,9 +114,9 @@ public class Rays {
 
         for (List<Hexagon> innerList : allHexagons) {
             // Iterate through the inner list
-            for (Hexagon polygon : innerList) {
+            for (Hexagon hexagon : innerList) {
                 // Perform operations on each Polygon
-                if (polygon.contains(x,y)){
+                if ((x>370 && y>50) && (x<1160 && y <754)){
                     rayPoints3.add(x);
                     rayPoints3.add(y);
 
@@ -146,9 +145,8 @@ public class Rays {
         int index = 0;
 
         for (List<Hexagon> innerList : reverseHexagons) {
-            for (Hexagon polygon : innerList) {
-                System.out.println(polygon.getLayoutX());//ISSUE HERE FOR SOME REASON IDK
-                if (polygon.contains(x, y)) {
+            for (Hexagon hexagon : innerList) {
+                if ((x>370 && y>50) && (x<1165 && y <754)){
 
                     rayPoints4.add(x);
                     rayPoints4.add(y);
@@ -176,9 +174,9 @@ public class Rays {
 
         for (List<Hexagon> innerList : reverseHexagons) {
             // Iterate through the inner list
-            for (Polygon polygon : innerList) {
+            for (Hexagon hexagon : innerList) {
                 // Perform operations on each Polygon
-                if (polygon.contains(x,y)){
+                if ((x>370 && y>50) && (x<1160 && y <754)){
                     rayPoints5.add(x);
                     rayPoints5.add(y);
 
@@ -203,9 +201,9 @@ public class Rays {
         List<List<Hexagon>> reverseHexagons = reverseNestedList(allHexagons);
         for (List<Hexagon> innerList : reverseHexagons) {
             // Iterate through the inner list
-            for (Polygon polygon : innerList) {
+            for (Hexagon hexagon : innerList) {
                 // Perform operations on each Polygon
-                if (polygon.contains(x,y)){
+                if ((x>370 && y>50) && (x<1160 && y <754)){
                     rayPoints6.add(x);
                     rayPoints6.add(y);
 
