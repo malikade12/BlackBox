@@ -167,11 +167,6 @@ public class Main extends Application {
             }}
 
         root.getChildren().addAll(allArrows);
-        for (Polygon arrow : allArrows) {
-            arrow.setOnMouseClicked(event -> {
-                getArrowDirection(arrow);
-            });
-        }
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -181,53 +176,6 @@ public class Main extends Application {
         launch(args);
     }
 
-    // Inside your Main class
-// Inside your Main class
-// Inside your Main class
-    private void getArrowDirection(Polygon arrow) {
-        // Assuming you have stored arrow properties (e.g., points) in your Arrow class
-        // Modify this logic based on your arrow representation
 
-        // Example: Check the coordinates of the arrow's points
-        double x1 = arrow.getPoints().get(0);
-        double y1 = arrow.getPoints().get(1);
-        double x2 = arrow.getPoints().get(2);
-        double y2 = arrow.getPoints().get(3);
-        double x3 = arrow.getPoints().get(4);
-        double y3 = arrow.getPoints().get(5);
-
-        // Calculate the midpoint of the line segment (x1, y1) to (x2, y2)
-        double centerX = Arrow.midpoints[0];
-        double centerY = Arrow.midpoints[1];
-
-        // Calculate the angle or direction based on the points
-        double dx = x3 - centerX;
-        double dy = y3 - centerY;
-        double angle = Math.atan2(dy, dx);
-
-        double rayLength = 300; // Adjust the desired length of the ray
-
-        // Calculate the endpoint of the ray using trigonometry
-        double endX = centerX + rayLength * Math.cos(angle);
-        double endY = centerY + rayLength * Math.sin(angle);
-
-        // Create a Line representing the ray
-        Line ray = new Line(centerX, centerY, endX, endY);
-        ray.setStroke(Color.RED); // Customize the ray color
-
-        // Check if the ray intersects with any orbit circles
-        for (Atoms atom : Main.allAtoms) {
-            if (ray.intersects(atom.orbit.getBoundsInLocal())) {
-                // If the ray intersects with an orbit circle, handle deflection here
-                // For now, let's just change the ray color to green
-                ray.setStroke(Color.GREEN);
-            }
-        }
-
-        // Add the ray to the scene
-        root.getChildren().add(ray);
-
-        // Return the arrow direction (you can modify this based on your needs)
-    }
 
 }
