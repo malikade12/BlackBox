@@ -5,22 +5,28 @@ import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Text;
 
 public  class Hexagon extends Polygon {
-    private double x;
-    private double y;
+    public double x;
+    public double y;
     private int rowId;
     static int mode;
     static int counter =0;
+    public int Id;
+    public Polygon shape;
+    public double[] points;
 
     public Hexagon(double x, double y, int row, int id) {
         this.x = x;
         this.y = y;
+
         rowId = row;
+        Id = id + 1;
     }
 
     public Polygon draw(Group root, double size) {
-        double[] points = new double[12];
+         points = new double[12];
 
         for (int i = 0; i < 6; i++) {
             double angle = Math.toRadians(60 * i + 30);
@@ -38,6 +44,7 @@ public  class Hexagon extends Polygon {
             public void handle(MouseEvent event) {
                 if (mode != 1 && counter < 6){
                     double[] center = calculatePolygonCenter(hexagon);
+                    System.out.println(Id);
                     Atoms at = new Atoms(root, center[0], center[1]);
                     Main.allAtoms.add(at);  // Add the created Atom to the list
                     counter++;
@@ -46,6 +53,7 @@ public  class Hexagon extends Polygon {
         });
 
         root.getChildren().add(hexagon);
+        shape = hexagon;
         return hexagon;
     }
 
