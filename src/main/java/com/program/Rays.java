@@ -57,15 +57,12 @@ public class Rays {
 
 
         for (List<Hexagon> innerList : allHexagons) {
-            System.out.println("1");
             for (Hexagon hexagon : innerList) {
 
                 if ((x>370 && y>50) && (x<1160 && y <754)){
 
                     rayPoints.add(x);
                     rayPoints.add(y);
-
-                    System.out.println("test presence at: x=" + x + " y=" + y);
 
                     x += 87; // Incrementing x value for the next iteration
                 }
@@ -94,8 +91,6 @@ public class Rays {
                     rayPoints2.add(x);
                     rayPoints2.add(y);
 
-                    System.out.println("test presence at: x="+x+" y="+y);
-
                     x+=44;
                     y-=75;
                 }
@@ -119,8 +114,6 @@ public class Rays {
                 if ((x>370 && y>50) && (x<1160 && y <754)){
                     rayPoints3.add(x);
                     rayPoints3.add(y);
-
-                    System.out.println("test presence at: x="+x+" y="+y);
 
                     x+=44;
                     y+=76;
@@ -151,8 +144,6 @@ public class Rays {
                     rayPoints4.add(x);
                     rayPoints4.add(y);
 
-                    System.out.println("test presence at: x=" + x + " y=" + y);
-
                     x -= 87; // Incrementing x value for the next iteration
                 }
             }
@@ -180,7 +171,6 @@ public class Rays {
                     rayPoints5.add(x);
                     rayPoints5.add(y);
 
-                    System.out.println("test presence at: x="+x+" y="+y);
 
                     x-=44;
                     y+=75;
@@ -206,9 +196,6 @@ public class Rays {
                 if ((x>370 && y>50) && (x<1160 && y <754)){
                     rayPoints6.add(x);
                     rayPoints6.add(y);
-
-
-                    System.out.println("test presence at: x="+x+" y="+y);
 
                     x-=44;
                     y-=76;
