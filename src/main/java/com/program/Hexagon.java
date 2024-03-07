@@ -124,4 +124,12 @@ public  class Hexagon extends Polygon {
         double centerY = (bounds.getMinY() + bounds.getMaxY()) / 2;
         return new double[]{centerX, centerY};
     }
+
+    @Override
+    public boolean contains(double x, double y) {
+        // Implement the logic to check if (x, y) is inside the hexagon
+        // You can use your own logic based on the hexagon's geometry
+        // For example, you can check if (x, y) is inside the bounding rectangle
+        return getBoundsInLocal().contains(x, y);
+    }
 }
