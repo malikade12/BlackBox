@@ -19,7 +19,7 @@ public class Main extends Application {
     static List<Atoms> allAtoms;
    static List<Polygon> allArrows;
 
-   static List<List<Hexagon>> allHexagons;
+   public static List<List<Hexagon>> allHexagons;
    static enum directions  {
        southEast, southWest,northEast, northWest, midRight, midLeft ; }
 
@@ -118,9 +118,9 @@ public class Main extends Application {
                         if(x == rowIds[0]) {
                                 double[] p1 = {hex.points[8], hex.points[9]};
                                 double[] p2 = {hex.points[6], hex.points[7]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, directions.southEast);
+                                Polygon a1 = Arrow.createArrow(root,p1, p2, directions.southEast);
                                 double[] p3 = {hex.points[4], hex.points[5]};
-                                Polygon a2 = Arrow.createArrow(p2, p3, directions.midRight);
+                                Polygon a2 = Arrow.createArrow(root,p2, p3, directions.midRight);
                                 allArrows.add(a1);
                                 allArrows.add(a2);
 
@@ -128,42 +128,42 @@ public class Main extends Application {
                         } else if (x == rowIds[1]) {
                             double[] p1 = {hex.points[6], hex.points[7]};
                             double[] p2 = {hex.points[4], hex.points[5]};
-                            Polygon a1 = Arrow.createArrow(p1, p2, directions.midRight);
+                            Polygon a1 = Arrow.createArrow(root,p1, p2, directions.midRight);
                             double[] p3 = {hex.points[2], hex.points[3]};
-                            Polygon a2 = Arrow.createArrow(p2, p3, directions.northEast);
+                            Polygon a2 = Arrow.createArrow(root,p2, p3, directions.northEast);
                             allArrows.add(a1);
                             allArrows.add(a2);
                         } else if (x == rowIds[2]) {
                             double[] p1 = {hex.points[4], hex.points[5]};
                             double[] p2 = {hex.points[2], hex.points[3]};
-                            Polygon a1 = Arrow.createArrow(p1, p2, directions.northEast);
+                            Polygon a1 = Arrow.createArrow(root,p1, p2, directions.northEast);
                             double[] p3 = {hex.points[0], hex.points[1]};
-                            Polygon a2 = Arrow.createArrow(p2, p3, directions.northWest);
+                            Polygon a2 = Arrow.createArrow(root,p2, p3, directions.northWest);
                             allArrows.add(a1);
                             allArrows.add(a2);
                         }
                         else if (x == rowIds[3]) {
                             double[] p1 = {hex.points[2], hex.points[3]};
                             double[] p2 = {hex.points[0], hex.points[1]};
-                            Polygon a1 = Arrow.createArrow(p1, p2, directions.northWest);
+                            Polygon a1 = Arrow.createArrow(root,p1, p2, directions.northWest);
                             double[] p3 = {hex.points[10], hex.points[11]};
-                            Polygon a2 = Arrow.createArrow(p2, p3, directions.midLeft);
+                            Polygon a2 = Arrow.createArrow(root,p2, p3, directions.midLeft);
                             allArrows.add(a1);
                             allArrows.add(a2);
                         }else if (x == rowIds[4]) {
                             double[] p1 = {hex.points[0], hex.points[1]};
                             double[] p2 = {hex.points[10], hex.points[11]};
-                            Polygon a1 = Arrow.createArrow(p1, p2, directions.midLeft);
+                            Polygon a1 = Arrow.createArrow(root,p1, p2, directions.midLeft);
                             double[] p3 = {hex.points[8], hex.points[9]};
-                            Polygon a2 = Arrow.createArrow(p2, p3, directions.southWest);
+                            Polygon a2 = Arrow.createArrow(root,p2, p3, directions.southWest);
                             allArrows.add(a1);
                             allArrows.add(a2);
                         }else if (x == rowIds[5]) {
                             double[] p1 = {hex.points[8], hex.points[9]};
                             double[] p2 = {hex.points[6], hex.points[7]};
-                            Polygon a1 = Arrow.createArrow(p1, p2, directions.southEast);
+                            Polygon a1 = Arrow.createArrow(root,p1, p2, directions.southEast);
                             double[] p3 = {hex.points[10], hex.points[11]};
-                            Polygon a2 = Arrow.createArrow(p3, p1, directions.southWest);
+                            Polygon a2 = Arrow.createArrow(root,p3, p1, directions.southWest);
                             allArrows.add(a1);
                             allArrows.add(a2);
                         }
