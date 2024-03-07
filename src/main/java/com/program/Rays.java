@@ -18,21 +18,12 @@ import static com.program.Main.allAtoms;
 import static com.program.Main.allHexagons;
 
 public class Rays {
-    ArrayList<Integer> Xpoints  = new ArrayList<>();
-    ArrayList<Integer> Ypoints  = new ArrayList<>();
-    ArrayList<Integer> rayPoints = new ArrayList<>();
-    double[] diagRayPoints = new double[20];
-    double[] diagRayPoints2 = new double[20];
-    int index;
-
-    List<List<Polygon>> reverseList = new ArrayList<>(allHexagons);//reverse
 
     public List<List<Polygon>> reverseNestedList(List<List<Polygon>> nestedList) {
         // Reverse the order of elements in each inner list
         for (List<Polygon> innerList : nestedList) {
             Collections.reverse(innerList);
         }
-
         // Reverse the order of the inner lists themselves
         Collections.reverse(nestedList);
 
@@ -44,15 +35,27 @@ public class Rays {
         for (List<Polygon> innerList : nestedList) {
             Collections.reverse(innerList);
         }
-
-
-
         return nestedList;
     }
 
-    public void makeHorizontalRay(Group root, int initialX, int y) {//REWORKED
-        int x = initialX; // Use a separate variable for modification inside the loop
-        index = 0;
+    private void pointRay(Group root, int x, int y, double[] rayPoints) {//helper
+        int index = rayPoints.length -2;
+        rayPoints[index] = x;
+        index++;
+        rayPoints[index] = y;
+
+        Polyline completeRay = new Polyline(rayPoints); // constructs ray connecting points
+        System.out.println(rayPoints);
+        completeRay.setStroke(Color.CYAN);
+        completeRay.setStrokeWidth(7);
+        root.getChildren().add(completeRay);
+    }
+
+    //NEAR DONE
+    public void makeHorizontalRay(Group root, int x, int y) {//REWORKED
+         // Use a separate variable for modification inside the loop
+        ArrayList<Integer> rayPoints = new ArrayList<>();//Horizontal
+
 
         for (List<Polygon> innerList : allHexagons) {
             for (Polygon polygon : innerList) {
@@ -73,63 +76,27 @@ public class Rays {
             }
         }
 
-        double[] rayPointsArray = new double[rayPoints.size()];
+        double[] rayPointsArray = new double[rayPoints.size()+2];
         for (int i = 0; i < rayPoints.size(); i++) {
             rayPointsArray[i] = rayPoints.get(i);
         }
-        pointRay(root, initialX, y, rayPointsArray);
+        pointRay(root, x, y, rayPointsArray);
     }
 
-    private void pointRay(Group root, int x, int y, double[] rayPoints) {
-        rayPoints[index] = x;
-        index++;
-        rayPoints[index] = y;
 
-        Polyline completeRay = new Polyline(rayPoints); // constructs ray connecting points
-        System.out.println(rayPoints);
-        completeRay.setStroke(Color.CYAN);
-        completeRay.setStrokeWidth(7);
-        root.getChildren().add(completeRay);
-    }
-
-    public void makeDiagonalRay(Group root, int x, int y ) {//only works diagonally down right **NEED TO CHANGE
-        index = 0;
-
-        for (List<Polygon> innerList : allHexagons) {
-            // Iterate through the inner list
-            for (Polygon polygon : innerList) {
-                // Perform operations on each Polygon
-                if (polygon.contains(x,y)){
-                    diagRayPoints[index] = x;
-                    index++;
-                    diagRayPoints[index] = y;
-                    index++;
-
-                    System.out.println("test presence at: x="+x+" y="+y);
-
-                    x+=44;
-                    y+=76;
-                }
-            }
-        }
-
-        pointRay(root, x, y, diagRayPoints);
-    }
-
+    //NEAR DONE
     public void makeDiagonalRayUpRight(Group root, int x, int y ) {//only works diagonally up right **
-        List<List<Polygon>> reverseHexagons = reverseNestedList(allHexagons);
+        ArrayList<Integer> rayPoints2 = new ArrayList<>();//UP->Right
 
-        index = 0;
+        List<List<Polygon>> reverseHexagons = reverseNestedList(allHexagons);
 
         for (List<Polygon> innerList : reverseHexagons) {
             // Iterate through the inner list
             for (Polygon polygon : innerList) {
                 // Perform operations on each Polygon
                 if (polygon.contains(x,y)){
-                    diagRayPoints2[index] = x;
-                    index++;
-                    diagRayPoints2[index] = y;
-                    index++;
+                    rayPoints2.add(x);
+                    rayPoints2.add(y);
 
                     System.out.println("test presence at: x="+x+" y="+y);
 
@@ -138,16 +105,48 @@ public class Rays {
                 }
             }
         }
-        pointRay(root, x, y, diagRayPoints2);
+        double[] rayPointsArray = new double[rayPoints2.size()+2];
+        for (int i = 0; i < rayPoints2.size(); i++) {
+            rayPointsArray[i] = rayPoints2.get(i);
+        }
+
+        pointRay(root, x, y, rayPointsArray);
+    }
+
+    public void makeDiagonalDownRay(Group root, int x, int y ) {//only works diagonally down right
+        ArrayList<Integer> rayPoints3 = new ArrayList<>();//Down->Right
+
+        for (List<Polygon> innerList : allHexagons) {
+            // Iterate through the inner list
+            for (Polygon polygon : innerList) {
+                // Perform operations on each Polygon
+                if (polygon.contains(x,y)){
+                    rayPoints3.add(x);
+                    rayPoints3.add(y);
+
+                    System.out.println("test presence at: x="+x+" y="+y);
+
+                    x+=44;
+                    y+=76;
+                }
+            }
+        }
+        double[] rayPointsArray = new double[rayPoints3.size()+2];
+        for (int i = 0; i < rayPoints3.size(); i++) {
+            rayPointsArray[i] = rayPoints3.get(i);
+        }
+
+        pointRay(root, x, y, rayPointsArray);
     }
 
 
-
     public void makeHorizontalRay2(Group root, int initialX, int y) {//REWORKED
+        ArrayList<Integer> rayPoints4 = new ArrayList<>();//Horizontal-> LEFT
+
         List<List<Polygon>> reverseHexagons = miniReverseNestedList(allHexagons);
 
         int x = initialX; // Use a separate variable for modification inside the loop
-        index = 0;
+        int index = 0;
 
         for (List<Polygon> innerList : reverseHexagons) {
             for (Polygon polygon : innerList) {
@@ -159,12 +158,8 @@ public class Rays {
                         }
                     }
 
-                    rayPoints.add(x);
-                    rayPoints.add(y);
-                    Circle point = new Circle(x, y, 15, Color.RED);
-                    root.getChildren().add(point);
-
-
+                    rayPoints4.add(x);
+                    rayPoints4.add(y);
 
                     System.out.println("test presence at: x=" + x + " y=" + y);
 
@@ -172,5 +167,72 @@ public class Rays {
                 }
             }
         }
+        double[] rayPointsArray = new double[rayPoints4.size()+2];
+        for (int i = 0; i < rayPoints4.size(); i++) {
+            rayPointsArray[i] = rayPoints4.get(i);
+        }
 
-}}
+        pointRay(root, x, y, rayPointsArray);
+    }
+
+
+
+    public void makeDiagonalDownLeft(Group root, int x, int y ) {//only works diagonally up right **
+        ArrayList<Integer> rayPoints5 = new ArrayList<>();//Down-> LEFT
+
+        List<List<Polygon>> reverseHexagons = miniReverseNestedList(allHexagons);
+
+        for (List<Polygon> innerList : reverseHexagons) {
+            // Iterate through the inner list
+            for (Polygon polygon : innerList) {
+                // Perform operations on each Polygon
+                if (polygon.contains(x,y)){
+                    rayPoints5.add(x);
+                    rayPoints5.add(y);
+
+                    System.out.println("test presence at: x="+x+" y="+y);
+
+                    x-=44;
+                    y+=75;
+                }
+            }
+        }
+        double[] rayPointsArray = new double[rayPoints5.size()+2];
+        for (int i = 0; i < rayPoints5.size(); i++) {
+            rayPointsArray[i] = rayPoints5.get(i);
+        }
+
+        pointRay(root, x, y, rayPointsArray);
+    }
+
+    public void makeDiagonalUpLeft(Group root, int x, int y ) {//only works diagonally up left
+        ArrayList<Integer> rayPoints6 = new ArrayList<>();//Up-> LEFT
+
+        List<List<Polygon>> reverseHexagons = reverseNestedList(allHexagons);
+        for (List<Polygon> innerList : reverseHexagons) {
+            // Iterate through the inner list
+            for (Polygon polygon : innerList) {
+                // Perform operations on each Polygon
+                if (polygon.contains(x,y)){
+                    rayPoints6.add(x);
+                    rayPoints6.add(y);
+
+
+                    System.out.println("test presence at: x="+x+" y="+y);
+
+                    x-=44;
+                    y-=76;
+                }
+            }
+        }
+        double[] rayPointsArray = new double[rayPoints6.size()+2];
+        for (int i = 0; i < rayPoints6.size(); i++) {
+            rayPointsArray[i] = rayPoints6.get(i);
+        }
+
+        pointRay(root, x, y, rayPointsArray);
+    }
+
+
+
+}

@@ -169,10 +169,14 @@ public class Main extends Application {
         angleArrow = 4;
 
         Rays ray = new Rays();
-        ray.makeHorizontalRay(root,518,627);//near done for coming from right
-        ray.makeDiagonalRay(root,578,65);
-        ray.makeDiagonalRayUpRight(root,571,737);
-        ray.makeHorizontalRay2(root,1077,249);
+        ray.makeHorizontalRay(root,380,406);//near done for coming from right
+        ray.makeDiagonalDownRay(root,450,284);
+        ray.makeDiagonalRayUpRight(root,488,581);
+
+        //RAYS ORIGINATING FROM RIGHT SIDE
+        ray.makeHorizontalRay2(root,1028,624);
+        ray.makeDiagonalDownLeft(root, 968, 62);
+        ray.makeDiagonalUpLeft(root, 962, 730);
 
 
         for (int i = 0; i < 9; i++) {
