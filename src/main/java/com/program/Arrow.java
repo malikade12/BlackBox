@@ -108,14 +108,11 @@ public class Arrow {
                 }
                 double rayLength = 87; // Adjust the desired length of the ray
                 List<Line> rays = new ArrayList<>();
-                double currentX;
-                double currentY;
-                currentX = midX;
-                currentY = midY;
+
                 double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
                 double endX = endPoint[0];
                 double endY = endPoint[1];
-                Line newRay = new Line(currentX, currentY, endX, endY);
+                Line newRay = new Line(midX, midY, endX, endY);
                 System.out.println(endX +"and" + endY + "\n");
                 newRay.setStroke(Color.RED); // Customize the ray color
                 rays.add(newRay);
