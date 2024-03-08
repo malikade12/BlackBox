@@ -4,34 +4,23 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polyline;
+
+import java.util.ArrayList;
 
 import static javafx.scene.CacheHint.SPEED;
 
 public class Rays {
 
-    public Rays(Group root, int x, int y){
-        // Create a line
-        Line line = new Line(100, 100, 300, 100);
-        line.setStroke(Color.BLUE);
-        line.setStrokeWidth(3);
+   public static void MakeRay(int x, int y, double[] start, Main.directions z){
+       ArrayList<Double> rayPoints = new ArrayList<>();
+         rayPoints.add(start[0]);
+         rayPoints.add(start[1]);
+           Polyline completeRay = new Polyline(rayPoints); // constructs ray connecting points
+           completeRay.setStroke(Color.CYAN);
+           completeRay.setStrokeWidth(7);
 
-        // Add the line to the scene
-        root.getChildren().add(line);
 
-        // Create an animation timer
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                // Update line position
-                line.setEndX(line.getEndX() + 2);
-
-                // Check if the line intersects with the end of the row
-                if (line.getEndX() >= 400) { // Adjust 400 to the end of the row
-                    stop(); // Stop the animation
-                }
-            }
-
-};
-    }
+   }
 
 }
