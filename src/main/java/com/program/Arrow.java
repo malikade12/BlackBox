@@ -7,7 +7,7 @@ import javafx.scene.shape.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.program.Main.root;
+import static com.program.Main.*;
 
 public class Arrow {
     private Polygon triangle;
@@ -108,25 +108,17 @@ public class Arrow {
                 }
                 double rayLength = 87; // Adjust the desired length of the ray
                 List<Line> rays = new ArrayList<>();
-
-                int maxExtensions = 7; // Maximum number of times the ray will extend
-
-                // Keep extending the ray for a specified number of times
-                for (int i = 0; i < maxExtensions; i++) {
-                    double endX = centerX + rayLength * Math.cos(directionAngle);
-                    double endY = centerY + rayLength * Math.sin(directionAngle);
-
-                    // Create a Line representing the ray
-                    Line ray = new Line(centerX, centerY, endX, endY);
-                    ray.setStroke(Color.RED); // Customize the ray color
-
-                    // Add the ray to the list
-                    rays.add(ray);
-
-                    // Extend the ray further
-                    rayLength += 87; // Increment the ray length for the next iteration
-                }
-
+                double currentX;
+                double currentY;
+                currentX = midX;
+                currentY = midY;
+                double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
+                double endX = endPoint[0];
+                double endY = endPoint[1];
+                Line newRay = new Line(currentX, currentY, endX, endY);
+                System.out.println(endX +"and" + endY + "\n");
+                newRay.setStroke(Color.RED); // Customize the ray color
+                rays.add(newRay);
                 // Add all rays to the scene
                 root.getChildren().addAll(rays);
             }
@@ -141,4 +133,33 @@ public class Arrow {
         polygon.setFill(Color.YELLOW);
         return polygon;
     }
+    private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength) {
+        double endX = midX + rayLength * Math.cos(directionAngle);
+        double endY = midY + rayLength * Math.sin(directionAngle);
+        for (List<Hexagon> innerList : allHexagons) {
+            for (Hexagon hexagon : innerList) {
+                if (hexagon.shape.contains(endX, endY)) {
+                    endX += rayLength * Math.cos(directionAngle);
+                    endY += rayLength * Math.sin(directionAngle);
+                    findEndPoint(endX,endY,directionAngle,rayLength);
+                    break;
+                }
+                else if (hexagon.shape.contains(endX-1, endY-1)) {
+                    endX += rayLength * Math.cos(directionAngle);
+                    endY += rayLength * Math.sin(directionAngle);
+                    findEndPoint(endX,endY,directionAngle,rayLength);
+                    break;
+                }
+                else if (hexagon.shape.contains(endX+1, endY+1)) {
+                    endX += rayLength * Math.cos(directionAngle);
+                    endY += rayLength * Math.sin(directionAngle);
+                    findEndPoint(endX,endY,directionAngle,rayLength);
+                    break;
+                }
+            }
+        }
+        return new double[]{endX, endY};
+    }
+
+
 }

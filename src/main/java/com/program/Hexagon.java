@@ -57,7 +57,7 @@ public  class Hexagon extends Polygon {
         return hexagon;
     }
 
-    private double[] calculatePolygonCenter(Polygon polygon) {
+    public static double[] calculatePolygonCenter(Polygon polygon) {
         javafx.geometry.Bounds bounds = polygon.getBoundsInLocal();
         double centerX = (bounds.getMinX() + bounds.getMaxX()) / 2;
         double centerY = (bounds.getMinY() + bounds.getMaxY()) / 2;
