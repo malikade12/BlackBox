@@ -23,7 +23,7 @@ public class Arrow {
         double x3 = 0;
         double y3 = 0;
         switch (z){
-            case midRight -> {
+            case east -> {
                 y3 = midY - 1;
                 x3 = midX + 20;
                 y1 += 9;
@@ -53,7 +53,7 @@ public class Arrow {
                 x3 = midX - 12;
                 y3 = midY - 20;
             }
-            case midLeft -> {
+            case west -> {
                 y3 = midY + 1;
                 x3 = midX - 20;
                 y1 -= 9;
@@ -78,7 +78,7 @@ public class Arrow {
             public void handle(MouseEvent event) {
                 double directionAngle;
                 switch (z) {
-                    case midRight:
+                    case east:
                         directionAngle = 0; // East
                         break;
                     case southEast:
@@ -90,7 +90,7 @@ public class Arrow {
                     case northWest:
                         directionAngle = -3 * Math.PI / 4 + 0.263; // Northwest
                         break;
-                    case midLeft:
+                    case west:
                         directionAngle = Math.PI; // West
                         break;
                     case southWest:
@@ -102,14 +102,14 @@ public class Arrow {
                 double rayLength = 1; // Adjust the desired length of the ray
                 List<Line> rays = new ArrayList<>();
 
-                double[] endPoint = findEndPoint(X3, midY, directionAngle, rayLength);
+                double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
                 double endX = endPoint[0];
                 double endY = endPoint[1];
 
                 Line newRay = new Line(midX, midY, endX, endY);
-
+                newRay.setStroke(Color.CYAN);
+                newRay.setStrokeWidth(7);
                 System.out.println(endX +"and" + endY + "\n");
-                newRay.setStroke(Color.RED);
                 rays.add(newRay);
                 root.getChildren().addAll(rays);
             }
