@@ -24,7 +24,7 @@ public class Arrow {
         double y3 = 0;
         switch (z){
             case midRight -> {
-                y3 = midY - 3;
+                y3 = midY - 1;
                 x3 = midX + 20;
                 y1 += 9;
                 y2 -= 5;
@@ -35,26 +35,26 @@ public class Arrow {
                 y2 -= 3;
                 x1 = x1 - 7;
                 x2 += 7;
-                x3 = midX + 15;
+                x3 = midX + 12;
                 y3 = midY + 20;
             }
             case northEast -> {
                 y1 += 3;
                 y2 -= 3;
-                x1 = x1 + 9;
+                x1 = x1 + 7;
                 x2 -= 7;
-                x3 = midX + 15;
+                x3 = midX + 12;
                 y3 = midY - 20;
             }
             case northWest -> {
                 y1 += 4;
                 y2 += 3;
                 x2 -= 9;
-                x3 = midX - 15;
+                x3 = midX - 12;
                 y3 = midY - 20;
             }
             case midLeft -> {
-                y3 = midY + 3;
+                y3 = midY + 1;
                 x3 = midX - 20;
                 y1 -= 9;
                 y2 += 5;
@@ -102,11 +102,12 @@ public class Arrow {
                 double rayLength = 1; // Adjust the desired length of the ray
                 List<Line> rays = new ArrayList<>();
 
-                double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
+                double[] endPoint = findEndPoint(X3, midY, directionAngle, rayLength);
                 double endX = endPoint[0];
                 double endY = endPoint[1];
 
                 Line newRay = new Line(midX, midY, endX, endY);
+
                 System.out.println(endX +"and" + endY + "\n");
                 newRay.setStroke(Color.RED);
                 rays.add(newRay);
@@ -119,7 +120,7 @@ public class Arrow {
                 x2, y2,
                 x3, y3,});
         polygon.setFill(Color.YELLOW);
-
+        polygon.setBlendMode(javafx.scene.effect.BlendMode.SRC_ATOP);
         polygon.setFill(Color.YELLOW);
         return polygon;
     }
