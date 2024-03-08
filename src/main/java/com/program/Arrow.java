@@ -146,7 +146,7 @@ public class Arrow {
             // If the endpoint is in a hexagon, check if incrementing or decrementing would still keep it in a hexagon
             double nextEndX = endX + rayLength * Math.cos(directionAngle);
             double nextEndY = endY + rayLength * Math.sin(directionAngle);
-            double slightOffset = 1.0; // Define a slight offset for checking
+            double slightOffset = 25; // Define a slight offset for checking
 
             // Check with slight offsets in both x and y directions
             boolean nextInHexagon = false;
