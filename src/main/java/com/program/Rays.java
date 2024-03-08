@@ -62,6 +62,7 @@ public class Rays {
                 if ((x>370 && y>50) && (x<1160 && y <754)){
 
                     rayPoints.add(x);
+                    System.out.println(x);
                     rayPoints.add(y);
 
                     x += 87; // Incrementing x value for the next iteration

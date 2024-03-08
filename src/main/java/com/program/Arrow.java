@@ -75,8 +75,6 @@ public class Arrow {
             @Override
             public void handle(MouseEvent event) {
                 if(z == Main.directions.midRight){
-                    System.out.println("hello");
-
                     ray.makeHorizontalRay(root,(int)midX,(int)midY);
 
                 }
