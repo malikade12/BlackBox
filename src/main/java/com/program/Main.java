@@ -21,7 +21,7 @@ public class Main extends Application {
 
     static List<List<Hexagon>> allHexagons;
     static enum directions  {
-        southEast, southWest,northEast, northWest, east, west; }
+        southEast, southWest,northEast, northWest, midRight, midLeft ; }
 
     @Override
     public void start(Stage primaryStage) {
@@ -114,7 +114,7 @@ public class Main extends Application {
                                 double[] p2 = {hex.points[6], hex.points[7]};
                                 Polygon a1 = Arrow.createArrow(p1, p2, directions.southEast);
                                 double[] p3 = {hex.points[4], hex.points[5]};
-                                Polygon a2 = Arrow.createArrow(p2, p3, directions.east);
+                                Polygon a2 = Arrow.createArrow(p2, p3, directions.midRight);
                                 allArrows.add(a1);
                                 allArrows.add(a2);
 
@@ -122,7 +122,7 @@ public class Main extends Application {
                             } else if (x == rowIds[1]) {
                                 double[] p1 = {hex.points[6], hex.points[7]};
                                 double[] p2 = {hex.points[4], hex.points[5]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, directions.east);
+                                Polygon a1 = Arrow.createArrow(p1, p2, directions.midRight);
                                 double[] p3 = {hex.points[2], hex.points[3]};
                                 Polygon a2 = Arrow.createArrow(p2, p3, directions.northEast);
                                 allArrows.add(a1);
@@ -141,13 +141,13 @@ public class Main extends Application {
                                 double[] p2 = {hex.points[0], hex.points[1]};
                                 Polygon a1 = Arrow.createArrow(p1, p2, directions.northWest);
                                 double[] p3 = {hex.points[10], hex.points[11]};
-                                Polygon a2 = Arrow.createArrow(p2, p3, directions.west);
+                                Polygon a2 = Arrow.createArrow(p2, p3, directions.midLeft);
                                 allArrows.add(a1);
                                 allArrows.add(a2);
                             }else if (x == rowIds[4]) {
                                 double[] p1 = {hex.points[0], hex.points[1]};
                                 double[] p2 = {hex.points[10], hex.points[11]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, directions.west);
+                                Polygon a1 = Arrow.createArrow(p1, p2, directions.midLeft);
                                 double[] p3 = {hex.points[8], hex.points[9]};
                                 Polygon a2 = Arrow.createArrow(p2, p3, directions.southWest);
                                 allArrows.add(a1);
@@ -166,12 +166,10 @@ public class Main extends Application {
                 }
             }}
 
-
         root.getChildren().addAll(allArrows);
 
-
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Black Box Alpha");
+        primaryStage.setTitle("BlackBox Alpha");
         primaryStage.setMaximized(true);
         primaryStage.show();
     }
