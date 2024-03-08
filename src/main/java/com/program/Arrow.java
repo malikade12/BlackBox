@@ -1,4 +1,6 @@
 package com.program;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
@@ -70,6 +72,36 @@ public class Arrow extends Polygon{
                 x1, y1,   // Point 1
                 x2, y2,   // Point 2
                 x3, y3}); // Point 3
+        polygon.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                switch (z){
+                    case midRight -> {
+                      Rays.MakeRay(midX, midY, 1, 0, z);
+                    }
+                    case southEast -> {
+                        Rays.MakeRay(midX, midY, 1, 1, z);
+
+                    }
+                    case northEast -> {
+                        Rays.MakeRay(midX, midY, 1, -1, z);
+                    }
+                    case northWest -> {
+                        Rays.MakeRay(midX, midY, -1, -1, z);
+
+                    }
+                    case midLeft -> {
+                        Rays.MakeRay(midX, midY, -1, 0, z);
+
+                    }
+                    case southWest -> {
+                        Rays.MakeRay(midX, midY, -1, 1, z);
+
+                    }
+
+                }
+            }
+        });
         polygon.setFill(Color.YELLOW);
         triangle = polygon;
         Main.root.getChildren().add(triangle);
