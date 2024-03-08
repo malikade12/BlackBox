@@ -11,6 +11,7 @@ public  class Hexagon extends Polygon {
     public double x;
     public double y;
     private int rowId;
+    boolean hasAtom = false;
     static int mode;
     static int counter =0;
     public int Id;
@@ -38,6 +39,8 @@ public  class Hexagon extends Polygon {
         hexagon.setFill(Color.BLACK);
         hexagon.setStroke(Color.YELLOW);
         hexagon.setStrokeWidth(3);
+        hexagon.setOnMouseEntered(e -> hexagon.setFill(Color.RED));
+        hexagon.setOnMouseExited(e -> hexagon.setFill(Color.BLACK));
 
         hexagon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -48,6 +51,7 @@ public  class Hexagon extends Polygon {
                     Atoms at = new Atoms(root, center[0], center[1]);
                     Main.allAtoms.add(at);  // Add the created Atom to the list
                     counter++;
+                    hasAtom = true;
                 }
             }
         });

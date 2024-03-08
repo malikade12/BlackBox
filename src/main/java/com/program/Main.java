@@ -166,9 +166,13 @@ public class Main extends Application {
                 }
             }}
 
+
         root.getChildren().addAll(allArrows);
 
+
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Black Box Alpha");
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 

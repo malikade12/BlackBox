@@ -108,9 +108,15 @@ public class Arrow {
 
                 Line newRay = new Line(midX, midY, endX, endY);
                 System.out.println(endX +"and" + endY + "\n");
-                newRay.setStroke(Color.RED);
+
+                newRay.setStroke(Color.CYAN);
+                newRay.setStrokeWidth(5);
                 rays.add(newRay);
+
+
+
                 root.getChildren().addAll(rays);
+
             }
         });
 
@@ -123,6 +129,8 @@ public class Arrow {
         polygon.setFill(Color.YELLOW);
         return polygon;
     }
+
+
     private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength) {
         double endX = midX + rayLength * Math.cos(directionAngle);
         double endY = midY + rayLength * Math.sin(directionAngle);
@@ -134,6 +142,7 @@ public class Arrow {
             for (Hexagon hexagon : innerList) {
                 if (hexagon.shape.contains(endX, endY)) {
                     inHexagon = true; // Set the flag to true if the endpoint is in a hexagon
+
                     break; // Exit the loop since we found the hexagon
                 }
             }
@@ -141,6 +150,7 @@ public class Arrow {
                 break; // Exit the outer loop if the endpoint is in a hexagon
             }
         }
+
 
         if (inHexagon) {
             // If the endpoint is in a hexagon, check if incrementing or decrementing would still keep it in a hexagon
