@@ -74,43 +74,48 @@ public class Arrow {
         Polygon polygon = new Polygon();
 
         polygon.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
             @Override
             public void handle(MouseEvent event) {
-                double directionAngle;
-                switch (z) {
-                    case midRight:
-                        directionAngle = 0; // East
-                        break;
-                    case southEast:
-                        directionAngle = Math.PI / 4 + 0.263; // Southeast
-                        break;
-                    case northEast:
-                        directionAngle = -Math.PI / 4 - 0.263; // Northeast
-                        break;
-                    case northWest:
-                        directionAngle = -3 * Math.PI / 4 + 0.263; // Northwest
-                        break;
-                    case midLeft:
-                        directionAngle = Math.PI; // West
-                        break;
-                    case southWest:
-                        directionAngle = 3 * Math.PI / 4 - 0.263; // Southwest
-                        break;
-                    default:
-                        directionAngle = 0; // Default to east if direction is unknown
+                if (Hexagon.mode != 0) {
+                    double directionAngle;
+                    switch (z) {
+                        case midRight:
+                            directionAngle = 0; // East
+                            break;
+                        case southEast:
+                            directionAngle = Math.PI / 4 + 0.263; // Southeast
+                            break;
+                        case northEast:
+                            directionAngle = -Math.PI / 4 - 0.263; // Northeast
+                            break;
+                        case northWest:
+                            directionAngle = -3 * Math.PI / 4 + 0.263; // Northwest
+                            break;
+                        case midLeft:
+                            directionAngle = Math.PI; // West
+                            break;
+                        case southWest:
+                            directionAngle = 3 * Math.PI / 4 - 0.263; // Southwest
+                            break;
+                        default:
+                            directionAngle = 0; // Default to east if direction is unknown
+                    }
+                    double rayLength = 87; // Adjust the desired length of the ray
+                    List<Line> rays = new ArrayList<>();
+
+                    double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
+                    double endX = endPoint[0];
+                    double endY = endPoint[1];
+
+
+                    Line newRay = new Line(midX, midY, endX, endY);
+                    System.out.println(endX + "and" + endY + "\n");
+                    newRay.setStroke(Color.CYAN);
+                    newRay.setStrokeWidth(7);
+                    rays.add(newRay);
+                    root.getChildren().addAll(rays);
                 }
-                double rayLength = 87; // Adjust the desired length of the ray
-                List<Line> rays = new ArrayList<>();
-
-                double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
-                double endX = endPoint[0];
-                double endY = endPoint[1];
-
-                Line newRay = new Line(midX, midY, endX, endY);
-                System.out.println(endX +"and" + endY + "\n");
-                newRay.setStroke(Color.RED);
-                rays.add(newRay);
-                root.getChildren().addAll(rays);
             }
         });
 
@@ -122,6 +127,7 @@ public class Arrow {
 
         polygon.setFill(Color.YELLOW);
         return polygon;
+
     }
     private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength) {
         double endX = midX + rayLength * Math.cos(directionAngle);
@@ -129,9 +135,20 @@ public class Arrow {
 
         boolean found = false; // Flag to track if the endpoint is found
         boolean inHexagon = false; // Flag to track if the endpoint is in a hexagon
+        boolean deflect = false;
+
 
         for (List<Hexagon> innerList : allHexagons) {
+
             for (Hexagon hexagon : innerList) {
+                 /*//TESTING RAY ENTERING ORBIT HEXAGONS
+                if (hexagon.influencer[0] != null) {
+                    System.out.println(hexagon.influence[0]);
+                        if (hexagon.influencer != null && hexagon.influencer[0].contains(endX, endY)) {
+                            System.out.println("test");
+                        }
+                    }
+*/
                 if (hexagon.shape.contains(endX, endY)) {
                     inHexagon = true; // Set the flag to true if the endpoint is in a hexagon
                     break; // Exit the loop since we found the hexagon
@@ -140,6 +157,7 @@ public class Arrow {
             if (inHexagon) {
                 break; // Exit the outer loop if the endpoint is in a hexagon
             }
+
         }
 
         if (inHexagon) {
@@ -152,8 +170,11 @@ public class Arrow {
             boolean nextInHexagon = false;
             for (double offset : new double[]{-slightOffset, slightOffset}) {
                 if (!nextInHexagon) {
+
                     for (List<Hexagon> innerList : allHexagons) {
                         for (Hexagon hexagon : innerList) {
+
+
                             if (hexagon.shape.contains(nextEndX + offset, nextEndY + offset)) {
                                 nextInHexagon = true; // Set the flag to true if the next endpoint with offset is in a hexagon
                                 break; // Exit the loop since we found the hexagon
@@ -178,6 +199,8 @@ public class Arrow {
             return new double[]{endX, endY};
         }
     }
+
+
 
 
 }
