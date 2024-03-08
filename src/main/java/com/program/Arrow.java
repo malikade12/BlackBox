@@ -82,19 +82,19 @@ public class Arrow {
                         directionAngle = 0; // East
                         break;
                     case southEast:
-                        directionAngle = Math.PI / 4 + 0.245; // Southeast
+                        directionAngle = Math.PI / 4 + 0.263; // Southeast
                         break;
                     case northEast:
-                        directionAngle = -Math.PI / 4 - 0.245; // Northeast
+                        directionAngle = -Math.PI / 4 - 0.263; // Northeast
                         break;
                     case northWest:
-                        directionAngle = -3 * Math.PI / 4 + 0.245; // Northwest
+                        directionAngle = -3 * Math.PI / 4 + 0.263; // Northwest
                         break;
                     case midLeft:
                         directionAngle = Math.PI; // West
                         break;
                     case southWest:
-                        directionAngle = 3 * Math.PI / 4 - 0.245; // Southwest
+                        directionAngle = 3 * Math.PI / 4 - 0.263; // Southwest
                         break;
                     default:
                         directionAngle = 0; // Default to east if direction is unknown
@@ -126,41 +126,56 @@ public class Arrow {
     private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength) {
         double endX = midX + rayLength * Math.cos(directionAngle);
         double endY = midY + rayLength * Math.sin(directionAngle);
+
         boolean found = false; // Flag to track if the endpoint is found
+        boolean inHexagon = false; // Flag to track if the endpoint is in a hexagon
+
         for (List<Hexagon> innerList : allHexagons) {
             for (Hexagon hexagon : innerList) {
                 if (hexagon.shape.contains(endX, endY)) {
-                    endX += rayLength * Math.cos(directionAngle);
-                    endY += rayLength * Math.sin(directionAngle);
-                    findEndPoint(endX,endY,directionAngle,rayLength);
-                    found = true; // Set the flag to true
-                    break; // Exit the loop since we found the hexagon
-                }
-                else if (hexagon.shape.contains(endX-1, endY-1)) {
-                    endX += rayLength * Math.cos(directionAngle);
-                    endY += rayLength * Math.sin(directionAngle);
-                    findEndPoint(endX,endY,directionAngle,rayLength);
-                    found = true; // Set the flag to true
-                    break; // Exit the loop since we found the hexagon
-                }
-                else if (hexagon.shape.contains(endX+1, endY+1)) {
-                    endX += rayLength * Math.cos(directionAngle);
-                    endY += rayLength * Math.sin(directionAngle);
-                    findEndPoint(endX,endY,directionAngle,rayLength);
-                    found = true; // Set the flag to true
+                    inHexagon = true; // Set the flag to true if the endpoint is in a hexagon
                     break; // Exit the loop since we found the hexagon
                 }
             }
-            if (found) {
-                break; // Exit the outer loop if the endpoint is found
+            if (inHexagon) {
+                break; // Exit the outer loop if the endpoint is in a hexagon
             }
         }
-        if (!found) {
-            // If the endpoint is not found in any hexagon, return the current position
-            return new double[]{endX, endY};
+
+        if (inHexagon) {
+            // If the endpoint is in a hexagon, check if incrementing or decrementing would still keep it in a hexagon
+            double nextEndX = endX + rayLength * Math.cos(directionAngle);
+            double nextEndY = endY + rayLength * Math.sin(directionAngle);
+            double slightOffset = 1.0; // Define a slight offset for checking
+
+            // Check with slight offsets in both x and y directions
+            boolean nextInHexagon = false;
+            for (double offset : new double[]{-slightOffset, slightOffset}) {
+                if (!nextInHexagon) {
+                    for (List<Hexagon> innerList : allHexagons) {
+                        for (Hexagon hexagon : innerList) {
+                            if (hexagon.shape.contains(nextEndX + offset, nextEndY + offset)) {
+                                nextInHexagon = true; // Set the flag to true if the next endpoint with offset is in a hexagon
+                                break; // Exit the loop since we found the hexagon
+                            }
+                        }
+                        if (nextInHexagon) {
+                            break; // Exit the outer loop if the next endpoint with offset is in a hexagon
+                        }
+                    }
+                }
+            }
+
+            if (nextInHexagon) {
+                // If the next endpoint with slight offset is also in a hexagon, recursively call the method again
+                return findEndPoint(endX, endY, directionAngle, rayLength);
+            } else {
+                // If incrementing or decrementing the endpoint would move it out of a hexagon, return the current endpoint
+                return new double[]{endX, endY};
+            }
         } else {
-            // If the endpoint is found, recursively call the method again
-            return findEndPoint(endX, endY, directionAngle, rayLength);
+            // If the endpoint is not in a hexagon from the beginning, return the current endpoint
+            return new double[]{endX, endY};
         }
     }
 
