@@ -126,29 +126,42 @@ public class Arrow {
     private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength) {
         double endX = midX + rayLength * Math.cos(directionAngle);
         double endY = midY + rayLength * Math.sin(directionAngle);
+        boolean found = false; // Flag to track if the endpoint is found
         for (List<Hexagon> innerList : allHexagons) {
             for (Hexagon hexagon : innerList) {
                 if (hexagon.shape.contains(endX, endY)) {
                     endX += rayLength * Math.cos(directionAngle);
                     endY += rayLength * Math.sin(directionAngle);
                     findEndPoint(endX,endY,directionAngle,rayLength);
-                    break;
+                    found = true; // Set the flag to true
+                    break; // Exit the loop since we found the hexagon
                 }
                 else if (hexagon.shape.contains(endX-1, endY-1)) {
                     endX += rayLength * Math.cos(directionAngle);
                     endY += rayLength * Math.sin(directionAngle);
                     findEndPoint(endX,endY,directionAngle,rayLength);
-                    break;
+                    found = true; // Set the flag to true
+                    break; // Exit the loop since we found the hexagon
                 }
                 else if (hexagon.shape.contains(endX+1, endY+1)) {
                     endX += rayLength * Math.cos(directionAngle);
                     endY += rayLength * Math.sin(directionAngle);
                     findEndPoint(endX,endY,directionAngle,rayLength);
-                    break;
+                    found = true; // Set the flag to true
+                    break; // Exit the loop since we found the hexagon
                 }
             }
+            if (found) {
+                break; // Exit the outer loop if the endpoint is found
+            }
         }
-        return new double[]{endX, endY};
+        if (!found) {
+            // If the endpoint is not found in any hexagon, return the current position
+            return new double[]{endX, endY};
+        } else {
+            // If the endpoint is found, recursively call the method again
+            return findEndPoint(endX, endY, directionAngle, rayLength);
+        }
     }
 
 
