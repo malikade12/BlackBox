@@ -76,13 +76,6 @@ public class Arrow {
         polygon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                double x3 = polygon.getPoints().get(4);
-                double y3 = polygon.getPoints().get(5);
-
-                // Calculate the midpoint of the line segment (x1, y1) to (x2, y2)
-                double centerX = midX;
-                double centerY = midY;
-
                 double directionAngle;
                 switch (z) {
                     case midRight:
@@ -112,11 +105,11 @@ public class Arrow {
                 double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
                 double endX = endPoint[0];
                 double endY = endPoint[1];
+
                 Line newRay = new Line(midX, midY, endX, endY);
                 System.out.println(endX +"and" + endY + "\n");
-                newRay.setStroke(Color.RED); // Customize the ray color
+                newRay.setStroke(Color.RED);
                 rays.add(newRay);
-                // Add all rays to the scene
                 root.getChildren().addAll(rays);
             }
         });
