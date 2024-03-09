@@ -53,40 +53,40 @@ public class Main extends Application {
         int l = 0;
 
         for (int j = 0; j < 9; j++) {
-            int ydefault = 100;
-            int xdefault = 600;
-            ydefault += 75 * j;
-            xdefault -= 44 * j;
+            double ydefault = 150;
+            double xdefault = 650;
+            ydefault += 75 * j / 1.3;
+            xdefault -= 44 * j / 1.3;
             if (j > 4) l++;
-            xdefault += 87 * l;
+            xdefault += 87 * l / 1.3;
             ArrayList<Hexagon> rows = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
-                Hexagon h1 = new Hexagon(xdefault + (87 * i), ydefault, j, k);
-                h1.draw(root, 50); // Draw the hexagon with size 50
+                Hexagon h1 = new Hexagon(xdefault + ((double) (87 * i)/1.3), ydefault, j, k);
+                h1.draw(root, 50/1.3); // Draw the hexagon with size 50
                 rows.add(h1);
                 k++;
             }
             if (j > 0 && j != 8) {
-                Hexagon h1 = new Hexagon(xdefault + (87 * 5), ydefault, j, k);
-                h1.draw(root, 50); // Draw the hexagon with size 50
+                Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 5)/1.3), ydefault, j, k);
+                h1.draw(root, 50/1.3); // Draw the hexagon with size 50
                 rows.add(h1);
                 k++;
             }
             if (j > 1 && j < 7) {
-                Hexagon h1 = new Hexagon(xdefault + (87 * 6), ydefault, j, k);
-                h1.draw(root, 50); // Draw the hexagon with size 50
+                Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 6)/1.3), ydefault, j, k);
+                h1.draw(root, 50/1.3); // Draw the hexagon with size 50
                 rows.add(h1);
                 k++;
             }
             if (j > 2 && j < 6) {
-                Hexagon h1 = new Hexagon(xdefault + (87 * 7), ydefault, j, k);
-                h1.draw(root, 50); // Draw the hexagon with size 50
+                Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 7)/1.3), ydefault, j, k);
+                h1.draw(root, 50/1.3); // Draw the hexagon with size 50
                 rows.add(h1);
                 k++;
             }
             if (j == 4) {
-                Hexagon h1 = new Hexagon(xdefault + (87 * 8), ydefault, j, k);
-                h1.draw(root, 50); // Draw the hexagon with size 50
+                Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 8)/1.3), ydefault, j, k);
+                h1.draw(root, 50/1.3); // Draw the hexagon with size 50
                 rows.add(h1);
                 k++;
             }

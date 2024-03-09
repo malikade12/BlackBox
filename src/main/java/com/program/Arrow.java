@@ -101,7 +101,7 @@ public class Arrow {
                         default:
                             directionAngle = 0; // Default to east if direction is unknown
                     }
-                    double rayLength = 87; // Adjust the desired length of the ray
+                    double rayLength = 87/1.3; // Adjust the desired length of the ray
                     List<Line> rays = new ArrayList<>();
 
                     double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
@@ -164,7 +164,7 @@ public class Arrow {
             // If the endpoint is in a hexagon, check if incrementing or decrementing would still keep it in a hexagon
             double nextEndX = endX + rayLength * Math.cos(directionAngle);
             double nextEndY = endY + rayLength * Math.sin(directionAngle);
-            double slightOffset = 25; // Define a slight offset for checking
+            double slightOffset = 25/1.3; // Define a slight offset for checking
 
             // Check with slight offsets in both x and y directions
             boolean nextInHexagon = false;
