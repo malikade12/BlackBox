@@ -15,10 +15,9 @@ import javafx.scene.shape.*;
 import java.util.*;
 
 public class Main extends Application {
-    public static   Group root;
+    public static  Group root;
     static List<Atoms> allAtoms;
     static List<Polygon> allArrows;
-
     static List<List<Hexagon>> allHexagons;
     static enum directions  {
         southEast, southWest,northEast, northWest, midRight, midLeft ; }

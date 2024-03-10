@@ -118,6 +118,11 @@ public class  Arrow {
                     double endY = endPoint[1];
 
 
+                    for (double i: endPoint
+                         ) {
+                        System.out.println("is at: "+i);
+                        System.out.println("the length is: "+ endPoint.length);
+                    }
                     Polyline newRay = new Polyline(endPoint);
                     System.out.println(endX + "and" + endY + "\n");
                     newRay.setStroke(Color.CYAN);
@@ -184,41 +189,45 @@ public class  Arrow {
                     points.add(intersectionPoint.getY());
 
 
-
-
-
                     switch (direction){
                         case 1:
                         //east
-                            break;
+                            points.add(endX);
+                            points.add(endY);
+                            // If incrementing or decrementing the endpoint would move it out of a hexagon, return the current endpoint
+                            double[] pointsArray = new double[points.size()];
+                            for (int i = 0; i < points.size(); i++) {
+                                pointsArray[i] = points.get(i);
+                            }
+                            return pointsArray;
                         case 2:
                             directionAngle += Math.toRadians(60);
                             break;
                         case 3:
-                            directionAngle+= Math.toRadians(300);
+                            directionAngle+= Math.toRadians(60);
                             break;
                         case 4:
-                            directionAngle+= Math.toRadians(240);
+                            directionAngle = 3 * Math.PI / 4 - 0.263;
                             break;
                         case 5:
-                            directionAngle+= Math.toRadians(180);
+                            directionAngle = Math.PI; // West
                             break;
                         case 6:
-                            directionAngle+= Math.toRadians(120);
+                            directionAngle = Math.PI / 4 + 0.263; // Southeast
                             break;
                         default:
                             directionAngle=0;
                     }
                     endX = intersectionPoint.getX() + rayLength * Math.cos(directionAngle);
                     endY = intersectionPoint.getY() + rayLength * Math.sin(directionAngle);
-
-
-                }
+                    System.out.println(direction);
 
                 }
 
+            }
 
             // Check with slight offsets in both x and y directions
+
             boolean nextInHexagon = false;
             for (double offset : new double[]{-slightOffset, slightOffset}) {
                 if (!nextInHexagon) {
@@ -243,6 +252,8 @@ public class  Arrow {
                 // If the next endpoint with slight offset is also in a hexagon, recursively call the method again
                 return findEndPoint(endX, endY, directionAngle, rayLength,points);
             } else {
+                points.add(endX);
+                points.add(endY);
                 // If incrementing or decrementing the endpoint would move it out of a hexagon, return the current endpoint
                 double[] pointsArray = new double[points.size()];
                 for (int i = 0; i < points.size(); i++) {
