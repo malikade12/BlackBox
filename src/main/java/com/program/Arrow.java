@@ -1,5 +1,6 @@
 package com.program;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -9,7 +10,7 @@ import java.util.List;
 
 import static com.program.Main.*;
 
-public class Arrow {
+public class  Arrow {
     private Polygon triangle;
     public static double[] midpoints;
 
@@ -102,14 +103,14 @@ public class Arrow {
                             directionAngle = 0; // Default to east if direction is unknown
                     }
                     double rayLength = 87/1.3; // Adjust the desired length of the ray
-                    List<Line> rays = new ArrayList<>();
+                    List<Polyline> rays = new ArrayList<>();
 
                     double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
                     double endX = endPoint[0];
                     double endY = endPoint[1];
 
 
-                    Line newRay = new Line(midX, midY, endX, endY);
+                    Polyline newRay = new Polyline(midX, midY, endX, endY);
                     System.out.println(endX + "and" + endY + "\n");
                     newRay.setStroke(Color.CYAN);
                     newRay.setStrokeWidth(7);
@@ -141,14 +142,6 @@ public class Arrow {
         for (List<Hexagon> innerList : allHexagons) {
 
             for (Hexagon hexagon : innerList) {
-                 /*//TESTING RAY ENTERING ORBIT HEXAGONS
-                if (hexagon.influencer[0] != null) {
-                    System.out.println(hexagon.influence[0]);
-                        if (hexagon.influencer != null && hexagon.influencer[0].contains(endX, endY)) {
-                            System.out.println("test");
-                        }
-                    }
-*/
                 if (hexagon.shape.contains(endX, endY)) {
                     inHexagon = true; // Set the flag to true if the endpoint is in a hexagon
                     break; // Exit the loop since we found the hexagon
@@ -165,6 +158,18 @@ public class Arrow {
             double nextEndX = endX + rayLength * Math.cos(directionAngle);
             double nextEndY = endY + rayLength * Math.sin(directionAngle);
             double slightOffset = 25/1.3; // Define a slight offset for checking
+
+            for (Atoms atom: allAtoms
+                 ) {
+                Point2D intersectionPoint = getCircleLineIntersection(atom.orbit, midX, midY, endX, endY);
+                if (intersectionPoint != null) {
+                    System.out.println("Intersection point: " + intersectionPoint.getX() + ", " + intersectionPoint.getY());
+
+                    return new double[]{intersectionPoint.getX(), intersectionPoint.getY()};
+                }
+
+                }
+
 
             // Check with slight offsets in both x and y directions
             boolean nextInHexagon = false;
@@ -201,6 +206,41 @@ public class Arrow {
     }
 
 
+    private static Point2D getCircleLineIntersection(Circle circle, double lineStartX, double lineStartY, double lineEndX, double lineEndY) {
+        double cx = circle.getCenterX();
+        double cy = circle.getCenterY();
+        double radius = circle.getRadius();
 
+        double dx = lineEndX - lineStartX;
+        double dy = lineEndY - lineStartY;
+
+        double A = dx * dx + dy * dy;
+        double B = 2 * (dx * (lineStartX - cx) + dy * (lineStartY - cy));
+        double C = (lineStartX - cx) * (lineStartX - cx) + (lineStartY - cy) * (lineStartY - cy) - radius * radius;
+
+        double discriminant = B * B - 4 * A * C;
+
+        if (discriminant >= 0) {
+            // Calculate intersection points
+            double t1 = (-B + Math.sqrt(discriminant)) / (2 * A);
+            double t2 = (-B - Math.sqrt(discriminant)) / (2 * A);
+
+            // Check if the intersection points are on the line
+            if (t1 >= 0 && t1 <= 1) {
+                double intersectionX1 = lineStartX + t1 * dx;
+                double intersectionY1 = lineStartY + t1 * dy;
+                return new Point2D(intersectionX1, intersectionY1);
+            }
+
+            if (t2 >= 0 && t2 <= 1) {
+                double intersectionX2 = lineStartX + t2 * dx;
+                double intersectionY2 = lineStartY + t2 * dy;
+                return new Point2D(intersectionX2, intersectionY2);
+            }
+        }
+
+        // No intersection or only outside the line segment
+        return null;
+    }
 
 }
