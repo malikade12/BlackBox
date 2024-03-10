@@ -13,6 +13,7 @@ import static com.program.Main.*;
 public class  Arrow {
     private Polygon triangle;
     public static double[] midpoints;
+    static int direction;
 
     public static Polygon createArrow(double[] p1, double[] p2, Main.directions z){
         double midX = (p1[0] + p2[0] ) / 2;
@@ -83,34 +84,41 @@ public class  Arrow {
                     switch (z) {
                         case midRight:
                             directionAngle = 0; // East
+                            direction = 1;
                             break;
                         case southEast:
                             directionAngle = Math.PI / 4 + 0.263; // Southeast
+                            direction =2;
                             break;
                         case northEast:
                             directionAngle = -Math.PI / 4 - 0.263; // Northeast
+                            direction = 3;
                             break;
                         case northWest:
                             directionAngle = -3 * Math.PI / 4 + 0.263; // Northwest
+                            direction = 4;
                             break;
                         case midLeft:
                             directionAngle = Math.PI; // West
+                            direction = 5;
                             break;
                         case southWest:
                             directionAngle = 3 * Math.PI / 4 - 0.263; // Southwest
+                            direction = 6;
                             break;
                         default:
                             directionAngle = 0; // Default to east if direction is unknown
                     }
                     double rayLength = 87/1.3; // Adjust the desired length of the ray
                     List<Polyline> rays = new ArrayList<>();
+                    ArrayList<Double> points = new ArrayList<>();
 
-                    double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
+                    double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength,points);
                     double endX = endPoint[0];
                     double endY = endPoint[1];
 
 
-                    Polyline newRay = new Polyline(midX, midY, endX, endY);
+                    Polyline newRay = new Polyline(endPoint);
                     System.out.println(endX + "and" + endY + "\n");
                     newRay.setStroke(Color.CYAN);
                     newRay.setStrokeWidth(7);
@@ -130,13 +138,16 @@ public class  Arrow {
         return polygon;
 
     }
-    private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength) {
+    private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength,ArrayList<Double> points) {
         double endX = midX + rayLength * Math.cos(directionAngle);
         double endY = midY + rayLength * Math.sin(directionAngle);
+
 
         boolean found = false; // Flag to track if the endpoint is found
         boolean inHexagon = false; // Flag to track if the endpoint is in a hexagon
         boolean deflect = false;
+        points.add(midX);
+        points.add(midY);
 
 
         for (List<Hexagon> innerList : allHexagons) {
@@ -144,6 +155,8 @@ public class  Arrow {
             for (Hexagon hexagon : innerList) {
                 if (hexagon.shape.contains(endX, endY)) {
                     inHexagon = true; // Set the flag to true if the endpoint is in a hexagon
+                    points.add(endX);
+                    points.add(endY);
                     break; // Exit the loop since we found the hexagon
                 }
             }
@@ -164,8 +177,42 @@ public class  Arrow {
                 Point2D intersectionPoint = getCircleLineIntersection(atom.orbit, midX, midY, endX, endY);
                 if (intersectionPoint != null) {
                     System.out.println("Intersection point: " + intersectionPoint.getX() + ", " + intersectionPoint.getY());
+                    points.remove(endX);
+                    points.remove(endY);
 
-                    return new double[]{intersectionPoint.getX(), intersectionPoint.getY()};
+                    points.add(intersectionPoint.getX());
+                    points.add(intersectionPoint.getY());
+
+
+
+
+
+                    switch (direction){
+                        case 1:
+                        //east
+                            break;
+                        case 2:
+                            directionAngle += Math.toRadians(60);
+                            break;
+                        case 3:
+                            directionAngle+= Math.toRadians(300);
+                            break;
+                        case 4:
+                            directionAngle+= Math.toRadians(240);
+                            break;
+                        case 5:
+                            directionAngle+= Math.toRadians(180);
+                            break;
+                        case 6:
+                            directionAngle+= Math.toRadians(120);
+                            break;
+                        default:
+                            directionAngle=0;
+                    }
+                    endX = intersectionPoint.getX() + rayLength * Math.cos(directionAngle);
+                    endY = intersectionPoint.getY() + rayLength * Math.sin(directionAngle);
+
+
                 }
 
                 }
@@ -194,14 +241,25 @@ public class  Arrow {
 
             if (nextInHexagon) {
                 // If the next endpoint with slight offset is also in a hexagon, recursively call the method again
-                return findEndPoint(endX, endY, directionAngle, rayLength);
+                return findEndPoint(endX, endY, directionAngle, rayLength,points);
             } else {
                 // If incrementing or decrementing the endpoint would move it out of a hexagon, return the current endpoint
-                return new double[]{endX, endY};
+                double[] pointsArray = new double[points.size()];
+                for (int i = 0; i < points.size(); i++) {
+                    pointsArray[i] = points.get(i);
+                }
+                return pointsArray;
             }
         } else {
             // If the endpoint is not in a hexagon from the beginning, return the current endpoint
-            return new double[]{endX, endY};
+            points.add(endX);
+            points.add(endY);
+
+            double[] pointsArray = new double[points.size()];
+            for (int i = 0; i < points.size(); i++) {
+                pointsArray[i] = points.get(i);
+            }
+            return pointsArray;
         }
     }
 
