@@ -191,7 +191,6 @@ public class Arrow {
                 break; // Exit the outer loop if the endpoint is in a hexagon
             }
         }
-
         if (inHexagon) {
             // Check if incrementing or decrementing the endpoint would keep it inside a hexagon
             double slightOffset = 25 / 1.3; // Define a slight offset for checking
