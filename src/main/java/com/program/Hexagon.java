@@ -107,7 +107,7 @@ public  class Hexagon extends Polygon {
 
                 for (int i: influence
                      ) {
-                    System.out.println("hexagon at "+i);
+                    //System.out.println("hexagon at "+i);
                 }
                 }
             }
