@@ -1,0 +1,19 @@
+.root{
+    -fx-background-color: black;
+    -fx-font-family: "Lucida Console";
+    -fx-text-fill: "yellow";
+}
+#titleLabel{
+    -fx-font-family: "Lucida Console";
+    -fx-text-fill: "yellow";
+    -fx-alignment: center;
+}
+
+.button{
+    -fx-background-color: black;
+    -fx-text-fill: "yellow";
+}
+.button:hover{
+    -fx-background-color: "yellow";
+    -fx-text-fill: black;
+}

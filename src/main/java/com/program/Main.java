@@ -2,8 +2,10 @@ package com.program;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -12,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.shape.*;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Main extends Application {
@@ -23,7 +26,10 @@ public class Main extends Application {
         southEast, southWest,northEast, northWest, midRight, midLeft ; }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
+
+
+
         root = new Group();
         root.setMouseTransparent(false);
 
@@ -93,7 +99,17 @@ public class Main extends Application {
 
             allHexagons.add(rows);
         }
-        Scene scene = new Scene(root, 400, 400, Color.BLACK);
+        Scene scene = new Scene(root, 1400, 800, Color.BLACK);
+
+
+        Group groupStart = new Group();
+
+        //START SCENE
+        Parent startRoot = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
+        Scene startScene = new Scene(startRoot,1400,800);
+        startScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+
+
         scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -167,9 +183,9 @@ public class Main extends Application {
 
         root.getChildren().addAll(allArrows);
 
-        primaryStage.setScene(scene);
+
+        primaryStage.setScene(startScene);
         primaryStage.setTitle("BlackBox Alpha");
-        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 

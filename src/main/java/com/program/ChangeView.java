@@ -34,7 +34,7 @@ public class ChangeView {
                 "-fx-background-color: black; " +
                         "-fx-text-fill: yellow; " +
                         "-fx-font-size: 15px; " +
-                        "-fx-font-family: 'Arial';"
+                        "-fx-font-family: 'Lucida Console';"
         );
     }
 
