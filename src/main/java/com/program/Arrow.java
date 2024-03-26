@@ -120,16 +120,18 @@ public class Arrow {
                     double endY = endPoint[1];
                     int reflected = 0;
                     for (Atoms atom : Main.allAtoms) {
+                        //Get the point of intersection
                         Point2D intersection = getCircleLineIntersection(atom.orbit, midX, midY, endX, endY);
                         if (intersection != null) {
+                            //Determine the region which was intersected at
                             Region intersectionRegion = determineRegion(intersection, atom.orbit);
-
                             reflected = 1;
                             System.out.println("Intersection point: " + intersection.getX() + ", " + intersection.getY());
+                            //Calculate the angle to make the new ray from, using the calculateReflectionAngle method
                             double reflectionAngle = calculateReflectionAngle(intersectionRegion, z);
-
                             endX = intersection.getX();
                             endY = intersection.getY();
+                            //Get the endpoints of the deflected ray
                             double[] NewendPoint = findEndPoint(endX, endY, reflectionAngle, rayLength);
                             double NewendX = NewendPoint[0];
                             double NewendY = NewendPoint[1];
@@ -140,7 +142,7 @@ public class Arrow {
                             originalRay.setStrokeWidth(7); // Adjust width if needed
                             rays.add(originalRay);
 
-                            // Add the reflected ray to the scene
+                            // Add the reflected ray to the scene, only if the ray is deflected at all
                             if(reflectionAngle != -1) {
                                 Line reflectedRay = new Line(endX, endY, NewendX, NewendY); // Reflected ray from midpoint to intersection point
                                 reflectedRay.setStroke(Color.GREEN); // Adjust color if needed
@@ -154,6 +156,7 @@ public class Arrow {
                         }
 
                     }
+                    //Print a single ray in the case of no deflection
                     if (reflected==0){
                         Line newRay = new Line(midX, midY, endX, endY);
                         System.out.println(endX + "and" + endY + "\n");
@@ -174,6 +177,7 @@ public class Arrow {
         return polygon;
 
     }
+    //This method simply calculates and returns the end x and y points of a ray
     private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength) {
         double endX = midX + rayLength * Math.cos(directionAngle);
         double endY = midY + rayLength * Math.sin(directionAngle);
@@ -268,6 +272,9 @@ public class Arrow {
         }
         return null;
     }
+    //This method calculates the angle at which to deflect the ray
+    //It uses the initial direction of the ray and the region of the influence circle that is hit
+    //Depending on these 2 variables, the nested switches determine which direction to give the new ray
     private static double calculateReflectionAngle(Region intersectionRegion, Main.directions z) {
         double Northeast = -Math.PI / 4 - 0.263;
         double Northwest = -3 * Math.PI / 4 + 0.263;
@@ -325,6 +332,8 @@ public class Arrow {
         }
         return directionAngle;
     }
+    //This is the helper method which calculates which side of the influence circle was hit by the ray
+    //We need this method to be able to reflect the ray correctly
     private static Region determineRegion(Point2D intersectionPoint, Circle circle) {
         double centerX = circle.getCenterX();
         double centerY = circle.getCenterY();
