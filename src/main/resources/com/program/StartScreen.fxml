@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="801.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.program.Controller">
+   <children>
+      <Button layoutX="602.0" layoutY="268.0" mnemonicParsing="false" onAction="#EnterGame" prefHeight="51.0" prefWidth="195.0" text="Enter Game">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+      <Label fx:id="titleLabel" layoutY="48.0" prefHeight="54.0" prefWidth="1400.0" text="Welcome to BlackBox">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="1242.0" layoutY="761.0" text="The Lads Production" textFill="#ddff00">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button layoutX="602.0" layoutY="533.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="195.0" text="Quit">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button layoutX="602.0" layoutY="401.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="195.0" text="Settings">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="236.0" fitWidth="234.0" layoutX="103.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@yellowAtom.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="236.0" fitWidth="234.0" layoutX="103.0" layoutY="533.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@yellowAtom.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="236.0" fitWidth="234.0" layoutX="1094.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@yellowAtom.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="236.0" fitWidth="234.0" layoutX="337.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@yellowAtom.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="236.0" fitWidth="234.0" layoutX="849.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@yellowAtom.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="236.0" fitWidth="234.0" layoutX="1083.0" layoutY="533.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@yellowAtom.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
