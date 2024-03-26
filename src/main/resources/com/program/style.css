@@ -12,6 +12,9 @@
 .button{
     -fx-background-color: black;
     -fx-text-fill: "yellow";
+    -fx-border-width: 5px;
+    -fx-border-color: "yellow";
+    -fx-border-radius: 3px;
 }
 .button:hover{
     -fx-background-color: "yellow";
