@@ -21,7 +21,8 @@ public class Arrow {
         MIDDLE_LEFT,
         MIDDLE_RIGHT
     }
-
+    static final double rayLength = 50; // Adjust the desired length of the ray
+    private static List<Line> rays = new ArrayList<>();
     private Polygon triangle;
     public static double[] midpoints;
 
@@ -35,7 +36,7 @@ public class Arrow {
         double x3 = 0;
         double y3 = 0;
         switch (z){
-            case midRight -> {
+            case east -> {
                 y3 = midY - 3;
                 x3 = midX + 20;
                 y1 += 9;
@@ -65,7 +66,7 @@ public class Arrow {
                 x3 = midX - 15;
                 y3 = midY - 20;
             }
-            case midLeft -> {
+            case west -> {
                 y3 = midY + 3;
                 x3 = midX - 20;
                 y1 -= 9;
@@ -92,7 +93,7 @@ public class Arrow {
                 if (Hexagon.mode != 0) {
                     double directionAngle;
                     switch (z) {
-                        case midRight:
+                        case east:
                             directionAngle = 0; // East
                             break;
                         case southEast:
@@ -104,7 +105,7 @@ public class Arrow {
                         case northWest:
                             directionAngle = -3 * Math.PI / 4 + 0.263; // Northwest
                             break;
-                        case midLeft:
+                        case west:
                             directionAngle = Math.PI; // West
                             break;
                         case southWest:
@@ -113,9 +114,9 @@ public class Arrow {
                         default:
                             directionAngle = 0; // Default to east if direction is unknown
                     }
-                    double rayLength = 50; // Adjust the desired length of the ray
-                    List<Line> rays = new ArrayList<>();
-                    double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
+                    ReflectRay(midX, midY, directionAngle, z);
+                    root.getChildren().addAll(rays);
+                    /*double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
                     double endX = endPoint[0];
                     double endY = endPoint[1];
                     int reflected = 0;
@@ -125,10 +126,12 @@ public class Arrow {
                         if (intersection != null) {
                             //Determine the region which was intersected at
                             Region intersectionRegion = determineRegion(intersection, atom.orbit);
+
                             reflected = 1;
                             System.out.println("Intersection point: " + intersection.getX() + ", " + intersection.getY());
                             //Calculate the angle to make the new ray from, using the calculateReflectionAngle method
                             double reflectionAngle = calculateReflectionAngle(intersectionRegion, z);
+
                             endX = intersection.getX();
                             endY = intersection.getY();
                             //Get the endpoints of the deflected ray
@@ -142,6 +145,7 @@ public class Arrow {
                             originalRay.setStrokeWidth(7); // Adjust width if needed
                             rays.add(originalRay);
 
+                            // Add the reflected ray to the scene
                             // Add the reflected ray to the scene, only if the ray is deflected at all
                             if(reflectionAngle != -1) {
                                 Line reflectedRay = new Line(endX, endY, NewendX, NewendY); // Reflected ray from midpoint to intersection point
@@ -165,8 +169,9 @@ public class Arrow {
                         rays.add(newRay);
                     }
                     root.getChildren().addAll(rays);
-                }
-            }
+                }*/
+                }}
+
         });
 
         polygon.getPoints().addAll(new Double[]{
@@ -177,6 +182,92 @@ public class Arrow {
         return polygon;
 
     }
+
+    public static void ReflectRay(double x, double y, double ang, Main.directions z){
+        double[] endPoint = findEndPoint(x, y, ang, rayLength);
+        double endX = endPoint[0];
+        double endY = endPoint[1];
+        int reflected = 0;
+        for (Atoms atom : Main.allAtoms) {
+            //Get the point of intersection
+            Point2D intersection = getCircleLineIntersection(atom.orbit, x, y, endX, endY);
+            if (intersection != null) {
+                //Determine the region which was intersected at
+                Region intersectionRegion = determineRegion(intersection, atom.orbit);
+                reflected = 1;
+                System.out.println("Intersection point: " + intersection.getX() + ", " + intersection.getY());
+                //Calculate the angle to make the new ray from, using the calculateReflectionAngle method
+                double reflectionAngle = calculateReflectionAngle(intersectionRegion, z);
+                endX = intersection.getX();
+                endY = intersection.getY();
+                //Get the endpoints of the deflected ray
+                double[] NewendPoint = findEndPoint(endX, endY, reflectionAngle, rayLength);
+                double NewendX = NewendPoint[0];
+                double NewendY = NewendPoint[1];
+
+                // Add the original ray to the scene
+                Line originalRay = new Line(x, y, endX, endY); // Original ray from midpoint to intersection point
+                originalRay.setStroke(Color.CYAN); // Adjust color if needed
+                originalRay.setStrokeWidth(7); // Adjust width if needed
+                boolean fact = false;
+                for (Line r: rays){
+                    if(originalRay == r){
+                        fact = true;
+                    }
+                }
+                if (!fact){
+                    rays.add(originalRay);
+                }
+
+                // Add the reflected ray to the scene, only if the ray is deflected at all
+                if(reflectionAngle != -1) {
+                    ReflectRay(x, y, reflectionAngle, z);
+                }
+
+                // Update endpoint to be slightly offset from the intersection point to prevent ray from getting stuck in the atom
+                endX += rayLength * Math.cos(reflectionAngle);
+                endY += rayLength * Math.sin(reflectionAngle);
+            }
+
+        }
+        //Print a single ray in the case of no deflection
+        if (reflected==0){
+            Line newRay = new Line(x, y, endX, endY);
+            System.out.println(endX + "and" + endY + "\n");
+            newRay.setStroke(Color.CYAN);
+            newRay.setStrokeWidth(7);
+            boolean fact = false;
+            for (Line r: rays){
+                if(newRay == r){
+                    fact = true;
+                }
+            }
+            if (!fact){
+                rays.add(newRay);
+            }
+        }}
+    public Main.directions findDirect(double startX, double endX, double startY, double endY){
+        if((endX - startX ) > 0 && (startY - endY) == 0 ){
+           return directions.east;
+        }
+        if((endX - startX ) < 0 && (startY - endY) == 0){
+            return directions.west;
+        }
+        if((endX - startX ) < 0 && (startY - endY) > 0){
+            return directions.northWest;
+        }
+        if((endX - startX ) > 0 && (startY - endY) > 0){
+            return directions.northEast;
+        }
+        if((endX - startX ) < 0 && (startY - endY) < 0){
+            return directions.southWest;
+        }
+        if((endX - startX ) > 0 && (startY - endY) < 0){
+            return directions.southWest;
+        }
+        return null;
+    }
+
     //This method simply calculates and returns the end x and y points of a ray
     private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength) {
         double endX = midX + rayLength * Math.cos(directionAngle);
@@ -285,7 +376,7 @@ public class Arrow {
 
         double directionAngle = 0;
         switch (z) {
-            case midLeft:
+            case west:
                 switch (intersectionRegion){
                     case MIDDLE_RIGHT -> directionAngle = -1;
                     case TOP_RIGHT -> directionAngle = Northwest;
@@ -313,7 +404,7 @@ public class Arrow {
                     case BOTTOM_LEFT -> directionAngle = West;
                 }
                 break;
-            case midRight:
+            case east:
                 switch (intersectionRegion){
                     case MIDDLE_LEFT -> directionAngle = -1;
                     case TOP_LEFT -> directionAngle = Northeast;
