@@ -124,6 +124,4 @@ public  class Hexagon extends Polygon {
         double centerY = (bounds.getMinY() + bounds.getMaxY()) / 2;
         return new double[]{centerX, centerY};
     }
-
-
 }
