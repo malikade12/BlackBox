@@ -28,16 +28,28 @@ public class ChangeView {
     public void experimenterButton() {
         button1 = new Button("Change to Experimenter view");
 
-        // Set the action for the button
         button1.setOnAction(event);
 
+        button1.setStyle(
+                "-fx-background-color: black; " +
+                        "-fx-text-fill: yellow; " +
+                        "-fx-font-size: 15px; " +
+                        "-fx-font-family: 'Arial';"
+        );
     }
+
 
     public void setterButton() {
         button2 = new Button("Change to Setter view");
 
-        // Set the action for the button
+
         button2.setOnAction(event2);
+        button2.setStyle(
+                "-fx-background-color: black; " +
+                        "-fx-text-fill: yellow; " +
+                        "-fx-font-size: 15px; " +
+                        "-fx-font-family: 'Arial';"
+        );
 
 
     }
