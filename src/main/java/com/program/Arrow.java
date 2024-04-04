@@ -40,7 +40,7 @@ public class Arrow {
         double x3 = 0;
         double y3 = 0;
         switch (z){
-            case midRight -> {
+            case east -> {
                 y3 = midY - 3;
                 x3 = midX + 20;
                 y1 += 9;
@@ -70,7 +70,7 @@ public class Arrow {
                 x3 = midX - 15;
                 y3 = midY - 20;
             }
-            case midLeft -> {
+            case west -> {
                 y3 = midY + 3;
                 x3 = midX - 20;
                 y1 -= 9;
@@ -97,7 +97,7 @@ public class Arrow {
                 if (Hexagon.mode != 0) {
                     double directionAngle;
                     switch (z) {
-                        case midRight:
+                        case east:
                             directionAngle = 0; // East
                             break;
                         case southEast:
@@ -109,7 +109,7 @@ public class Arrow {
                         case northWest:
                             directionAngle = -3 * Math.PI / 4 + 0.263; // Northwest
                             break;
-                        case midLeft:
+                        case west:
                             directionAngle = Math.PI; // West
                             break;
                         case southWest:
@@ -178,11 +178,11 @@ public class Arrow {
                                 System.out.println("southWest");
                                 break;
                             case 0:
-                                Direct2 = Main.directions.midRight;
+                                Direct2 = Main.directions.east;
                                 System.out.println("East");
                                 break;
                             case (int) (Math.PI):
-                                Direct2 = Main.directions.midLeft;
+                                Direct2 = Main.directions.west;
                                 System.out.println("West");
                                 break;
                         }
@@ -358,7 +358,7 @@ public class Arrow {
     private static double calculateReflectionAngle(Region intersectionRegion, Main.directions z) {
         double directionAngle = 0;
         switch (z) {
-            case midLeft:
+            case west:
                 switch (intersectionRegion){
                     case MIDDLE_RIGHT -> directionAngle = -1;
                     case TOP_RIGHT -> directionAngle = Northwest;
@@ -386,7 +386,7 @@ public class Arrow {
                     case BOTTOM_LEFT -> directionAngle = West;
                 }
                 break;
-            case midRight:
+            case east:
                 switch (intersectionRegion){
                     case MIDDLE_LEFT -> directionAngle = -1;
                     case TOP_LEFT -> directionAngle = Northeast;
