@@ -125,8 +125,6 @@ public class Arrow {
                     double NewendY=0;
                     double NewendX2=0;
                     double NewendY2=0;
-                    double[] points = new double[100];
-                    points[0]=midX;
                     int reflected = 0;
                     double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
                     double endX = endPoint[0];
@@ -162,7 +160,7 @@ public class Arrow {
                             System.out.println("Intersection point: " + closestIntersection.getX() + ", " + closestIntersection.getY());
                             // Calculate the angle to make the new ray from, using the calculateReflectionAngle method
                             double reflectionAngle = calculateReflectionAngle(intersectionRegion, z);
-                            // Calculate Direct2 based on reflectionAngle
+                            // Calculate Direct2 (a new z value) based on reflectionAngle
                             switch ((int) reflectionAngle) {
                                 case (int) (-Math.PI / 4 - 0.263):
                                     Direct2 = Main.directions.northEast;
@@ -189,9 +187,6 @@ public class Arrow {
                                     System.out.println("West");
                                     break;
                             }
-                            // Update end point for the first deflection
-                            endX = intersection.getX();
-                            endY = intersection.getY();
                             // Get the endpoints of the deflected ray
                             double[] NewendPoint = findEndPoint(endX, endY, reflectionAngle, rayLength);
                             NewendX = NewendPoint[0];
@@ -213,7 +208,6 @@ public class Arrow {
                                     if (Intersection2 == null || distanceToIntersection < Math.sqrt(Math.pow(Intersection2.getX() - endX, 2) + Math.pow(closestIntersection.getY() - endY, 2))) {
                                         Intersection2 = intersection3; // Update the closest intersection point
                                         intersectionRegion2 = determineRegion(Intersection2, atom2.orbit);
-                                        // Additional logic to update Direct2, endX, endY, and other necessary variables can be added here
                                     }
                                 }
                             }
@@ -244,12 +238,8 @@ public class Arrow {
                                     rays.add(reflectedRay2);
                                 }
                             }
-
-                            // Update endpoint to be slightly offset from the intersection point to prevent ray from getting stuck in the atom
-                            endX += rayLength * Math.cos(directionAngle);
-                            endY += rayLength * Math.sin(directionAngle);
                         }
-                            //Print a single ray in the case of no deflection
+                    //Print a single ray in the case of no deflection
                     if (reflected==0){
                         Line newRay = new Line(midX, midY, endX, endY);
                         System.out.println(endX + "and" + endY + "\n");
