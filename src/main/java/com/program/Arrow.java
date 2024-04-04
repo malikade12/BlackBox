@@ -119,21 +119,25 @@ public class Arrow {
                             directionAngle = 0; // Default to east if direction is unknown
                     }
                     double rayLength = 5; // Adjust the desired length of the ray
-                    int maxDeflections = 10;
                     List<Line> rays = new ArrayList<>();
+                    //These 2 store the endpoints of the 1st deflected ray (the 2nd ray drawn)
                     double NewendX=0;
                     double NewendY=0;
+                    //These 2 store the endpoints of the 2nd deflected ray (the 3rd ray drawn)
                     double NewendX2=0;
                     double NewendY2=0;
+                    //Variable used to check if ray is deflected at all or not
                     int reflected = 0;
                     double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
                     double endX = endPoint[0];
                     double endY = endPoint[1];
                     Region intersectionRegion;
                     double reflectionAngle = 0;
+                    //Variable used to check if ray has been deflected once or not
                     int onedeflection = 0;
                     Main.directions Direct2 = null;
                     Point2D closestIntersection = null; // Variable to store the closest intersection point
+                    //Loop checks for the first intersection of the first ray
                     for (Atoms atom : Main.allAtoms) {
                         Point2D intersection1 = getCircleLineIntersection(atom.orbit, midX, midY, endX, endY);
                         if (intersection1 != null) {
@@ -148,9 +152,14 @@ public class Arrow {
                     if (closestIntersection != null){
                         endX = closestIntersection.getX();
                         endY = closestIntersection.getY();
+                        //Increment the ray a bit further so that the getCircleLineIntersection method
+                        //works correctly, otherwise it will give the start point of the ray as the
+                        //intersection point
                         endX += rayLength * Math.cos(directionAngle);
                         endY += rayLength * Math.sin(directionAngle);
                         System.out.println("Intersection point1: " + closestIntersection.getX() + ", " + closestIntersection.getY());
+                        //This switch statement is needed to give a new "z" value for the 2nd ray that is drawn since the
+                        //2nd ray has a different direction than the first one we drew
                         switch ((int) reflectionAngle) {
                             case (int) (-Math.PI / 4 - 0.263):
                                 Direct2 = Main.directions.northEast;
@@ -182,33 +191,35 @@ public class Arrow {
                         NewendX = NewendPoint[0];
                         NewendY = NewendPoint[1];
                         Line originalRay = new Line(midX, midY, endX, endY); // Original ray from midpoint to intersection point
-                        originalRay.setStroke(Color.CYAN); // Adjust color if needed
-                        originalRay.setStrokeWidth(7); // Adjust width if needed
+                        originalRay.setStroke(Color.CYAN);
+                        originalRay.setStrokeWidth(7);
                         rays.add(originalRay);
-                        Point2D Intersection2 = null; // Variable to store the closest intersection point
+                        Point2D NextIntersection = null;
                         Region intersectionRegion2 = null;
                         double[] NewendPoint2;
                         double reflectionAngle2 = -1;
+                        //Again checks for the intersection of the 2nd ray
                         for (Atoms atom2 : Main.allAtoms) {
-                            Point2D intersection3 = getCircleLineIntersection(atom2.orbit, endX + rayLength * Math.cos(reflectionAngle), endY + rayLength * Math.sin(reflectionAngle), NewendX, NewendY);
-                            if (intersection3 != null) {
-                                double distanceToIntersection = Math.sqrt(Math.pow(intersection3.getX() - endX, 2) + Math.pow(intersection3.getY() - endY, 2));
-                                if (Intersection2 == null || distanceToIntersection < Math.sqrt(Math.pow(Intersection2.getX() - endX, 2) + Math.pow(closestIntersection.getY() - endY, 2))) {
-                                    Intersection2 = intersection3; // Update the closest intersection point
-                                    intersectionRegion2 = determineRegion(Intersection2, atom2.orbit);
+                            Point2D Intersection2 = getCircleLineIntersection(atom2.orbit, endX + rayLength * Math.cos(reflectionAngle), endY + rayLength * Math.sin(reflectionAngle), NewendX, NewendY);
+                            if (Intersection2 != null) {
+                                double distanceToIntersection = Math.sqrt(Math.pow(Intersection2.getX() - endX, 2) + Math.pow(Intersection2.getY() - endY, 2));
+                                if (NextIntersection == null || distanceToIntersection < Math.sqrt(Math.pow(NextIntersection.getX() - endX, 2) + Math.pow(NextIntersection.getY() - endY, 2))) {
+                                    NextIntersection = Intersection2; // Update the closest intersection point
+                                    intersectionRegion2 = determineRegion(NextIntersection, atom2.orbit);
                                 }
                             }
                         }
-                        if (Intersection2 != null){
-                            NewendX = Intersection2.getX();
-                            NewendY = Intersection2.getY();
-                            System.out.println("Intersection point2: " + Intersection2.getX() + ", " + Intersection2.getY());
+                        //If there is another intersection then reflect the 2nd ray
+                        if (NextIntersection != null){
+                            NewendX = NextIntersection.getX();
+                            NewendY = NextIntersection.getY();
+                            System.out.println("Intersection point2: " + NextIntersection.getX() + ", " + NextIntersection.getY());
                             reflectionAngle2 = calculateReflectionAngle(intersectionRegion2, Direct2);
                             NewendPoint2 = findEndPoint(NewendX, NewendY, reflectionAngle2, rayLength);
                             NewendX2 = NewendPoint2[0];
                             NewendY2 = NewendPoint2[1];
                         }
-                        // Add the reflected ray to the scene, only if the ray is deflected at all
+                        // Add the first reflected ray to the scene, only if the ray is deflected at all
                         if (reflectionAngle != -1) {
                             Line reflectedRay = new Line(endX, endY, NewendX, NewendY); // Reflected ray from midpoint to intersection point
                             reflectedRay.setStroke(Color.GREEN); // Adjust color if needed
@@ -217,17 +228,16 @@ public class Arrow {
                             onedeflection = 1;
                         }
 
-                        if (onedeflection ==1 && Intersection2 != null) {
+                        if (onedeflection == 1 && NextIntersection != null) {
                             // Add the second reflected ray to the scene
-                            if (reflectionAngle2 != -1) {
-                                Line reflectedRay2 = new Line(NewendX, NewendY, NewendX2, NewendY2);
-                                reflectedRay2.setStroke(Color.RED);
-                                reflectedRay2.setStrokeWidth(7);
-                                rays.add(reflectedRay2);
-                            }
+                            Line reflectedRay2 = new Line(NewendX, NewendY, NewendX2, NewendY2);
+                            reflectedRay2.setStroke(Color.RED);
+                            reflectedRay2.setStrokeWidth(7);
+                            rays.add(reflectedRay2);
                         }
                     }
                     if (reflected==0){
+                        //The case where there were no reflections and so just draw the first ray
                         Line newRay = new Line(midX, midY, endX, endY);
                         System.out.println(endX + "and" + endY + "\n");
                         newRay.setStroke(Color.CYAN);
