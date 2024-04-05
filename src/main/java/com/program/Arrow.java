@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.program.Main.*;
@@ -30,7 +31,7 @@ public class Arrow {
     private Polygon triangle;
     public static double[] midpoints;
 
-    public static Polygon createArrow(double[] p1, double[] p2, Main.directions z){
+    public static Polygon createArrow(double[] p1, double[] p2, Main.directions z, int[] hexid){
         double midX = (p1[0] + p2[0] ) / 2;
         double midY = (p1[1] + p2[1] ) / 2;
         double y1 = p1[1];
@@ -39,6 +40,7 @@ public class Arrow {
         double x2 = p2[0];
         double x3 = 0;
         double y3 = 0;
+       // ArrayList<Integer> EdgeHexId = new ArrayList<>(Arrays.asList(new Integer[]{1, 1, 2, 3, 4, 5, 6, 11, 12, 18, 19, 26, 27, 35, 36, 43, 44, 50, 51, 56, 57, 58, 59, 60}));
         switch (z){
             case east -> {
                 y3 = midY - 3;
@@ -91,9 +93,9 @@ public class Arrow {
         Polygon polygon = new Polygon();
 
         polygon.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
             @Override
             public void handle(MouseEvent event) {
+                if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom){
                 if (Hexagon.mode != 0) {
                     double directionAngle;
                     switch (z) {
@@ -157,33 +159,33 @@ public class Arrow {
                         //intersection point
                         endX += rayLength * Math.cos(directionAngle);
                         endY += rayLength * Math.sin(directionAngle);
-                        System.out.println("Intersection point1: " + closestIntersection.getX() + ", " + closestIntersection.getY());
+                       // System.out.println("Intersection point1: " + closestIntersection.getX() + ", " + closestIntersection.getY());
                         //This switch statement is needed to give a new "z" value for the 2nd ray that is drawn since the
                         //2nd ray has a different direction than the first one we drew
                         switch ((int) reflectionAngle) {
                             case (int) (-Math.PI / 4 - 0.263):
                                 Direct2 = Main.directions.northEast;
-                                System.out.println("NorthEast");
+                                //System.out.println("NorthEast");
                                 break;
                             case (int) (-3 * Math.PI / 4 + 0.263):
                                 Direct2 = Main.directions.northWest;
-                                System.out.println("NorthWest");
+                               // System.out.println("NorthWest");
                                 break;
                             case (int) (Math.PI / 4 + 0.263):
                                 Direct2 = Main.directions.southEast;
-                                System.out.println("southEast");
+                                //System.out.println("southEast");
                                 break;
                             case (int) (3 * Math.PI / 4 - 0.263):
                                 Direct2 = Main.directions.southWest;
-                                System.out.println("southWest");
+                                //System.out.println("southWest");
                                 break;
                             case 0:
                                 Direct2 = Main.directions.east;
-                                System.out.println("East");
+                                //System.out.println("East");
                                 break;
                             case (int) (Math.PI):
                                 Direct2 = Main.directions.west;
-                                System.out.println("West");
+                                //System.out.println("West");
                                 break;
                         }
                         reflected = 1;
@@ -213,7 +215,7 @@ public class Arrow {
                         if (NextIntersection != null){
                             NewendX = NextIntersection.getX();
                             NewendY = NextIntersection.getY();
-                            System.out.println("Intersection point2: " + NextIntersection.getX() + ", " + NextIntersection.getY());
+                            //System.out.println("Intersection point2: " + NextIntersection.getX() + ", " + NextIntersection.getY());
                             reflectionAngle2 = calculateReflectionAngle(intersectionRegion2, Direct2);
                             NewendPoint2 = findEndPoint(NewendX, NewendY, reflectionAngle2, rayLength);
                             NewendX2 = NewendPoint2[0];
@@ -222,7 +224,7 @@ public class Arrow {
                         // Add the first reflected ray to the scene, only if the ray is deflected at all
                         if (reflectionAngle != -1) {
                             Line reflectedRay = new Line(endX, endY, NewendX, NewendY); // Reflected ray from midpoint to intersection point
-                            reflectedRay.setStroke(Color.GREEN); // Adjust color if needed
+                            reflectedRay.setStroke(Color.CYAN); // Adjust color if needed
                             reflectedRay.setStrokeWidth(7); // Adjust width if needed
                             rays.add(reflectedRay);
                             onedeflection = 1;
@@ -231,7 +233,7 @@ public class Arrow {
                         if (onedeflection == 1 && NextIntersection != null) {
                             // Add the second reflected ray to the scene
                             Line reflectedRay2 = new Line(NewendX, NewendY, NewendX2, NewendY2);
-                            reflectedRay2.setStroke(Color.RED);
+                            reflectedRay2.setStroke(Color.CYAN);
                             reflectedRay2.setStrokeWidth(7);
                             rays.add(reflectedRay2);
                         }
@@ -239,12 +241,15 @@ public class Arrow {
                     if (reflected==0){
                         //The case where there were no reflections and so just draw the first ray
                         Line newRay = new Line(midX, midY, endX, endY);
-                        System.out.println(endX + "and" + endY + "\n");
+                        //System.out.println(endX + "and" + endY + "\n");
                         newRay.setStroke(Color.CYAN);
                         newRay.setStrokeWidth(7);
                         rays.add(newRay);
                     }
                     root.getChildren().addAll(rays);
+                }
+            }else{
+                   // System.out.println("no");
                 }
             }
         });
