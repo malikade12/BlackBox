@@ -17,7 +17,8 @@ import static com.program.Main.allHexagons;
 public  class Hexagon extends Polygon {
     public double x;
     public double y;
-    private int rowId;
+    public int rowId;
+    public int rowPositionId;
     boolean hasAtom = false;
     static int mode;
     static int counter =0;
@@ -34,8 +35,21 @@ public  class Hexagon extends Polygon {
 
         rowId = row;
         Id = id + 1;
+        CalculatePosId(rowId, Id);
     }
+    public void CalculatePosId(int x, int y){
+        if (x != 0){
+            int total = 0;
+            for (int i = x - 1; i >= 0 ; i--) {
+                total += allHexagons.get(i).size();
+            }
+            rowPositionId = y - total;
 
+        }else{
+            rowPositionId = y;
+        }
+
+    }
     public Polygon draw(Group root, double size) {
          points = new double[12];
 
@@ -56,9 +70,9 @@ public  class Hexagon extends Polygon {
         hexagon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                System.out.println(rowPositionId);
                 if (mode != 1 && counter < 6) {
                     double[] center = calculatePolygonCenter(hexagon);
-                    System.out.println(Id);
                     Atoms at = new Atoms(root, center[0], center[1]);
                     Main.allAtoms.add(0,at);  // Add the created Atom to the list
                     counter++;
