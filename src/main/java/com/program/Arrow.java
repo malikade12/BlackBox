@@ -384,20 +384,17 @@ public class Arrow {
         double EndY = lineStartY;
         lineStartX += Math.cos(directionAngle);
         lineStartY += Math.sin(directionAngle);
-        EndX += Math.cos(directionAngle);
-        EndY += Math.sin(directionAngle);
+        EndX += 5 * Math.cos(directionAngle);
+        EndY += 5 * Math.sin(directionAngle);
         int i = 0;
         while (i != 100) {
             for (Atoms atom : Main.allAtoms) {
                 Point2D intersection = getCircleLineIntersection(atom.orbit, lineStartX, lineStartY, EndX, EndY);
                 if (intersection != null) {
-                    if (atom.orbit.contains(lineStartX, lineStartY)){
-                        return null;
-                    }
                     return intersection;
                 }
-                EndX += Math.cos(directionAngle);
-                EndY += Math.sin(directionAngle);
+                EndX += 5 * Math.cos(directionAngle);
+                EndY += 5 * Math.sin(directionAngle);
                 i++;
                 //System.out.println(EndX + EndY);
             }
@@ -553,7 +550,6 @@ public class Arrow {
         for (Atoms atom : Main.allAtoms) {
             Point2D Intersection = getClosestIntersection(directionAngle, initialX, initialY, endX, endY);
             if (Intersection !=null){
-                System.out.println(atom);
                 intersections++;
                 endX = Intersection.getX();
                 endY = Intersection.getY();
