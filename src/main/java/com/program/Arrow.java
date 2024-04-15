@@ -23,6 +23,7 @@ public class Arrow {
         MIDDLE_LEFT,
         MIDDLE_RIGHT
     }
+    static Atoms atomHit;
     static final double Northeast = -Math.PI / 4 - 0.263;
     static final double Northwest = -3 * Math.PI / 4 + 0.263;
     static final double Southeast = Math.PI / 4 + 0.263;
@@ -550,12 +551,15 @@ public class Arrow {
         for (Atoms atom : Main.allAtoms) {
             Point2D Intersection = getClosestIntersection(directionAngle, initialX, initialY, endX, endY);
             if (Intersection !=null){
-                intersections++;
-                endX = Intersection.getX();
-                endY = Intersection.getY();
-                Region intersectedRegion = determineRegion(Intersection, atom.orbit);
-                System.out.println(intersectedRegion + " First");
-                System.out.println(endX +" "+ endY);
+                if(atom != atomHit) {
+                    atomHit = atom;
+                    intersections++;
+                    endX = Intersection.getX();
+                    endY = Intersection.getY();
+                    Region intersectedRegion = determineRegion(Intersection, atom.orbit);
+                    System.out.println(intersectedRegion + " First");
+                    System.out.println(endX + " " + endY);
+                }
             }
         }
         System.out.println(intersections);
@@ -566,16 +570,18 @@ public class Arrow {
         for (Atoms atom : Main.allAtoms) {
             Point2D Intersection = getClosestIntersection(directionAngle, initialX, initialY, endX, endY);
             if (Intersection != null) {
-                Region intersectedRegion = determineRegion(Intersection, atom.orbit);
-                System.out.println(directionAngle);
-                System.out.println(intersectedRegion + " Second");
-                reflectionAngle = calculateReflectionAngle(intersectedRegion, directionAngle);
-                System.out.println(reflectionAngle);
-                if (reflectionAngle==-1){
+                if(atom != atomHit) {
+                    Region intersectedRegion = determineRegion(Intersection, atom.orbit);
+                    System.out.println(directionAngle);
+                    System.out.println(intersectedRegion + " Second");
+                    reflectionAngle = calculateReflectionAngle(intersectedRegion, directionAngle);
+                    System.out.println(reflectionAngle);
+                    if (reflectionAngle == -1) {
+                        break;
+                    }
+                    makeRays(endX, endY, reflectionAngle, rays);
                     break;
                 }
-                makeRays(endX, endY, reflectionAngle, rays);
-                break;
             }
         }
     }
