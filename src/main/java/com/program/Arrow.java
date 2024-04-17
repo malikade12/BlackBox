@@ -511,7 +511,7 @@ public class Arrow {
     //This method calculates the angle at which to deflect the ray
     //It uses the initial direction of the ray and the region of the influence circle that is hit
     //Depending on these 2 variables, the nested switches determine which direction to give the new ray
-    private static double calculateReflectionAngle(Region intersectionRegion, double OriginalDirection) {
+    private static double calculateReflection1Atom(Region intersectionRegion, double OriginalDirection) {
         double directionAngle = 0;
         switch ((int) OriginalDirection) {
             case (int) West:
@@ -561,7 +561,31 @@ public class Arrow {
         }
         return directionAngle;
     }
-    //This is the helper method which calculates which side of the influence circle was hit by the ray
+    private static double calculateReflection2Atoms(double initialX, double initialY, double endX, double endY, double directionAngle) {
+        Region intersectionRegion1 = null;
+        Region intersectionRegion2 = null;
+        double reflectionAngle = - 1;
+        for (Atoms atom : Main.allAtoms) {
+            Point2D intersection = getCircleLineIntersection(atom.orbit, initialX, initialY, endX, endY, directionAngle);
+            if (intersection!=null) {
+                endX = intersection.getX();
+                endY = intersection.getY();
+                if(intersectionRegion1 == null){
+                    intersectionRegion1 = determineRegion(intersection, atom.orbit);
+                    System.out.println(intersectionRegion1);
+                }
+                else if(intersectionRegion2 == null){
+                    intersectionRegion2 = determineRegion(intersection, atom.orbit);
+                    System.out.println(intersectionRegion2);
+                }
+            }
+        }
+        System.out.println(intersectionRegion1);
+        System.out.println(intersectionRegion2);
+
+        return directionAngle;
+    }
+        //This is the helper method which calculates which side of the influence circle was hit by the ray
     //We need this method to be able to reflect the ray correctly
     private static Region determineRegion(Point2D intersectionPoint, Circle circle) {
         double centerX = circle.getCenterX();
@@ -605,6 +629,20 @@ public class Arrow {
         }
         return null;
     }
+    private static int countCircleLineIntersections(double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
+        int intersectingAtomsCount = 0;
+        for (Atoms atom : Main.allAtoms) {
+            // Get the point of intersection
+            Point2D intersection = getCircleLineIntersection(atom.orbit, lineStartX, lineStartY, lineEndX, lineEndY, directionAngle);
+            if (intersection != null) {
+                intersectingAtomsCount++; // Increment the count for each intersecting atom
+
+            }
+        }
+        if (intersectingAtomsCount == 0) return 1;
+        return intersectingAtomsCount;
+    }
+
     private static void makeRays(double initialX, double initialY, double directionAngle, List<Line> rays) {
         loops++;
         double rayLength = 5;
@@ -624,7 +662,12 @@ public class Arrow {
                     currentX = Intersection.getX();
                     currentY = Intersection.getY();
                     Region intersectedRegion = determineRegion(Intersection, atom.orbit);
-                    reflectionAngle = calculateReflectionAngle(intersectedRegion, directionAngle);
+                    int AtomsHit = countCircleLineIntersections(initialX, initialY, currentX+5*Math.cos(directionAngle), currentY+5*Math.sin(directionAngle), directionAngle);
+                    System.out.println("Amounts hit:" + AtomsHit);
+                    if (AtomsHit==1) reflectionAngle = calculateReflection1Atom(intersectedRegion, directionAngle);
+                    if (AtomsHit==2) {
+                        reflectionAngle = calculateReflection2Atoms(initialX, initialY, currentX+5*Math.cos(directionAngle), currentY+5*Math.sin(directionAngle), directionAngle);
+                    }
                     System.out.println(loops);
                     System.out.println(directionAngle);
                     System.out.println(intersectedRegion);
@@ -650,7 +693,7 @@ public class Arrow {
         Ray.setStroke(Color.YELLOW);
         Ray.setStrokeWidth(3);
         rays.add(Ray);
-        if (reflectionAngle != -1 && loops<5) {
+        if (reflectionAngle != -1) {
             makeRays(currentX, currentY, reflectionAngle, rays);
         }
     }
