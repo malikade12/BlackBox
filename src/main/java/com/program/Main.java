@@ -7,6 +7,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -22,6 +24,9 @@ public class Main extends Application {
     static List<Atoms> allAtoms;
     static List<Polygon> allArrows;
     static List<List<Hexagon>> allHexagons;
+    private boolean markerEnabled = false; // Flag to track whether marker functionality is enabled
+    private int curr = 0;
+    public static int MarkerCounter = 0;
     static enum directions  {
         southEast, southWest,northEast, northWest, east, west; }
 
@@ -34,9 +39,10 @@ public class Main extends Application {
         root.setMouseTransparent(false);
 
         ChangeView test = new ChangeView();
-
+        test.EndRound();
         test.experimenterButton();
         test.setterButton();
+
 
         VBox container = new VBox(10); // 10 pixels spacing between components
         container.setPadding(new Insets(10));
@@ -48,57 +54,13 @@ public class Main extends Application {
         container.getChildren().add(spacer);
 
         container.getChildren().add(test.getButton2());
+        container.getChildren().add(test.getButton3());
 
         root.getChildren().add(container);
 
         allAtoms = new ArrayList<>();
         allHexagons = new ArrayList<>();
         allArrows = new ArrayList<>();
-        int k = 0;
-        int l = 0;
-
-        for (int j = 0; j < 9; j++) {
-            double ydefault = 150;
-            double xdefault = 650;
-            ydefault += 75 * j / 1.3;
-            xdefault -= 44 * j / 1.3;
-            if (j > 4) l++;
-            xdefault += 87 * l / 1.3;
-            ArrayList<Hexagon> rows = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                Hexagon h1 = new Hexagon(xdefault + ((double) (87 * i)/1.3), ydefault, j, k);
-                h1.draw(root, 50/1.3); // Draw the hexagon with size 50
-                rows.add(h1);
-                k++;
-            }
-            if (j > 0 && j != 8) {
-                Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 5)/1.3), ydefault, j, k);
-                h1.draw(root, 50/1.3); // Draw the hexagon with size 50
-                rows.add(h1);
-                k++;
-            }
-            if (j > 1 && j < 7) {
-                Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 6)/1.3), ydefault, j, k);
-                h1.draw(root, 50/1.3); // Draw the hexagon with size 50
-                rows.add(h1);
-                k++;
-            }
-            if (j > 2 && j < 6) {
-                Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 7)/1.3), ydefault, j, k);
-                h1.draw(root, 50/1.3); // Draw the hexagon with size 50
-                rows.add(h1);
-                k++;
-            }
-            if (j == 4) {
-                Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 8)/1.3), ydefault, j, k);
-                h1.draw(root, 50/1.3); // Draw the hexagon with size 50
-                rows.add(h1);
-                k++;
-            }
-
-
-            allHexagons.add(rows);
-        }
         Scene scene = new Scene(root, 1400, 800, Color.BLACK);
 
 
@@ -107,79 +69,29 @@ public class Main extends Application {
         //START SCENE
         Parent startRoot = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
         Scene startScene = new Scene(startRoot,1400,800);
+        Color[] colors = {Color.PURPLE, Color.HOTPINK, Color.ORANGE}; // Define your colors here
         startScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-
-
-        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                double x = event.getX();
-                double y = event.getY();
-                //System.out.println(Math.round(x) + "  " + Math.round(y));
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.Q) { // Change this to your desired key combination
+                curr = 0;
+                toggleMarkerFunctionality();
+                event.consume(); // Consume the event to prevent it from being processed further
+            } else if (event.getCode() == KeyCode.X) { // Change this to your desired key combination
+                curr = 1;
+                toggleMarkerFunctionality();
+                event.consume(); // Consume the event to prevent it from being processed further
             }
         });
-        int[][] rowIds = {{1, 6, 12, 19, 27}, {27, 36, 44, 51, 57}, {57, 58, 59, 60, 61}, {61, 56, 50, 43, 35}, {35, 26, 18, 11, 5}, {1, 2, 3, 4, 5}};
-        for (List<Hexagon> rows: allHexagons){
-            for (Hexagon hex: rows){
-                for (int[] x: rowIds){
-                    for (int y: x) {
-                        if (hex.Id == y) {
-                            if(x == rowIds[0]) {
-                                double[] p1 = {hex.points[8], hex.points[9]};
-                                double[] p2 = {hex.points[6], hex.points[7]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, directions.southEast, new int[]{hex.rowId, hex.rowPositionId - 1});
-                                double[] p3 = {hex.points[4], hex.points[5]};
-                                Polygon a2 = Arrow.createArrow(p2, p3, directions.east, new int[]{hex.rowId, hex.rowPositionId - 1});
-                                allArrows.add(a1);
-                                allArrows.add(a2);
-
-
-                            } else if (x == rowIds[1]) {
-                                double[] p1 = {hex.points[6], hex.points[7]};
-                                double[] p2 = {hex.points[4], hex.points[5]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, directions.east, new int[]{hex.rowId, hex.rowPositionId - 1});
-                                double[] p3 = {hex.points[2], hex.points[3]};
-                                Polygon a2 = Arrow.createArrow(p2, p3, directions.northEast, new int[]{hex.rowId, hex.rowPositionId - 1});
-                                allArrows.add(a1);
-                                allArrows.add(a2);
-                            } else if (x == rowIds[2]) {
-                                double[] p1 = {hex.points[4], hex.points[5]};
-                                double[] p2 = {hex.points[2], hex.points[3]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, directions.northEast, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                double[] p3 = {hex.points[0], hex.points[1]};
-                                Polygon a2 = Arrow.createArrow(p2, p3, directions.northWest, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                allArrows.add(a1);
-                                allArrows.add(a2);
-                            }
-                            else if (x == rowIds[3]) {
-                                double[] p1 = {hex.points[2], hex.points[3]};
-                                double[] p2 = {hex.points[0], hex.points[1]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, directions.northWest, new int[]{hex.rowId, hex.rowPositionId - 1});
-                                double[] p3 = {hex.points[10], hex.points[11]};
-                                Polygon a2 = Arrow.createArrow(p2, p3, directions.west, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                allArrows.add(a1);
-                                allArrows.add(a2);
-                            }else if (x == rowIds[4]) {
-                                double[] p1 = {hex.points[0], hex.points[1]};
-                                double[] p2 = {hex.points[10], hex.points[11]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, directions.west, new int[]{hex.rowId, hex.rowPositionId - 1});
-                                double[] p3 = {hex.points[8], hex.points[9]};
-                                Polygon a2 = Arrow.createArrow(p2, p3, directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                allArrows.add(a1);
-                                allArrows.add(a2);
-                            }else if (x == rowIds[5]) {
-                                double[] p1 = {hex.points[8], hex.points[9]};
-                                double[] p2 = {hex.points[6], hex.points[7]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, directions.southEast, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                double[] p3 = {hex.points[10], hex.points[11]};
-                                Polygon a2 = Arrow.createArrow(p3, p1, directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                allArrows.add(a1);
-                                allArrows.add(a2);
-                            }
-                        }
-                    }
-                }
-            }}
+        scene.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (event.isStillSincePress() && markerEnabled) { // Check if the mouse click was not part of a drag gesture
+                double x = event.getX();
+                double y = event.getY();
+                Color color = colors[curr];
+                drawMarker(root, x, y, color);
+                MarkerCounter++;
+            }
+        });
+       Printobjects.main();
 
         root.getChildren().addAll(allArrows);
 
@@ -188,7 +100,14 @@ public class Main extends Application {
         primaryStage.setTitle("BlackBox Alpha");
         primaryStage.show();
     }
-
+    private void toggleMarkerFunctionality() {
+        markerEnabled = !markerEnabled; // Toggle the marker functionality flag
+    }
+    private void drawMarker(Group group, double x, double y, Color color) {
+        Circle circle = new Circle(x, y, 5); // Adjust the radius as needed
+        circle.setFill(color);
+        group.getChildren().add(circle);
+    }
     public static void main(String[] args) {
         launch(args);
     }
