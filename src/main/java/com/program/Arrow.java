@@ -97,7 +97,8 @@ public class Arrow {
         polygon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom){
+                if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !Main.EndOfRound){
+                    System.out.println("shooting ray from hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " to the " + z);
                     if (Hexagon.mode != 0) {
                         double directionAngle;
                         switch (z) {
@@ -128,6 +129,10 @@ public class Arrow {
                         makeRays(midX,midY,directionAngle,rays);
                         root.getChildren().addAll(rays);
                     }
+                } else if (EndOfRound) {
+                    System.out.println("round is over please make your guesses");
+                } else{
+                    System.out.println("Cant shoot ray because arrow in hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " because there is an atom here ");
                 }
             }
         });
@@ -162,6 +167,8 @@ public class Arrow {
             // Check if incrementing or decrementing the endpoint would keep it inside a hexagon
             double slightOffset = 25 / 1.3; // Define a slight offset for checking
             boolean nextInHexagon = false;
+            int hexid = 0;
+            int rowid = -1;
 
             // Check with slight offsets in both x and y directions
             for (double offset : new double[]{-slightOffset, slightOffset}) {
@@ -170,7 +177,9 @@ public class Arrow {
                     double nextEndY = endY + rayLength * Math.sin(directionAngle);
 
                     for (List<Hexagon> innerList : allHexagons) {
+                        rowid++;
                         for (Hexagon hexagon : innerList) {
+                            hexid = hexagon.Id;
                             if (hexagon.shape.contains(nextEndX + offset, nextEndY + offset)) {
                                 nextInHexagon = true; // Set the flag to true if the next endpoint with offset is in a hexagon
                                 break; // Exit the loop since we found the hexagon

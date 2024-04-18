@@ -2,9 +2,11 @@ package com.program;
 
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.util.Arrays;
@@ -26,6 +28,7 @@ public  class Hexagon extends Polygon {
     public Polygon shape;
     public double[] points;
     public int[] influence= new int[6];
+    public boolean Guessed = false;
     public Hexagon[] influencer = new Hexagon[6];
     Set<Integer> excludedIds = new HashSet<>(Arrays.asList(1, 5, 6, 11, 12, 18, 19, 26, 27, 35));
 
@@ -58,10 +61,12 @@ public  class Hexagon extends Polygon {
             points[i * 2] = x + size * Math.cos(angle);
             points[i * 2 + 1] = y + size * Math.sin(angle);
         }
-
+        Text numberText = createNumberText(points, this.Id);
+        root.getChildren().add(numberText);
         Polygon hexagon = new Polygon(points);
         hexagon.setFill(Color.BLACK);
         hexagon.setStroke(Color.YELLOW);
+        hexagon.setFill(Color.TRANSPARENT);
         hexagon.setStrokeWidth(3);
         if (mode!=0) {
             hexagon.setOnMouseEntered(e -> hexagon.setFill(Color.RED));
@@ -71,9 +76,9 @@ public  class Hexagon extends Polygon {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println(rowPositionId);
-                if (mode != 1 && counter < 6) {
+                if (mode != 1 && counter < 6 && !Main.EndOfRound) {
                     double[] center = calculatePolygonCenter(hexagon);
-                    Atoms at = new Atoms(root, center[0], center[1]);
+                    Atoms at = new Atoms(root, center[0], center[1], Id);
                     Main.allAtoms.add(0,at);  // Add the created Atom to the list
                     counter++;
                     hasAtom = true;
@@ -117,12 +122,15 @@ public  class Hexagon extends Polygon {
                         space++;
                         decreaseSpace--;
                         }
-
-
-                for (int i: influence
-                     ) {
-                    //System.out.println("hexagon at "+i);
-                }
+                }else if (Main.EndOfRound){
+                    if(Guessed){
+                        System.out.println("Hexcagon guessed already");
+                    }else if (hasAtom){
+                        Guessed = true;
+                    } else if (!hasAtom) {
+                        Guessed = true;
+                        Main.ExScore += 5;
+                    }
                 }
             }
         });
@@ -137,5 +145,23 @@ public  class Hexagon extends Polygon {
         double centerX = (bounds.getMinX() + bounds.getMaxX()) / 2;
         double centerY = (bounds.getMinY() + bounds.getMaxY()) / 2;
         return new double[]{centerX, centerY};
+    }
+    // Method to create a Text node with a number in the middle of the hexagon
+    private Text createNumberText(double[] points, int number) {
+        double centerX = 0;
+        double centerY = 0;
+        for (int i = 0; i < points.length; i += 2) {
+            centerX += points[i];
+            centerY += points[i + 1];
+        }
+        centerX /= (double) points.length / 2;
+        centerY /= (double) points.length / 2;
+
+        Text text = new Text(Integer.toString(number));
+        text.setFont(Font.font(20));
+        text.setFill(Color.YELLOW);
+        text.setX(centerX - 10); // Adjust position as needed
+        text.setY(centerY + 5); // Adjust position as needed
+        return text;
     }
 }

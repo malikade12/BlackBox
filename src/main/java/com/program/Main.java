@@ -27,6 +27,10 @@ public class Main extends Application {
     private boolean markerEnabled = false; // Flag to track whether marker functionality is enabled
     private int curr = 0;
     public static int MarkerCounter = 0;
+    public static int ExScore;
+    public static int SetScore;
+    public static boolean EndOfRound = false;
+    public static Scene scene;
     static enum directions  {
         southEast, southWest,northEast, northWest, east, west; }
 
@@ -34,7 +38,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
 
 
-
+        //START SCENE
+        Parent startRoot = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
+        Scene startScene = new Scene(startRoot,1400,800);
         root = new Group();
         root.setMouseTransparent(false);
 
@@ -66,11 +72,11 @@ public class Main extends Application {
 
         Group groupStart = new Group();
 
-        //START SCENE
-        Parent startRoot = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
-        Scene startScene = new Scene(startRoot,1400,800);
         Color[] colors = {Color.PURPLE, Color.HOTPINK, Color.ORANGE}; // Define your colors here
         startScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        if (markerEnabled){
+            start(new Stage());
+        }
         scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.Q) { // Change this to your desired key combination
                 curr = 0;
@@ -88,7 +94,7 @@ public class Main extends Application {
                 double y = event.getY();
                 Color color = colors[curr];
                 drawMarker(root, x, y, color);
-                MarkerCounter++;
+                ExScore++;
             }
         });
        Printobjects.main();

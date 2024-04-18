@@ -37,6 +37,7 @@ public class ChangeView {
     public void EndRound() {
         button3 = new Button("End Round");
      button3.setOnAction(event3);
+     button3.setVisible(false);
 
         button3.setStyle(
                 "-fx-background-color: black; " +

@@ -9,8 +9,10 @@ import javafx.scene.shape.*;
 
 public class Atoms extends Sphere {
     Circle orbit;
-    public Atoms(Group root, double x, double y) {
+    public int HexId;
+    public Atoms(Group root, double x, double y, int id) {
         super((double) 35/1.3); // Set the radius of the sphere
+        HexId = id;
         setTranslateX(x); // Set the x position
         setTranslateY(y); // Set the y position
         setTranslateZ(0); // Set the z position (for 3D, 0 would represent the screen)
