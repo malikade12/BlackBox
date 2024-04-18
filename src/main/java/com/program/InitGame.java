@@ -98,16 +98,16 @@ public  class InitGame {
                                 Polygon a1 = Arrow.createArrow(p1, p2, Main.directions.east, new int[]{hex.rowId, hex.rowPositionId - 1});
                                 double[] p3 = {hex.points[2], hex.points[3]};
                                 Polygon a2 = Arrow.createArrow(p2, p3, Main.directions.northEast, new int[]{hex.rowId, hex.rowPositionId - 1});
-                                Main.allArrows.add(a1);
-                                Main.allArrows.add(a2);
+                                if (hex.Id != 27) Main.allArrows.add(a1);
+                                if (!Main.allArrows.contains(a2)) Main.allArrows.add(a2);
                             } else if (x == rowIds[2]) {
                                 double[] p1 = {hex.points[4], hex.points[5]};
                                 double[] p2 = {hex.points[2], hex.points[3]};
                                 Polygon a1 = Arrow.createArrow(p1, p2, Main.directions.northEast, new int[]{hex.rowId , hex.rowPositionId - 1});
                                 double[] p3 = {hex.points[0], hex.points[1]};
                                 Polygon a2 = Arrow.createArrow(p2, p3, Main.directions.northWest, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                Main.allArrows.add(a1);
-                                Main.allArrows.add(a2);
+                                if (hex.Id != 57) Main.allArrows.add(a1);
+                                if (!Main.allArrows.contains(a2)) Main.allArrows.add(a2);
                             }
                             else if (x == rowIds[3]) {
                                 double[] p1 = {hex.points[2], hex.points[3]};
@@ -115,28 +115,29 @@ public  class InitGame {
                                 Polygon a1 = Arrow.createArrow(p1, p2, Main.directions.northWest, new int[]{hex.rowId, hex.rowPositionId - 1});
                                 double[] p3 = {hex.points[10], hex.points[11]};
                                 Polygon a2 = Arrow.createArrow(p2, p3, Main.directions.west, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                Main.allArrows.add(a1);
-                                Main.allArrows.add(a2);
+                                if (hex.Id != 61) Main.allArrows.add(a1);
+                                if (!Main.allArrows.contains(a2)) Main.allArrows.add(a2);
                             }else if (x == rowIds[4]) {
                                 double[] p1 = {hex.points[0], hex.points[1]};
                                 double[] p2 = {hex.points[10], hex.points[11]};
                                 Polygon a1 = Arrow.createArrow(p1, p2, Main.directions.west, new int[]{hex.rowId, hex.rowPositionId - 1});
                                 double[] p3 = {hex.points[8], hex.points[9]};
                                 Polygon a2 = Arrow.createArrow(p2, p3, Main.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                Main.allArrows.add(a1);
-                                Main.allArrows.add(a2);
+                                if (hex.Id != 35) Main.allArrows.add(a1);
+                                if (!Main.allArrows.contains(a2)) Main.allArrows.add(a2);
                             }else if (x == rowIds[5]) {
                                 double[] p1 = {hex.points[8], hex.points[9]};
                                 double[] p2 = {hex.points[6], hex.points[7]};
                                 Polygon a1 = Arrow.createArrow(p1, p2, Main.directions.southEast, new int[]{hex.rowId , hex.rowPositionId - 1});
                                 double[] p3 = {hex.points[10], hex.points[11]};
                                 Polygon a2 = Arrow.createArrow(p3, p1, Main.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                Main.allArrows.add(a1);
-                                Main.allArrows.add(a2);
+                                if (hex.Id != 5 && hex.Id != 1) Main.allArrows.add(a1);
+                                if (!Main.allArrows.contains(a2)) Main.allArrows.add(a2);
                             }
                         }
                     }
                 }
             }}
+        System.out.println(Main.allArrows.size());
     }
 }

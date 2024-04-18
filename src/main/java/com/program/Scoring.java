@@ -55,6 +55,7 @@ public class Scoring{
                      System.out.println("Exited at : " + exitValue);
                      if (!Objects.equals("0", exitValue)) Main.RayPoints.put(Integer.valueOf(entryValue), Integer.valueOf(exitValue));
                      dropdownStage.close();
+                     System.out.println("Switching to Experimenter....");
                      PauseTransition pause = new PauseTransition(Duration.seconds(5));
                      pause.setOnFinished(even -> ChangeView.button1.fire());
                      pause.play();

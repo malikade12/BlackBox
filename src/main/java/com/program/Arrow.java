@@ -103,7 +103,7 @@ public class Arrow {
             @Override
             public void handle(MouseEvent event) {
                 if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !Main.EndOfRound){
-                    System.out.println("shooting ray from hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " to the " + z);
+                    //System.out.println("shooting ray from hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " to the " + z);
                         if (Hexagon.mode != 0) {
                         double directionAngle;
                         switch (z) {
