@@ -1,9 +1,11 @@
 package com.program;
+import javafx.animation.PauseTransition;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +13,7 @@ import java.util.List;
 
 import static com.program.Main.*;
 import static com.program.Main.directions.*;
+
 
 public class Arrow {
 
@@ -32,6 +35,8 @@ public class Arrow {
     static final double West = Math.PI;
     private Polygon triangle;
     public static double[] midpoints;
+    public static List<Line> rays;
+
 
     public static Polygon createArrow(double[] p1, double[] p2, Main.directions z, int[] hexid){
         double midX = (p1[0] + p2[0] ) / 2;
@@ -99,7 +104,7 @@ public class Arrow {
             public void handle(MouseEvent event) {
                 if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !Main.EndOfRound){
                     System.out.println("shooting ray from hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " to the " + z);
-                    if (Hexagon.mode != 0) {
+                        if (Hexagon.mode != 0) {
                         double directionAngle;
                         switch (z) {
                             case east:
@@ -123,14 +128,22 @@ public class Arrow {
                             default:
                                 directionAngle = -1; // Default to east if direction is unknown
                         }
-                        List<Line> rays = new ArrayList<>();
+                         rays = new ArrayList<>();
                         double rayLength = 5; // Adjust the desired length of the ray
                         double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
                         makeRays(midX,midY,directionAngle,rays);
-                        root.getChildren().addAll(rays);
+                            MakeRaysVisible(false);
+                            PauseTransition pause = new PauseTransition(Duration.seconds(5));
+                            System.out.println("Switching to Setter.......");
+                            pause.setOnFinished(event2 -> {
+                                ChangeView.button2.fire();
+                                Scoring.hi();
+                            } );
+                            pause.play();
+                            root.getChildren().addAll(rays);
                     }
                 } else if (EndOfRound) {
-                    System.out.println("round is over please make your guesses");
+                    System.out.println("round is over please make your guesses   ");
                 } else{
                     System.out.println("Cant shoot ray because arrow in hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " because there is an atom here ");
                 }
@@ -333,16 +346,16 @@ public class Arrow {
                 endY = intersection.getY();
                 if(intersectionRegion1 == null){
                     intersectionRegion1 = determineRegion(intersection, atom.orbit);
-                    System.out.println(intersectionRegion1);
+                    //System.out.println(intersectionRegion1);
                 }
                 else if(intersectionRegion2 == null){
                     intersectionRegion2 = determineRegion(intersection, atom.orbit);
-                    System.out.println(intersectionRegion2);
+                    //System.out.println(intersectionRegion2);
                 }
             }
         }
-        System.out.println(intersectionRegion1);
-        System.out.println(intersectionRegion2);
+        //System.out.println(intersectionRegion1);
+        //System.out.println(intersectionRegion2);
 
         return directionAngle;
     }
@@ -424,15 +437,15 @@ public class Arrow {
                     currentY = Intersection.getY();
                     Region intersectedRegion = determineRegion(Intersection, atom.orbit);
                     int AtomsHit = countCircleLineIntersections(initialX, initialY, currentX+5*Math.cos(directionAngle), currentY+5*Math.sin(directionAngle), directionAngle);
-                    System.out.println("Amounts hit:" + AtomsHit);
+                    //ystem.out.println("Amounts hit:" + AtomsHit);
                     if (AtomsHit==1) reflectionAngle = calculateReflection1Atom(intersectedRegion, directionAngle);
                     if (AtomsHit==2) {
                         reflectionAngle = calculateReflection2Atoms(initialX, initialY, currentX+5*Math.cos(directionAngle), currentY+5*Math.sin(directionAngle), directionAngle);
                     }
-                    System.out.println(loops);
-                    System.out.println(directionAngle);
-                    System.out.println(intersectedRegion);
-                    System.out.println(reflectionAngle);
+                    //System.out.println(loops);
+                    //System.out.println(directionAngle);
+                    //System.out.println(intersectedRegion);
+                    //System.out.println(reflectionAngle);
                     found = true;
                     if (reflectionAngle == -1) {
                         break;
@@ -458,4 +471,13 @@ public class Arrow {
             makeRays(currentX, currentY, reflectionAngle, rays);
         }
     }
+    public static void MakeRaysVisible(boolean x){
+        if (rays != null){
+            if (x){
+            for (Line r: rays) r.setVisible(true);
+        }else{
+            for (Line r: rays) r.setVisible(false);
+        }
+    }}
+
 }

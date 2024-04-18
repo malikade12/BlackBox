@@ -1,7 +1,6 @@
 package com.program;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -17,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.scene.shape.*;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class Main extends Application {
@@ -31,13 +31,14 @@ public class Main extends Application {
     public static int SetScore;
     public static boolean EndOfRound = false;
     public static Scene scene;
+    public static Map<Integer, Integer> RayPoints;
     static enum directions  {
         southEast, southWest,northEast, northWest, east, west; }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-
-
+         InitGame.Getnames();
+        RayPoints = new HashMap<>();
         //START SCENE
         Parent startRoot = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
         Scene startScene = new Scene(startRoot,1400,800);
@@ -48,6 +49,7 @@ public class Main extends Application {
         test.EndRound();
         test.experimenterButton();
         test.setterButton();
+
 
 
         VBox container = new VBox(10); // 10 pixels spacing between components
@@ -97,9 +99,10 @@ public class Main extends Application {
                 ExScore++;
             }
         });
-       Printobjects.main();
+       InitGame.print();
 
         root.getChildren().addAll(allArrows);
+        test.getButton2().fire();
 
 
         primaryStage.setScene(startScene);

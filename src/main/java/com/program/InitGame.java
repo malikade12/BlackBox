@@ -2,13 +2,31 @@ package com.program;
 
 import javafx.scene.shape.Polygon;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
-public  class Printobjects {
-    public static void main(){
+public  class InitGame {
+    public static String ExperimenterName;
+    public static String SetterName;
+    public static void print(){
         PrintHexagons();
         PrintArrows();
+    }
+    public static void Getnames(){
+         ExperimenterName = null;
+         SetterName = null;
+         System.out.println("Enter The players Name");
+        do{
+            System.out.println("Enter Experimenters Name:");
+            Scanner myScanner = new Scanner(System.in, StandardCharsets.UTF_8.displayName());
+            ExperimenterName = myScanner.nextLine();
+            System.out.println("Enter Setters Name:");
+            SetterName = myScanner.nextLine();
+        }while (Objects.equals(ExperimenterName, "") || Objects.equals(SetterName, ""));
+        System.out.println("initliasing Game....");
     }
     public static void PrintHexagons(){
         int k = 0;

@@ -5,9 +5,9 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 public class ChangeView {
-    private Button button1;
-    private Button button2;
-    private Button button3;
+    public static Button button1;
+    public static Button button2;
+    public static Button button3;
 
 
 
@@ -15,22 +15,32 @@ public class ChangeView {
     EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
+            System.out.println(InitGame.ExperimenterName + "'s turn..");
+            button1.setVisible(false);
+            button2.setVisible(true);
             button3.setVisible(true);
             Atoms.makeAllAtomsInvisible();
+            Arrow.MakeRaysVisible(false);
             Hexagon.mode = 1;
         }
     };
     EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
+            System.out.println(InitGame.SetterName + "'s turn..");
+            button1.setVisible(true);
+            button2.setVisible(false);
             button3.setVisible(false);
             Atoms.makeAllAtomsVisible();
+            Arrow.MakeRaysVisible(true);
             Hexagon.mode=0;
         }
     };
     EventHandler<ActionEvent> event3 = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
+            button1.setVisible(false);
+            button3.setVisible(true);
             System.out.println(Main.MarkerCounter);
         }
     };

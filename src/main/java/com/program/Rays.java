@@ -39,6 +39,7 @@ public class Rays {
         Polyline completeRay = new Polyline(rayPointsArray); // constructs ray connecting rayPoints
         completeRay.setStroke(Color.CYAN);
         completeRay.setStrokeWidth(7);
+        completeRay.setVisible(false);
         Main.root.getChildren().add(completeRay);
 
 
