@@ -113,34 +113,39 @@ public class Arrow {
             addIndexX = 10;
         }
         else if(arrowid > 36 && arrowid < 80){
-            addIndexX = -25;
+            addIndexX = -20;
+            addIndex1 =20;
+            if (arrowid%2==0){
+                addIndex1 = 30;
+                addIndexX = -10;
+            }
         } else if(arrowid >= 28 && arrowid < 80){
-            addIndex1= -40;
-            addIndexX = -10;
+            addIndex1= -20;
+            addIndexX = -20;
 
-            if(arrowid%2==0){
-                addIndexX = 20;
-                addIndex1 = -30;
+            if(arrowid%2==1){
+                addIndexX = -20;
+                addIndex1 = 0;
             }
 
         } else if (arrowid > 18 && arrowid < 80) {
             addIndex1 = -30;
-            addIndexX=30;
+            addIndexX=0;
         }
-        else if (arrowid > 9 && arrowid < 80) {
-            addIndexX = 40;
-            addIndex1 = 20;
-            if(arrowid%2==0){
-                addIndex1 = 15;
-                addIndexX = 40;
+        else if (arrowid > 10 && arrowid < 80) {
+            addIndexX = 20;
+            addIndex1 = -1;
+            if(arrowid%2==1){
+                addIndex1 = -20;
+                addIndexX = 15;
             }
         }
         else {
             addIndex1 = 40;
-            addIndexX = 5;
+            addIndexX = 20;
             if(arrowid%2==0){
-                addIndex1 = 5;
-                addIndexX = 50;
+                addIndex1 = 0;
+                addIndexX = 20;
             }
         }
 
@@ -158,6 +163,7 @@ public class Arrow {
             public void handle(MouseEvent event) {
                 if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !Main.EndOfRound){
                     //System.out.println("shooting ray from hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " to the " + z);
+                    System.out.println(arrowid);
                         if (Hexagon.mode != 0) {
                         double directionAngle;
                         switch (z) {
@@ -208,7 +214,7 @@ public class Arrow {
                 x1, y1,
                 x2, y2,
                 x3, y3,});
-        polygon.setFill(Color.YELLOW);
+        polygon.setFill(Color.WHITE);
         return new Object[] {polygon,numberLabel};
     }
     //This method simply calculates and returns the end x and y points of a ray

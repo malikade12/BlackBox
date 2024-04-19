@@ -81,10 +81,10 @@ public  class InitGame {
     public static void PrintArrows(){
         int[][] rowIds = {{1, 6, 12, 19, 27}, {27, 36, 44, 51, 57}, {57, 58, 59, 60, 61}, {61, 56, 50, 43, 35}, {35, 26, 18, 11, 5}, {1, 2, 3, 4, 5}};
         int arrowid = 1;
-        int arrowid2 = 9;
-        int arrowid3 = 18;
-        int arrowid4 = 36;
-        int arrowid5 = 45;
+        int arrowid2 = 10;
+        int arrowid3 = 19;
+        int arrowid4 = 37;
+        int arrowid5 = 46;
         int arrowid6 = 1;
 
         for (List<Hexagon> rows: Main.allHexagons){
@@ -97,18 +97,17 @@ public  class InitGame {
                                 double[] p2 = {hex.points[6], hex.points[7]};
 
                                 double[] p3 = {hex.points[4], hex.points[5]};
-                                Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.east, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid);
-                                arrowid++;
                                 Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.southEast, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid);
                                 arrowid++;
+                                Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.east, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid);
+                                arrowid++;
 
-                                if (arrowid<10) {
 
-                                    Main.allNumbers.add((Label) a1[1]);
-                                }
+
+                                    Main.allNumbers.add((Label) a2[1]);
                                     Main.allArrows.add((Polygon) a1[0]);
                                     Main.allArrows.add((Polygon) a2[0]);
-                                    Main.allNumbers.add((Label) a2[1]);
+                                    Main.allNumbers.add((Label) a1[1]);
 
 
 
@@ -158,11 +157,19 @@ public  class InitGame {
 
                                 if (hex.Id != 61){
                                     Main.allArrows.add((Polygon) a1[0]);
-                                    Main.allNumbers.add((Label) a1[1]);
+                                    if (arrowid4>26) {
+
+                                        Main.allNumbers.add((Label) a1[1]);
+                                    }
                                 }
                                 if (!Main.allArrows.contains((Polygon) a2[0])){
                                     Main.allArrows.add((Polygon) a2[0]);
-                                    Main.allNumbers.add((Label) a2[1]);
+                                    if(arrowid4>26) {
+
+                                        Main.allNumbers.add((Label) a2[1]);
+                                    }
+                                }else {
+                                    arrowid4--;
                                 }
                             }else if (x == rowIds[4]) {
                                 double[] p1 = {hex.points[0], hex.points[1]};
@@ -175,11 +182,17 @@ public  class InitGame {
                                 arrowid5--;
                                 if (hex.Id != 35){
                                     Main.allArrows.add((Polygon) a1[0]);
-                                    Main.allNumbers.add((Label) a1[1]);
+
+
+                                        Main.allNumbers.add((Label) a1[1]);
+
                                 }
                                 if (!Main.allArrows.contains((Polygon) a2[0])){
                                     Main.allArrows.add((Polygon) a2[0]);
-                                    Main.allNumbers.add((Label) a2[1]);
+
+
+                                        Main.allNumbers.add((Label) a2[1]);
+
                                 }
                             }else if (x == rowIds[5]) {
                                 double[] p1 = {hex.points[8], hex.points[9]};
@@ -197,7 +210,10 @@ public  class InitGame {
                                 if (!Main.allArrows.contains((Polygon) a2[0])){
                                     Main.allArrows.add((Polygon) a2[0]);
                                     Main.allNumbers.add((Label) a2[1]);
-                                }
+                                }else{
+                                        arrowid6--;
+                                    }
+
                             }
                         }
                     }
