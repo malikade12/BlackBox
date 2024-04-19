@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.program.Main.allHexagons;
+import static com.program.Main.*;
 
 public  class Hexagon extends Polygon {
     public double x;
@@ -75,8 +75,7 @@ public  class Hexagon extends Polygon {
         hexagon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println(rowPositionId);
-                if (mode != 1 && counter < 6 && !Main.EndOfRound) {
+                if (mode != 1 && counter < 6 && !Main.EndOfRound && !SetterSwitched) {
                     double[] center = calculatePolygonCenter(hexagon);
                     Atoms at = new Atoms(root, center[0], center[1], Id);
                     Main.allAtoms.add(0,at);  // Add the created Atom to the list
@@ -122,7 +121,10 @@ public  class Hexagon extends Polygon {
                         space++;
                         decreaseSpace--;
                         }
-                }else if (Main.EndOfRound){
+                } else if (SetterSwitched && IsSetter) {
+                    System.out.println("You already let " + InitGame.ExperimenterName + " go, NO CHEATING!!!!!");
+                    
+                } else if (Main.EndOfRound){
                     if(Guessed){
                         System.out.println("Hexcagon guessed already");
                     }else if (hasAtom){

@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import javafx.scene.shape.*;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class Main extends Application {
@@ -35,12 +34,14 @@ public class Main extends Application {
     public static boolean EndOfRound = false;
     public static Scene scene;
     public static Map<Integer, Integer> RayPoints;
+    public static boolean SetterSwitched = false;
+    public static boolean IsSetter = true;
     static enum directions  {
         southEast, southWest,northEast, northWest, east, west; }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-         InitGame.Getnames();
+         //InitGame.Getnames();
         RayPoints = new HashMap<>();
         //START SCENE
         Parent startRoot = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
@@ -49,9 +50,10 @@ public class Main extends Application {
         root.setMouseTransparent(false);
 
         ChangeView test = new ChangeView();
-        test.EndRound();
+        test.Guess();
         test.experimenterButton();
         test.setterButton();
+        test.EndRound();
 
 
 
@@ -66,6 +68,7 @@ public class Main extends Application {
 
         container.getChildren().add(test.getButton2());
         container.getChildren().add(test.getButton3());
+        container.getChildren().add(test.getButton4());
 
         root.getChildren().add(container);
 
@@ -78,14 +81,11 @@ public class Main extends Application {
 
 
         Group groupStart = new Group();
-
+        test.getButton2().fire();
         Color[] colors = {Color.PURPLE, Color.HOTPINK, Color.ORANGE}; // Define your colors here
         startScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        if (markerEnabled){
-            start(new Stage());
-        }
         scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.Q) { // Change this to your desired key combination
+            if (event.getCode() == KeyCode.Q && !IsSetter) { // Change this to your desired key combination
                 curr = 0;
                 toggleMarkerFunctionality();
                 event.consume(); // Consume the event to prevent it from being processed further
@@ -96,7 +96,7 @@ public class Main extends Application {
             }
         });
         scene.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (event.isStillSincePress() && markerEnabled) { // Check if the mouse click was not part of a drag gesture
+            if (event.isStillSincePress() && markerEnabled && !IsSetter) { // Check if the mouse click was not part of a drag gesture
                 double x = event.getX();
                 double y = event.getY();
                 Color color = colors[curr];
@@ -109,7 +109,6 @@ public class Main extends Application {
         root.getChildren().addAll(allArrows);
         root.getChildren().addAll(allNumbers);
 
-        test.getButton2().fire();
 
 
         primaryStage.setScene(startScene);

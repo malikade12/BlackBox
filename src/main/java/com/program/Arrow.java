@@ -11,7 +11,6 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.program.Main.*;
@@ -38,7 +37,8 @@ public class Arrow {
     static final double West = Math.PI;
     private Polygon triangle;
     public static double[] midpoints;
-    public static List<Line> rays;
+    public static List<Line> Main.rays;
+
 
 
     public static Object[] createArrow(double[] p1, double[] p2, Main.directions z, int[] hexid,int arrowid){
@@ -182,19 +182,19 @@ public class Arrow {
                             default:
                                 directionAngle = -1; // Default to east if direction is unknown
                         }
-                         rays = new ArrayList<>();
+                         Main.rays = new ArrayList<>();
                         double rayLength = 5; // Adjust the desired length of the ray
                         double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
-                        makeRays(midX,midY,directionAngle,rays);
+                        makeRays(midX,midY,directionAngle,Main.rays);
                             MakeRaysVisible(false);
-                            PauseTransition pause = new PauseTransition(Duration.seconds(5));
+                            PauseTransition pause = new PauseTransition(Duration.seconds(3));
                             System.out.println("Switching to Setter.......");
                             pause.setOnFinished(event2 -> {
-                                ChangeView.button2.fire();
+                                ChangeView.SetterButton.fire();
                                 Scoring.hi();
                             } );
                             pause.play();
-                            root.getChildren().addAll(rays);
+                            root.getChildren().addAll(Main.rays);
                     }
                 } else if (EndOfRound) {
                     System.out.println("round is over please make your guesses   ");
@@ -525,12 +525,15 @@ public class Arrow {
         }
     }
     public static void MakeRaysVisible(boolean x){
-        if (rays != null){
-            if (x){
-            for (Line r: rays) r.setVisible(true);
-        }else{
-            for (Line r: rays) r.setVisible(false);
+        if (Main.rays != null) {
+            if (x) {
+                for (Line r : Main.rays) r.setVisible(true);
+            } else {
+                for (Line r : Main.rays) r.setVisible(false);
+            }
+            for (Line r: Main.rays) System.out.println(r);
+
         }
-    }}
+    }
 
 }

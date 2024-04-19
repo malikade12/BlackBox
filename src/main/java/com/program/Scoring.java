@@ -1,9 +1,7 @@
 package com.program;
 
 import javafx.animation.PauseTransition;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -14,8 +12,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.Objects;
 
 public class Scoring{
@@ -30,7 +26,7 @@ public class Scoring{
               // Create labels
               Label titleLabel = new Label("What Best describes the movement of the Ray?");
               Label textLabel1 = new Label("Ray Entered At");
-              Label textLabel2 = new Label("Ray Exited At (or 0 if absorbed):");
+              Label textLabel2 = new Label("Ray Exited At (or 0 if absorbed/NA):");
 
               // Create the dropdown menu
               ComboBox<String> comboBox = new ComboBox<>();
@@ -43,21 +39,27 @@ public class Scoring{
               textField2.setPrefWidth(200); // Increase width
 
 
-              comboBox.setItems(FXCollections.observableArrayList("Absorbed", "Reflected", "Deflected"));
+              comboBox.setItems(FXCollections.observableArrayList("Absorbed", "Reflected", "Deflected", "Passed through"));
               comboBox.setPrefWidth(200); // Increase width
               Button submitButton = new Button("Submit");
               submitButton.setOnAction(e -> {
                      String selectedValue = comboBox.getValue();
                      String entryValue = textField1.getText();
                      String exitValue = textField2.getText();
-                     System.out.println("Ray was " + selectedValue);
+                     if (Integer.valueOf(entryValue) < 1 || Integer.valueOf(entryValue) > 54 || Integer.valueOf(exitValue) < 0 || Integer.valueOf(exitValue) > 54){
+                            System.out.println("invalid input ");
+                            dropdownStage.close();
+                            hi();
+                            return;
+                     }
+                     if (!Objects.equals(selectedValue, "Passed through")) System.out.println("Ray was " + selectedValue);
                      System.out.println("Entered at " + entryValue);
                      System.out.println("Exited at : " + exitValue);
                      if (!Objects.equals("0", exitValue)) Main.RayPoints.put(Integer.valueOf(entryValue), Integer.valueOf(exitValue));
                      dropdownStage.close();
                      System.out.println("Switching to Experimenter....");
-                     PauseTransition pause = new PauseTransition(Duration.seconds(5));
-                     pause.setOnFinished(even -> ChangeView.button1.fire());
+                     PauseTransition pause = new PauseTransition(Duration.seconds(3));
+                     pause.setOnFinished(even -> ChangeView.ExperimenterButton.fire());
                      pause.play();
               });
               //Add labels and ComboBox to the VBox layout
