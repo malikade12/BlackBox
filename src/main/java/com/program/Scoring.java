@@ -77,6 +77,10 @@ public class Scoring{
               dropdownStage.setScene(new Scene(dropdownLayout));
               dropdownStage.show();
        }
+       public void EndRound(){
+              System.out.println("Switch roles ....");
+              System.out.println(InitGame.ExperimenterName + " finished with " + Main.ExScore + " points....");
+       }
 
        public static void main(String[] args) {
               hi();
