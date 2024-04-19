@@ -87,6 +87,7 @@ public  class InitGame {
         int arrowid5 = 46;
         int arrowid6 = 1;
 
+        Arrow Arrow = new Arrow();
         for (List<Hexagon> rows: Main.allHexagons){
             for (Hexagon hex: rows){
                 for (int[] x: rowIds){
@@ -105,8 +106,8 @@ public  class InitGame {
 
 
                                     Main.allNumbers.add((Label) a2[1]);
-                                    Main.allArrows.add((Polygon) a1[0]);
-                                    Main.allArrows.add((Polygon) a2[0]);
+                                    Main.allArrows.add((Arrow) a1[0]);
+                                    Main.allArrows.add((Arrow) a2[0]);
                                     Main.allNumbers.add((Label) a1[1]);
 
 
@@ -120,11 +121,11 @@ public  class InitGame {
                                 Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.northEast, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid2);
                                 arrowid2++;
                                 if (hex.Id != 27){
-                                    Main.allArrows.add((Polygon) a1[0]);
+                                    Main.allArrows.add((Arrow) a1[0]);
                                     Main.allNumbers.add((Label) a1[1]);
                                 }
-                                if (!Main.allArrows.contains((Polygon) a2[0])){
-                                    Main.allArrows.add((Polygon) a2[0]);
+                                if (!Main.allArrows.contains((Arrow) a2[0])){
+                                    Main.allArrows.add((Arrow) a2[0]);
                                     Main.allNumbers.add((Label) a2[1]);
 
                                 }
@@ -137,11 +138,11 @@ public  class InitGame {
                                 Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.northWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid3);
                                 arrowid3++;
                                 if (hex.Id != 57){
-                                    Main.allArrows.add((Polygon) a1[0]);
+                                    Main.allArrows.add((Arrow) a1[0]);
                                     Main.allNumbers.add((Label) a1[1]);
                                 }
-                                if (!Main.allArrows.contains((Polygon) a2[0])){
-                                    Main.allArrows.add((Polygon) a2[0]);
+                                if (!Main.allArrows.contains((Arrow) a2[0])){
+                                    Main.allArrows.add((Arrow) a2[0]);
                                     Main.allNumbers.add((Label) a2[1]);
                                 }
                             }
@@ -156,14 +157,14 @@ public  class InitGame {
                                 arrowid4--;
 
                                 if (hex.Id != 61){
-                                    Main.allArrows.add((Polygon) a1[0]);
+                                    Main.allArrows.add((Arrow) a1[0]);
                                     if (arrowid4>26) {
 
                                         Main.allNumbers.add((Label) a1[1]);
                                     }
                                 }
-                                if (!Main.allArrows.contains((Polygon) a2[0])){
-                                    Main.allArrows.add((Polygon) a2[0]);
+                                if (!Main.allArrows.contains((Arrow) a2[0])){
+                                    Main.allArrows.add((Arrow) a2[0]);
                                     if(arrowid4>26) {
 
                                         Main.allNumbers.add((Label) a2[1]);
@@ -181,14 +182,14 @@ public  class InitGame {
                                 Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.west, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid5);
                                 arrowid5--;
                                 if (hex.Id != 35){
-                                    Main.allArrows.add((Polygon) a1[0]);
+                                    Main.allArrows.add((Arrow) a1[0]);
 
 
                                         Main.allNumbers.add((Label) a1[1]);
 
                                 }
-                                if (!Main.allArrows.contains((Polygon) a2[0])){
-                                    Main.allArrows.add((Polygon) a2[0]);
+                                if (!Main.allArrows.contains((Arrow) a2[0])){
+                                    Main.allArrows.add((Arrow) a2[0]);
 
 
                                         Main.allNumbers.add((Label) a2[1]);
@@ -204,11 +205,11 @@ public  class InitGame {
                                 Object[] a2 = Arrow.createArrow(p3, p1, Main.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid6);
                                 arrowid6--;
                                 if (hex.Id != 5 && hex.Id != 1){
-                                    Main.allArrows.add((Polygon) a1[0]);
+                                    Main.allArrows.add((Arrow) a1[0]);
                                     Main.allNumbers.add((Label) a1[1]);
                                 }
-                                if (!Main.allArrows.contains((Polygon) a2[0])){
-                                    Main.allArrows.add((Polygon) a2[0]);
+                                if (!Main.allArrows.contains((Arrow) a2[0])){
+                                    Main.allArrows.add((Arrow) a2[0]);
                                     Main.allNumbers.add((Label) a2[1]);
                                 }else{
                                         arrowid6--;

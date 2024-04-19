@@ -17,7 +17,7 @@ import static com.program.Main.*;
 import static com.program.Main.directions.*;
 
 
-public class Arrow {
+public class Arrow extends Polygon{
 
     private enum Region {
         TOP_LEFT,
@@ -38,9 +38,11 @@ public class Arrow {
     private Polygon triangle;
     public static double[] midpoints;
     public static ArrayList<Line> rays;
+    public int arrowid;
 
 
-    public static Object[] createArrow(double[] p1, double[] p2, Main.directions z, int[] hexid,int arrowid){
+    public Object[] createArrow(double[] p1, double[] p2, Main.directions z, int[] hexid, int arrowid){
+        this.arrowid=arrowid;
         double midX = (p1[0] + p2[0] ) / 2;
         double midY = (p1[1] + p2[1] ) / 2;
         double y1 = p1[1];
@@ -99,7 +101,8 @@ public class Arrow {
 
         }
         midpoints = new double[]{midX, midY};
-        Polygon polygon = new Polygon();
+        Arrow polygon = new Arrow();
+        polygon.arrowid=arrowid;
 
         //ARROW ID IS FOR THE NUMBERS
         String arrowIDstring = Integer.toString(arrowid);

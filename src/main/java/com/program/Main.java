@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -22,7 +23,7 @@ import java.util.*;
 public class Main extends Application {
     public static  Group root;
     static List<Atoms> allAtoms;
-    static List<Polygon> allArrows;
+    static List<Arrow> allArrows;
     static List<List<Hexagon>> allHexagons;
     static List<Label> allNumbers;
     static public List<Circle> markerList = new ArrayList<>();
@@ -121,10 +122,6 @@ public class Main extends Application {
 
         root.getChildren().addAll(allArrows);
         root.getChildren().addAll(allNumbers);
-
-
-
-
 
 
         primaryStage.setScene(startScene);

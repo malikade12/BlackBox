@@ -8,16 +8,19 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Scoring{
 
        public static void hi() {
               // Create a new stage for the dropdown menu
+              AtomicBoolean truth = new AtomicBoolean(true);
 
               Stage dropdownStage = new Stage();
               dropdownStage.initModality(Modality.APPLICATION_MODAL);
@@ -30,6 +33,7 @@ public class Scoring{
 
               // Create the dropdown menu
               ComboBox<String> comboBox = new ComboBox<>();
+
 
               // Create text fields
               TextField textField1 = new TextField();
@@ -57,6 +61,32 @@ public class Scoring{
                      System.out.println("Exited at : " + exitValue);
                      if (!Objects.equals("0", exitValue)) Main.RayPoints.put(Integer.valueOf(entryValue), Integer.valueOf(exitValue));
                      dropdownStage.close();
+                     for (Arrow a: Main.allArrows
+                          ) {
+
+                            if(a.arrowid == Integer.parseInt(entryValue)){
+
+                                   //CHECK FOR INTERSECTION IN ARROW
+
+                                   truth.set(false);
+                                   System.out.println("FALSEE");
+                            }
+                            if(a.arrowid == Integer.parseInt(exitValue)){
+                                   truth.set(false);
+                                   System.out.println("FALSEE");
+                            }
+                     }
+                     if (truth.get() || truth.get()){
+                           if(Main.roundcount<1) {
+                                  Main.ExScore-=5;
+                                  System.out.println("Thats a LIE!!!");
+                           }
+                           else {
+                                  Main.SetScore-=5;
+                                  System.out.println("Thats a LIE!!!");
+                           }
+                     }
+
                      System.out.println("Switching to Experimenter....");
                      PauseTransition pause = new PauseTransition(Duration.seconds(3));
                      pause.setOnFinished(even -> ChangeView.ExperimenterButton.fire());
