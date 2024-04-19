@@ -71,6 +71,9 @@ public class ChangeView {
             Main.allAtoms.clear();
             Main.ActualRayPoints.clear();
             Main.SetterRayPoints.clear();
+            String temp = InitGame.ExperimenterName;
+            InitGame.ExperimenterName = InitGame.SetterName;
+            InitGame.SetterName = temp;
 
           if (Arrow.rays != null) {
               for (Line ray : Arrow.rays) {

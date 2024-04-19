@@ -85,7 +85,7 @@ public class Scoring{
        public static void EndRound(){
               ValidatePoints();
               System.out.println("Switch roles ....");
-              System.out.println(InitGame.ExperimenterName + " finished with " + Main.ExScore + " points....");
+              System.out.println(InitGame.SetterName + " finished with " + Main.ExScore + " points....");
        }
        public static void ValidatePoints(){
 
