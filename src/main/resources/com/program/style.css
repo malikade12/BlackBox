@@ -8,6 +8,10 @@
     -fx-text-fill: "yellow";
     -fx-alignment: center;
 }
+.label{
+    -fx-text-fill: "yellow";
+    -fx-font-family: "Lucida Console";
+}
 
 .button{
     -fx-background-color: black;

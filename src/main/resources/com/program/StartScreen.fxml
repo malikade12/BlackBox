@@ -23,12 +23,12 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Button layoutX="602.0" layoutY="533.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="195.0" text="Quit">
+      <Button layoutX="602.0" layoutY="533.0" mnemonicParsing="false" onAction="#Quit" prefHeight="51.0" prefWidth="195.0" text="Quit">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button layoutX="602.0" layoutY="401.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="195.0" text="Settings">
+      <Button layoutX="602.0" layoutY="401.0" mnemonicParsing="false" onAction="#switchToRules" prefHeight="51.0" prefWidth="195.0" text="How To Play">
          <font>
             <Font size="24.0" />
          </font>

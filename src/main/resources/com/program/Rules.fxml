@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.program.Controller">
+   <children>
+      <Label layoutX="569.0" layoutY="65.0" text="How To Play">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button layoutX="47.0" layoutY="88.0" mnemonicParsing="false" onAction="#switchToMenu" text="Back to Menu" />
+      <Label layoutX="47.0" layoutY="196.0" prefHeight="31.0" prefWidth="1215.0" text="Players use rays to detect hidden atoms inside a black box. ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="266.0" prefHeight="17.0" prefWidth="1215.0" text="1.Ray Path on Empty Space: Rays passing through certain positions travel straight through ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="340.0" prefHeight="25.0" prefWidth="1366.0" text="2.Absorption: If a ray hits an atom directly, it's absorbed, marked by a black ray marker.">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="377.0" prefHeight="17.0" prefWidth="1215.0" text="3.Deflection: Rays approaching atoms at specific positions are deflected at a 60° angle ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="451.0" prefHeight="17.0" prefWidth="1215.0" text="4.Dual Deflection: If a ray approaches two adjacent atoms, it turns 120°, marked by a pair of ray markers.">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="496.0" prefHeight="17.0" prefWidth="1215.0" text="5.Reflection: When a ray approaches two atoms equally closely, it's reflected back along its path, ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="571.0" prefHeight="17.0" prefWidth="1215.0" text="6.Edge Deflection: At specific positions, a ray is influenced by the edge atom, deflecting as if reflected,">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="653.0" prefHeight="31.0" prefWidth="1215.0" text="The experimenter's score is based on the number of ray markers plus 5 points for every misplaced atom. ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="684.0" prefHeight="25.0" prefWidth="1215.0" text="Errors in reporting ray results result in a deduction of 5 points. ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="714.0" prefHeight="17.0" prefWidth="1215.0" text="The winner has the lower score over both rounds.">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="227.0" prefHeight="17.0" prefWidth="1196.0" text="Here's a summary of how atoms affect rays:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="60.0" layoutY="296.0" prefHeight="17.0" prefWidth="1215.0" text="without encountering atoms.">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="60.0" layoutY="407.0" prefHeight="17.0" prefWidth="1215.0" text="and exit from a different position.">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="60.0" layoutY="526.0" prefHeight="17.0" prefWidth="1130.0" text=" marked by a pair of ray markers.">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="64.0" layoutY="601.0" prefHeight="17.0" prefWidth="1196.0" text="marked by a white ray marker.">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

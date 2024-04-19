@@ -39,6 +39,7 @@ public class Main extends Application {
     public static ArrayList<ArrayList<Line>> rays;
     public static int roundcount = 0;
 
+
     static enum directions  {
         southEast, southWest,northEast, northWest, east, west; }
 
