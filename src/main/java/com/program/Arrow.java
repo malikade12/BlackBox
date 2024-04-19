@@ -11,7 +11,6 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.program.Main.*;
@@ -38,7 +37,7 @@ public class Arrow {
     static final double West = Math.PI;
     private Polygon triangle;
     public static double[] midpoints;
-    public static List<Line> rays;
+    public static ArrayList<Line> rays;
 
 
     public static Object[] createArrow(double[] p1, double[] p2, Main.directions z, int[] hexid,int arrowid){
@@ -193,10 +192,10 @@ public class Arrow {
                         double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
                         makeRays(midX,midY,directionAngle,rays);
                             MakeRaysVisible(false);
-                            PauseTransition pause = new PauseTransition(Duration.seconds(5));
+                            PauseTransition pause = new PauseTransition(Duration.seconds(3));
                             System.out.println("Switching to Setter.......");
                             pause.setOnFinished(event2 -> {
-                                ChangeView.button2.fire();
+                                ChangeView.SetterButton.fire();
                                 Scoring.hi();
                             } );
                             pause.play();
@@ -531,12 +530,15 @@ public class Arrow {
         }
     }
     public static void MakeRaysVisible(boolean x){
-        if (rays != null){
-            if (x){
-            for (Line r: rays) r.setVisible(true);
-        }else{
-            for (Line r: rays) r.setVisible(false);
+        if (rays != null) {
+            if (x) {
+                for (Line r : rays) r.setVisible(true);
+            } else {
+                for (Line r : rays) r.setVisible(false);
+            }
+            for (Line r: rays) System.out.println(r);
+
         }
-    }}
+    }
 
 }
