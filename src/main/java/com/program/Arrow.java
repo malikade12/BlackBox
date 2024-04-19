@@ -398,26 +398,128 @@ public class Arrow {
     private static double calculateReflection2Atoms(double initialX, double initialY, double endX, double endY, double directionAngle) {
         Region intersectionRegion1 = null;
         Region intersectionRegion2 = null;
-        double reflectionAngle = - 1;
+        double reflectionAngle = 0;
         for (Atoms atom : Main.allAtoms) {
-            Point2D intersection = getCircleLineIntersection(atom.orbit, initialX, initialY, endX, endY, directionAngle);
+            Point2D intersection = getCircleLineIntersection(atom.orbit, initialX, initialY, endX + 5 * Math.cos(directionAngle), endY + 5 * Math.sin(directionAngle), directionAngle);
             if (intersection!=null) {
                 endX = intersection.getX();
                 endY = intersection.getY();
                 if(intersectionRegion1 == null){
                     intersectionRegion1 = determineRegion(intersection, atom.orbit);
-                    //System.out.println(intersectionRegion1);
+                    System.out.println(intersectionRegion1);
                 }
                 else if(intersectionRegion2 == null){
                     intersectionRegion2 = determineRegion(intersection, atom.orbit);
-                    //System.out.println(intersectionRegion2);
+                    System.out.println(intersectionRegion2);
                 }
             }
         }
-        //System.out.println(intersectionRegion1);
-        //System.out.println(intersectionRegion2);
+        System.out.println(intersectionRegion1);
+        System.out.println(intersectionRegion2);
 
-        return directionAngle;
+        //Northwest
+        if (((intersectionRegion1 == Region.BOTTOM_LEFT && intersectionRegion2 == Region.MIDDLE_RIGHT) ||
+                (intersectionRegion1 == Region.MIDDLE_RIGHT && intersectionRegion2 == Region.BOTTOM_LEFT))
+                && directionAngle == Northwest){
+            reflectionAngle = -1;
+        }
+        else if (((intersectionRegion1 == Region.BOTTOM_LEFT && intersectionRegion2 == Region.BOTTOM_RIGHT) ||
+                (intersectionRegion1 == Region.BOTTOM_RIGHT && intersectionRegion2 == Region.BOTTOM_LEFT))
+                && directionAngle == Northwest){
+            reflectionAngle = Southwest;
+        }
+        else if (((intersectionRegion1 == Region.BOTTOM_RIGHT && intersectionRegion2 == Region.MIDDLE_RIGHT) ||
+                (intersectionRegion1 == Region.MIDDLE_RIGHT && intersectionRegion2 == Region.BOTTOM_RIGHT))
+                && directionAngle == Northwest){
+            reflectionAngle = East;
+        }
+
+        //Northeast
+        else if (((intersectionRegion1 == Region.MIDDLE_LEFT && intersectionRegion2 == Region.BOTTOM_RIGHT) ||
+                (intersectionRegion1 == Region.BOTTOM_RIGHT && intersectionRegion2 == Region.MIDDLE_LEFT))
+                && directionAngle == Northeast){
+            reflectionAngle = -1;
+        }
+        else if (((intersectionRegion1 == Region.MIDDLE_LEFT && intersectionRegion2 == Region.BOTTOM_LEFT) ||
+                (intersectionRegion1 == Region.BOTTOM_LEFT && intersectionRegion2 == Region.MIDDLE_LEFT))
+                && directionAngle == Northeast){
+            reflectionAngle = West;
+        }
+        else if (((intersectionRegion1 == Region.BOTTOM_LEFT && intersectionRegion2 == Region.BOTTOM_RIGHT) ||
+                (intersectionRegion1 == Region.BOTTOM_RIGHT && intersectionRegion2 == Region.BOTTOM_LEFT))
+                && directionAngle == Northeast){
+            reflectionAngle = Southeast;
+        }
+
+        //Southwest
+        else if (((intersectionRegion1 == Region.TOP_LEFT && intersectionRegion2 == Region.MIDDLE_RIGHT) ||
+                (intersectionRegion1 == Region.MIDDLE_RIGHT && intersectionRegion2 == Region.TOP_LEFT))
+                && directionAngle == Southwest){
+            reflectionAngle = -1;
+        }
+        else if (((intersectionRegion1 == Region.TOP_LEFT && intersectionRegion2 == Region.TOP_RIGHT) ||
+                (intersectionRegion1 == Region.TOP_RIGHT && intersectionRegion2 == Region.TOP_LEFT))
+                && directionAngle == Southwest){
+            reflectionAngle = Northwest;
+        }
+        else if (((intersectionRegion1 == Region.TOP_RIGHT && intersectionRegion2 == Region.MIDDLE_RIGHT) ||
+                (intersectionRegion1 == Region.MIDDLE_RIGHT && intersectionRegion2 == Region.TOP_RIGHT))
+                && directionAngle == Southwest){
+            reflectionAngle = East;
+        }
+
+        //Southeast
+        else if (((intersectionRegion1 == Region.MIDDLE_LEFT && intersectionRegion2 == Region.TOP_RIGHT) ||
+                (intersectionRegion1 == Region.TOP_RIGHT && intersectionRegion2 == Region.MIDDLE_LEFT))
+                && directionAngle == Southeast){
+            reflectionAngle = -1;
+        }
+        else if (((intersectionRegion1 == Region.TOP_LEFT && intersectionRegion2 == Region.TOP_RIGHT) ||
+                (intersectionRegion1 == Region.TOP_RIGHT && intersectionRegion2 == Region.TOP_LEFT))
+                && directionAngle == Southeast){
+            reflectionAngle = Northeast;
+        }
+        else if (((intersectionRegion1 == Region.MIDDLE_LEFT && intersectionRegion2 == Region.TOP_LEFT) ||
+                (intersectionRegion1 == Region.TOP_LEFT && intersectionRegion2 == Region.MIDDLE_LEFT))
+                && directionAngle == Southeast){
+            reflectionAngle = West;
+        }
+
+        //West
+        else if (((intersectionRegion1 == Region.TOP_RIGHT && intersectionRegion2 == Region.BOTTOM_RIGHT) ||
+                (intersectionRegion1 == Region.BOTTOM_RIGHT && intersectionRegion2 == Region.TOP_RIGHT))
+                && directionAngle == West){
+            reflectionAngle = -1;
+        }
+        else if (((intersectionRegion1 == Region.TOP_RIGHT && intersectionRegion2 == Region.MIDDLE_RIGHT) ||
+                (intersectionRegion1 == Region.MIDDLE_RIGHT && intersectionRegion2 == Region.TOP_RIGHT))
+                && directionAngle == West){
+            reflectionAngle = Northeast;
+        }
+        else if (((intersectionRegion1 == Region.BOTTOM_RIGHT && intersectionRegion2 == Region.MIDDLE_RIGHT) ||
+                (intersectionRegion1 == Region.MIDDLE_RIGHT && intersectionRegion2 == Region.BOTTOM_RIGHT))
+                && directionAngle == West){
+            reflectionAngle = Southeast;
+        }
+
+        //East
+        else if (((intersectionRegion1 == Region.TOP_LEFT && intersectionRegion2 == Region.BOTTOM_LEFT) ||
+                (intersectionRegion1 == Region.BOTTOM_LEFT && intersectionRegion2 == Region.TOP_LEFT))
+                && directionAngle == East){
+            reflectionAngle = -1;
+        }
+        else if (((intersectionRegion1 == Region.MIDDLE_LEFT && intersectionRegion2 == Region.BOTTOM_LEFT) ||
+                (intersectionRegion1 == Region.BOTTOM_LEFT && intersectionRegion2 == Region.MIDDLE_LEFT))
+                && directionAngle == East){
+            reflectionAngle = Southwest;
+        }
+        else if (((intersectionRegion1 == Region.TOP_LEFT && intersectionRegion2 == Region.MIDDLE_LEFT) ||
+                (intersectionRegion1 == Region.MIDDLE_LEFT && intersectionRegion2 == Region.TOP_LEFT))
+                && directionAngle == East){
+            reflectionAngle = Northwest;
+        }
+
+        return reflectionAngle;
     }
         //This is the helper method which calculates which side of the influence circle was hit by the ray
     //We need this method to be able to reflect the ray correctly
@@ -493,19 +595,28 @@ public class Arrow {
             for (Atoms atom : Main.allAtoms) {
                 Point2D Intersection = getCircleLineIntersection(atom.orbit, initialX, initialY, currentX, currentY, directionAngle);
                 if (Intersection != null) {
-                    currentX = Intersection.getX();
-                    currentY = Intersection.getY();
+                    for (List<Hexagon> innerList : allHexagons) {
+                        for (Hexagon hexagon : innerList) {
+                            if (hexagon.shape.contains(Intersection.getX(), Intersection.getY())) {
+                                currentX = hexagon.x;
+                                currentY = hexagon.y;
+                            }
+                        }
+                    }
                     Region intersectedRegion = determineRegion(Intersection, atom.orbit);
-                    int AtomsHit = countCircleLineIntersections(initialX, initialY, currentX+5*Math.cos(directionAngle), currentY+5*Math.sin(directionAngle), directionAngle);
-                    //ystem.out.println("Amounts hit:" + AtomsHit);
+                    int AtomsHit = countCircleLineIntersections(initialX, initialY, currentX+25*Math.cos(directionAngle), currentY+25*Math.sin(directionAngle), directionAngle);
+                    System.out.println("Amounts hit:" + AtomsHit);
                     if (AtomsHit==1) reflectionAngle = calculateReflection1Atom(intersectedRegion, directionAngle);
                     if (AtomsHit==2) {
-                        reflectionAngle = calculateReflection2Atoms(initialX, initialY, currentX+5*Math.cos(directionAngle), currentY+5*Math.sin(directionAngle), directionAngle);
+                        reflectionAngle = calculateReflection2Atoms(initialX, initialY, currentX+25*Math.cos(directionAngle), currentY+25*Math.sin(directionAngle), directionAngle);
                     }
-                    //System.out.println(loops);
-                    //System.out.println(directionAngle);
-                    //System.out.println(intersectedRegion);
-                    //System.out.println(reflectionAngle);
+                    if (AtomsHit==3) {
+                        reflectionAngle = -1;
+                    }
+                    System.out.println(loops);
+                    System.out.println(directionAngle);
+                    System.out.println(intersectedRegion);
+                    System.out.println(reflectionAngle);
                     found = true;
                     if (reflectionAngle == -1) {
                         break;
@@ -531,6 +642,7 @@ public class Arrow {
             makeRays(currentX, currentY, reflectionAngle, rays);
         }
     }
+
     public static void MakeRaysVisible(boolean x){
         if (rays != null) {
             if (x) {
