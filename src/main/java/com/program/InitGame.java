@@ -1,5 +1,6 @@
 package com.program;
 
+import javafx.scene.control.Label;
 import javafx.scene.shape.Polygon;
 
 import java.nio.charset.StandardCharsets;
@@ -19,6 +20,8 @@ public  class InitGame {
          ExperimenterName = null;
          SetterName = null;
          System.out.println("Enter The players Name");
+
+
         do{
             System.out.println("Enter Experimenters Name:");
             Scanner myScanner = new Scanner(System.in, StandardCharsets.UTF_8.displayName());
@@ -77,6 +80,13 @@ public  class InitGame {
     }
     public static void PrintArrows(){
         int[][] rowIds = {{1, 6, 12, 19, 27}, {27, 36, 44, 51, 57}, {57, 58, 59, 60, 61}, {61, 56, 50, 43, 35}, {35, 26, 18, 11, 5}, {1, 2, 3, 4, 5}};
+        int arrowid = 1;
+        int arrowid2 = 9;
+        int arrowid3 = 18;
+        int arrowid4 = 36;
+        int arrowid5 = 45;
+        int arrowid6 = 1;
+
         for (List<Hexagon> rows: Main.allHexagons){
             for (Hexagon hex: rows){
                 for (int[] x: rowIds){
@@ -85,54 +95,109 @@ public  class InitGame {
                             if(x == rowIds[0]) {
                                 double[] p1 = {hex.points[8], hex.points[9]};
                                 double[] p2 = {hex.points[6], hex.points[7]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, Main.directions.southEast, new int[]{hex.rowId, hex.rowPositionId - 1});
+
                                 double[] p3 = {hex.points[4], hex.points[5]};
-                                Polygon a2 = Arrow.createArrow(p2, p3, Main.directions.east, new int[]{hex.rowId, hex.rowPositionId - 1});
-                                Main.allArrows.add(a1);
-                                Main.allArrows.add(a2);
+                                Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.east, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid);
+                                arrowid++;
+                                Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.southEast, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid);
+                                arrowid++;
+
+                                if (arrowid<10) {
+
+                                    Main.allNumbers.add((Label) a1[1]);
+                                }
+                                    Main.allArrows.add((Polygon) a1[0]);
+                                    Main.allArrows.add((Polygon) a2[0]);
+                                    Main.allNumbers.add((Label) a2[1]);
+
 
 
                             } else if (x == rowIds[1]) {
                                 double[] p1 = {hex.points[6], hex.points[7]};
                                 double[] p2 = {hex.points[4], hex.points[5]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, Main.directions.east, new int[]{hex.rowId, hex.rowPositionId - 1});
+                                Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.east, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid2);
+                                arrowid2++;
                                 double[] p3 = {hex.points[2], hex.points[3]};
-                                Polygon a2 = Arrow.createArrow(p2, p3, Main.directions.northEast, new int[]{hex.rowId, hex.rowPositionId - 1});
-                                if (hex.Id != 27) Main.allArrows.add(a1);
-                                if (!Main.allArrows.contains(a2)) Main.allArrows.add(a2);
+                                Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.northEast, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid2);
+                                arrowid2++;
+                                if (hex.Id != 27){
+                                    Main.allArrows.add((Polygon) a1[0]);
+                                    Main.allNumbers.add((Label) a1[1]);
+                                }
+                                if (!Main.allArrows.contains((Polygon) a2[0])){
+                                    Main.allArrows.add((Polygon) a2[0]);
+                                    Main.allNumbers.add((Label) a2[1]);
+
+                                }
                             } else if (x == rowIds[2]) {
                                 double[] p1 = {hex.points[4], hex.points[5]};
                                 double[] p2 = {hex.points[2], hex.points[3]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, Main.directions.northEast, new int[]{hex.rowId , hex.rowPositionId - 1});
+                                Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.northEast, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid3);
+                                arrowid3++;
                                 double[] p3 = {hex.points[0], hex.points[1]};
-                                Polygon a2 = Arrow.createArrow(p2, p3, Main.directions.northWest, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                if (hex.Id != 57) Main.allArrows.add(a1);
-                                if (!Main.allArrows.contains(a2)) Main.allArrows.add(a2);
+                                Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.northWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid3);
+                                arrowid3++;
+                                if (hex.Id != 57){
+                                    Main.allArrows.add((Polygon) a1[0]);
+                                    Main.allNumbers.add((Label) a1[1]);
+                                }
+                                if (!Main.allArrows.contains((Polygon) a2[0])){
+                                    Main.allArrows.add((Polygon) a2[0]);
+                                    Main.allNumbers.add((Label) a2[1]);
+                                }
                             }
                             else if (x == rowIds[3]) {
                                 double[] p1 = {hex.points[2], hex.points[3]};
                                 double[] p2 = {hex.points[0], hex.points[1]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, Main.directions.northWest, new int[]{hex.rowId, hex.rowPositionId - 1});
+
                                 double[] p3 = {hex.points[10], hex.points[11]};
-                                Polygon a2 = Arrow.createArrow(p2, p3, Main.directions.west, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                if (hex.Id != 61) Main.allArrows.add(a1);
-                                if (!Main.allArrows.contains(a2)) Main.allArrows.add(a2);
+                                Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.west, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid4);
+                                arrowid4--;
+                                Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.northWest, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid4);
+                                arrowid4--;
+
+                                if (hex.Id != 61){
+                                    Main.allArrows.add((Polygon) a1[0]);
+                                    Main.allNumbers.add((Label) a1[1]);
+                                }
+                                if (!Main.allArrows.contains((Polygon) a2[0])){
+                                    Main.allArrows.add((Polygon) a2[0]);
+                                    Main.allNumbers.add((Label) a2[1]);
+                                }
                             }else if (x == rowIds[4]) {
                                 double[] p1 = {hex.points[0], hex.points[1]};
                                 double[] p2 = {hex.points[10], hex.points[11]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, Main.directions.west, new int[]{hex.rowId, hex.rowPositionId - 1});
+
                                 double[] p3 = {hex.points[8], hex.points[9]};
-                                Polygon a2 = Arrow.createArrow(p2, p3, Main.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                if (hex.Id != 35) Main.allArrows.add(a1);
-                                if (!Main.allArrows.contains(a2)) Main.allArrows.add(a2);
+                                Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid5);
+                                arrowid5--;
+                                Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.west, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid5);
+                                arrowid5--;
+                                if (hex.Id != 35){
+                                    Main.allArrows.add((Polygon) a1[0]);
+                                    Main.allNumbers.add((Label) a1[1]);
+                                }
+                                if (!Main.allArrows.contains((Polygon) a2[0])){
+                                    Main.allArrows.add((Polygon) a2[0]);
+                                    Main.allNumbers.add((Label) a2[1]);
+                                }
                             }else if (x == rowIds[5]) {
                                 double[] p1 = {hex.points[8], hex.points[9]};
                                 double[] p2 = {hex.points[6], hex.points[7]};
-                                Polygon a1 = Arrow.createArrow(p1, p2, Main.directions.southEast, new int[]{hex.rowId , hex.rowPositionId - 1});
+                                Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.southEast, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid6);
+                                arrowid6--;
+                                if(arrowid6 < 1) arrowid6 = 54;
                                 double[] p3 = {hex.points[10], hex.points[11]};
-                                Polygon a2 = Arrow.createArrow(p3, p1, Main.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1});
-                                if (hex.Id != 5 && hex.Id != 1) Main.allArrows.add(a1);
-                                if (!Main.allArrows.contains(a2)) Main.allArrows.add(a2);
+                                Object[] a2 = Arrow.createArrow(p3, p1, Main.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid6);
+                                arrowid6--;
+                                if (hex.Id != 5 && hex.Id != 1){
+                                    Main.allArrows.add((Polygon) a1[0]);
+                                    Main.allNumbers.add((Label) a1[1]);
+                                }
+                                if (!Main.allArrows.contains((Polygon) a2[0])){
+                                    Main.allArrows.add((Polygon) a2[0]);
+                                    Main.allNumbers.add((Label) a2[1]);
+                                }
                             }
                         }
                     }

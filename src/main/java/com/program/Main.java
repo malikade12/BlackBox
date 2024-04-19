@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -24,6 +25,8 @@ public class Main extends Application {
     static List<Atoms> allAtoms;
     static List<Polygon> allArrows;
     static List<List<Hexagon>> allHexagons;
+    static List<Label> allNumbers;
+
     private boolean markerEnabled = false; // Flag to track whether marker functionality is enabled
     private int curr = 0;
     public static int MarkerCounter = 0;
@@ -69,6 +72,8 @@ public class Main extends Application {
         allAtoms = new ArrayList<>();
         allHexagons = new ArrayList<>();
         allArrows = new ArrayList<>();
+        allNumbers = new ArrayList<>();
+
         Scene scene = new Scene(root, 1400, 800, Color.BLACK);
 
 
@@ -102,6 +107,8 @@ public class Main extends Application {
        InitGame.print();
 
         root.getChildren().addAll(allArrows);
+        root.getChildren().addAll(allNumbers);
+
         test.getButton2().fire();
 
 

@@ -2,9 +2,12 @@ package com.program;
 import javafx.animation.PauseTransition;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -38,7 +41,7 @@ public class Arrow {
     public static List<Line> rays;
 
 
-    public static Polygon createArrow(double[] p1, double[] p2, Main.directions z, int[] hexid){
+    public static Object[] createArrow(double[] p1, double[] p2, Main.directions z, int[] hexid,int arrowid){
         double midX = (p1[0] + p2[0] ) / 2;
         double midY = (p1[1] + p2[1] ) / 2;
         double y1 = p1[1];
@@ -99,6 +102,57 @@ public class Arrow {
         midpoints = new double[]{midX, midY};
         Polygon polygon = new Polygon();
 
+        //ARROW ID IS FOR THE NUMBERS
+        String arrowIDstring = Integer.toString(arrowid);
+        Label numberLabel = new Label(arrowIDstring);
+        int addIndex1 = 0;
+        int addIndexX = 0;
+
+        if((arrowid > 45 && arrowid < 80)||arrowid==1 ){
+            addIndex1= 45;
+            addIndexX = 10;
+        }
+        else if(arrowid > 36 && arrowid < 80){
+            addIndexX = -25;
+        } else if(arrowid >= 28 && arrowid < 80){
+            addIndex1= -40;
+            addIndexX = -10;
+
+            if(arrowid%2==0){
+                addIndexX = 20;
+                addIndex1 = -30;
+            }
+
+        } else if (arrowid > 18 && arrowid < 80) {
+            addIndex1 = -30;
+            addIndexX=30;
+        }
+        else if (arrowid > 9 && arrowid < 80) {
+            addIndexX = 40;
+            addIndex1 = 20;
+            if(arrowid%2==0){
+                addIndex1 = 15;
+                addIndexX = 40;
+            }
+        }
+        else {
+            addIndex1 = 40;
+            addIndexX = 5;
+            if(arrowid%2==0){
+                addIndex1 = 5;
+                addIndexX = 50;
+            }
+        }
+
+
+
+        numberLabel.setLayoutX(x1-addIndexX);
+        numberLabel.setLayoutY(y3-addIndex1);
+        numberLabel.setFont(Font.font("Arial", FontWeight.BOLD, 15)); // You can adjust the font family and size as needed
+
+        numberLabel.setTextFill(Color.WHITE);
+
+
         polygon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -155,8 +209,7 @@ public class Arrow {
                 x2, y2,
                 x3, y3,});
         polygon.setFill(Color.YELLOW);
-        return polygon;
-
+        return new Object[] {polygon,numberLabel};
     }
     //This method simply calculates and returns the end x and y points of a ray
     private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength) {
