@@ -1,4 +1,3 @@
-
 package com.program;
 import javafx.application.Application;
 import javafx.scene.Group;
