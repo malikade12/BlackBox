@@ -163,7 +163,9 @@ public class Arrow {
                 if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !Main.EndOfRound){
                     //System.out.println("shooting ray from hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " to the " + z);
                     System.out.println(arrowid);
-                        if (Hexagon.mode != 0) {
+
+
+                    if (Hexagon.mode != 0) {
                         double directionAngle;
                         switch (z) {
                             case east:

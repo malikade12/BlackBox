@@ -3,13 +3,18 @@ package com.program;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChangeView {
     public static Button ExperimenterButton;
     public static Button SetterButton;
     public static Button GuessButton;
     public static Button EndButton;
-
-
 
     // EventHandler for the button click event
     EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
@@ -55,8 +60,57 @@ public class ChangeView {
         public void handle(ActionEvent actionEvent) {
             System.out.println(Main.ExScore);
             //Call end Round method
+            System.out.println("Cleaning");
+            for (Atoms atom : Main.allAtoms) {
+                Main.root.getChildren().remove(atom);
+                Main.root.getChildren().remove(atom.orbit);
+                // Optionally, remove it from the lis
+            }
+            Main.allAtoms.clear();
+
+
+            for (Line ray : Arrow.rays) {
+
+                Main.root.getChildren().remove(ray);
+                // Optionally, remove it from the list
+            }
+            Arrow.rays.clear();
+            for (Circle marker : Main.markerList) {
+
+                Main.root.getChildren().remove(marker);
+                // Optionally, remove it from the list
+            }
+
+            Main.markerList.clear();
+
+            Main.IsSetter = true;
+            Main.SetterSwitched = false;
+            Main.EndOfRound = false;
+            Main.markerEnabled = false;
+            Hexagon.counter=0;
+            SetterButton.setVisible(true);
+            for (List<Hexagon> a: Main.allHexagons
+                 ) {
+                for (Hexagon n:a
+                     ) {
+                    n.Guessed = false;
+                }
+            }
+
+            if(Main.roundcount<1){
+                Main.roundcount++;
+                Scoring.EndRound();
+            }
+            else{
+                Scoring.EndRound2();
+            }
+
+
+
         }
     };
+
+
     public void Guess() {
         GuessButton = new Button("Make Guesses");
      GuessButton.setOnAction(event3);
@@ -104,7 +158,6 @@ public class ChangeView {
         EndButton = new Button("End Round");
         EndButton.setVisible(false);
         EndButton.setOnAction(event4);
-
         GuessButton.setVisible(false);
 
         EndButton.setStyle(
@@ -117,6 +170,10 @@ public class ChangeView {
 
     }
 
+
+
+
+
     // Method to get the button
     public Button getButton1() {
         return ExperimenterButton;
@@ -126,5 +183,6 @@ public class ChangeView {
     }
     public Button getButton3(){return GuessButton;}
     public Button getButton4(){return EndButton;}
+
 
 }

@@ -25,8 +25,8 @@ public class Main extends Application {
     static List<Polygon> allArrows;
     static List<List<Hexagon>> allHexagons;
     static List<Label> allNumbers;
-
-    private boolean markerEnabled = false; // Flag to track whether marker functionality is enabled
+    static public List<Circle> markerList = new ArrayList<>();
+    public static boolean markerEnabled = false; // Flag to track whether marker functionality is enabled
     private int curr = 0;
     public static int MarkerCounter = 0;
     public static int ExScore;
@@ -37,8 +37,14 @@ public class Main extends Application {
     public static boolean SetterSwitched = false;
     public static boolean IsSetter = true;
     public static ArrayList<ArrayList<Line>> rays;
+    public static int roundcount = 0;
+
     static enum directions  {
         southEast, southWest,northEast, northWest, east, west; }
+
+    public void setMarkerEnabled(boolean markerEnabled) {
+        this.markerEnabled = markerEnabled;
+    }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -58,6 +64,7 @@ public class Main extends Application {
 
 
 
+
         VBox container = new VBox(10); // 10 pixels spacing between components
         container.setPadding(new Insets(10));
 
@@ -70,6 +77,7 @@ public class Main extends Application {
         container.getChildren().add(test.getButton2());
         container.getChildren().add(test.getButton3());
         container.getChildren().add(test.getButton4());
+
 
         root.getChildren().add(container);
 
@@ -103,13 +111,18 @@ public class Main extends Application {
                 double y = event.getY();
                 Color color = colors[curr];
                 drawMarker(root, x, y, color);
-                ExScore++;
+                if (roundcount == 0)ExScore++;
+                else SetScore++;
+
             }
         });
        InitGame.print();
 
         root.getChildren().addAll(allArrows);
         root.getChildren().addAll(allNumbers);
+
+
+
 
 
 
@@ -123,7 +136,11 @@ public class Main extends Application {
     private void drawMarker(Group group, double x, double y, Color color) {
         Circle circle = new Circle(x, y, 5); // Adjust the radius as needed
         circle.setFill(color);
+        markerList.add(circle); // Add the circle to the markerList
         group.getChildren().add(circle);
+    }
+    private void removeMarker(Group group, Circle circleToRemove) {
+        group.getChildren().remove(circleToRemove);
     }
     public static void main(String[] args) {
         launch(args);

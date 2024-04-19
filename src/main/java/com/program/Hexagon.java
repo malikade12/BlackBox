@@ -131,7 +131,11 @@ public  class Hexagon extends Polygon {
                         Guessed = true;
                     } else if (!hasAtom) {
                         Guessed = true;
-                        Main.ExScore += 5;
+                        if (roundcount==0)Main.ExScore += 5;
+                        else{
+                            Main.SetScore+=5;
+                        }
+
                     }
                 }
             }
