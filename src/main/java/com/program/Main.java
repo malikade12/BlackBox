@@ -36,6 +36,7 @@ public class Main extends Application {
     public static Map<Integer, Integer> RayPoints;
     public static boolean SetterSwitched = false;
     public static boolean IsSetter = true;
+    public static ArrayList<ArrayList<Line>> rays;
     static enum directions  {
         southEast, southWest,northEast, northWest, east, west; }
 
@@ -76,6 +77,7 @@ public class Main extends Application {
         allHexagons = new ArrayList<>();
         allArrows = new ArrayList<>();
         allNumbers = new ArrayList<>();
+        rays = new ArrayList<>();
 
         Scene scene = new Scene(root, 1400, 800, Color.BLACK);
 

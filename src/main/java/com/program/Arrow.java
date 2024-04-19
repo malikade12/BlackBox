@@ -37,8 +37,7 @@ public class Arrow {
     static final double West = Math.PI;
     private Polygon triangle;
     public static double[] midpoints;
-    public static List<Line> Main.rays;
-
+    public static ArrayList<Line> rays;
 
 
     public static Object[] createArrow(double[] p1, double[] p2, Main.directions z, int[] hexid,int arrowid){
@@ -182,10 +181,10 @@ public class Arrow {
                             default:
                                 directionAngle = -1; // Default to east if direction is unknown
                         }
-                         Main.rays = new ArrayList<>();
+                         rays = new ArrayList<>();
                         double rayLength = 5; // Adjust the desired length of the ray
                         double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
-                        makeRays(midX,midY,directionAngle,Main.rays);
+                        makeRays(midX,midY,directionAngle,rays);
                             MakeRaysVisible(false);
                             PauseTransition pause = new PauseTransition(Duration.seconds(3));
                             System.out.println("Switching to Setter.......");
@@ -194,7 +193,7 @@ public class Arrow {
                                 Scoring.hi();
                             } );
                             pause.play();
-                            root.getChildren().addAll(Main.rays);
+                            root.getChildren().addAll(rays);
                     }
                 } else if (EndOfRound) {
                     System.out.println("round is over please make your guesses   ");
@@ -525,13 +524,13 @@ public class Arrow {
         }
     }
     public static void MakeRaysVisible(boolean x){
-        if (Main.rays != null) {
+        if (rays != null) {
             if (x) {
-                for (Line r : Main.rays) r.setVisible(true);
+                for (Line r : rays) r.setVisible(true);
             } else {
-                for (Line r : Main.rays) r.setVisible(false);
+                for (Line r : rays) r.setVisible(false);
             }
-            for (Line r: Main.rays) System.out.println(r);
+            for (Line r: rays) System.out.println(r);
 
         }
     }
