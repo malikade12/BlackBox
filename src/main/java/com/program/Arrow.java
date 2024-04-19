@@ -39,6 +39,7 @@ public class Arrow extends Polygon{
     public static double[] midpoints;
     public static ArrayList<Line> rays;
     public int arrowid;
+    public static int ExitId;
 
 
     public Object[] createArrow(double[] p1, double[] p2, Main.directions z, int[] hexid, int arrowid){
@@ -163,9 +164,8 @@ public class Arrow extends Polygon{
         polygon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !Main.EndOfRound){
-                    //System.out.println("shooting ray from hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " to the " + z);
-                    System.out.println(arrowid);
+                if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !Main.EndOfRound && !markerEnabled){
+
 
 
                     if (Hexagon.mode != 0) {
@@ -196,6 +196,7 @@ public class Arrow extends Polygon{
                         double rayLength = 5; // Adjust the desired length of the ray
                         double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
                         makeRays(midX,midY,directionAngle,rays);
+                        ActualRayPoints.put(arrowid, ExitId);
                             MakeRaysVisible(false);
                             PauseTransition pause = new PauseTransition(Duration.seconds(3));
                             System.out.println("Switching to Setter.......");
@@ -208,7 +209,7 @@ public class Arrow extends Polygon{
                     }
                 } else if (EndOfRound) {
                     System.out.println("round is over please make your guesses   ");
-                } else{
+                } else if (!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom){
                     System.out.println("Cant shoot ray because arrow in hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " because there is an atom here ");
                 }
             }
@@ -218,7 +219,7 @@ public class Arrow extends Polygon{
                 x1, y1,
                 x2, y2,
                 x3, y3,});
-        polygon.setFill(Color.WHITE);
+        polygon.setFill(Color.YELLOW);
         return new Object[] {polygon,numberLabel};
     }
     //This method simply calculates and returns the end x and y points of a ray
@@ -280,26 +281,8 @@ public class Arrow extends Polygon{
             return new double[]{endX, endY};
         }
     }
-    private static Point2D getClosestIntersection(Circle Circle, double lineStartX, double lineStartY, double directionAngle) {
-        double EndX = lineStartX;
-        double EndY = lineStartY;
-        lineStartX += Math.cos(directionAngle);
-        lineStartY += Math.sin(directionAngle);
-        EndX += 5 * Math.cos(directionAngle);
-        EndY += 5 * Math.sin(directionAngle);
-        int i = 0;
-        while (i != 100) {
-            Point2D intersection = getCircleLineIntersection(Circle, lineStartX, lineStartY, EndX, EndY, directionAngle);
-            if (intersection != null) {
-                return intersection;
-            }
-            EndX += 5 * Math.cos(directionAngle);
-            EndY += 5 * Math.sin(directionAngle);
-            i++;
-            //System.out.println(EndX + EndY);
-        }
-        return null;
-    }
+
+
     private static Point2D getCircleLineIntersection(Circle circle, double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
         lineStartX += 5 * Math.cos(directionAngle);
         lineStartY += 5 * Math.sin(directionAngle);
@@ -409,16 +392,14 @@ public class Arrow extends Polygon{
                 endY = intersection.getY();
                 if(intersectionRegion1 == null){
                     intersectionRegion1 = determineRegion(intersection, atom.orbit);
-                    System.out.println(intersectionRegion1);
                 }
                 else if(intersectionRegion2 == null){
                     intersectionRegion2 = determineRegion(intersection, atom.orbit);
-                    System.out.println(intersectionRegion2);
+
                 }
             }
         }
-        System.out.println(intersectionRegion1);
-        System.out.println(intersectionRegion2);
+
 
         //Northwest
         if (((intersectionRegion1 == Region.BOTTOM_LEFT && intersectionRegion2 == Region.MIDDLE_RIGHT) ||
@@ -608,7 +589,6 @@ public class Arrow extends Polygon{
                     }
                     Region intersectedRegion = determineRegion(Intersection, atom.orbit);
                     int AtomsHit = countCircleLineIntersections(initialX, initialY, currentX+25*Math.cos(directionAngle), currentY+25*Math.sin(directionAngle), directionAngle);
-                    System.out.println("Amounts hit:" + AtomsHit);
                     if (AtomsHit==1) reflectionAngle = calculateReflection1Atom(intersectedRegion, directionAngle);
                     if (AtomsHit==2) {
                         reflectionAngle = calculateReflection2Atoms(initialX, initialY, currentX+25*Math.cos(directionAngle), currentY+25*Math.sin(directionAngle), directionAngle);
@@ -616,10 +596,7 @@ public class Arrow extends Polygon{
                     if (AtomsHit==3) {
                         reflectionAngle = -1;
                     }
-                    System.out.println(loops);
-                    System.out.println(directionAngle);
-                    System.out.println(intersectedRegion);
-                    System.out.println(reflectionAngle);
+
                     found = true;
                     if (reflectionAngle == -1) {
                         break;
@@ -640,10 +617,21 @@ public class Arrow extends Polygon{
         Line Ray = new Line(initialX, initialY, currentX, currentY); // Original ray from midpoint to intersection point
         Ray.setStroke(Color.CYAN);
         Ray.setStrokeWidth(6);
+        ExitId = FindArrow(Ray.getEndX(), Ray.getEndY());
         rays.add(Ray);
         if (reflectionAngle != -1) {
             makeRays(currentX, currentY, reflectionAngle, rays);
         }
+    }
+    public static int FindArrow(double x, double y){
+        for (Arrow a: allArrows){
+          for (int i = -5; i <=5; i++){
+              for (int j = -5; j <= 5; j++) {
+                  if (a.contains(x + i, y + j)) return a.arrowid;
+              }
+          }
+        }
+        return 0;
     }
 
     public static void MakeRaysVisible(boolean x){
@@ -653,7 +641,6 @@ public class Arrow extends Polygon{
             } else {
                 for (Line r : rays) r.setVisible(false);
             }
-            for (Line r: rays) System.out.println(r);
 
         }
     }

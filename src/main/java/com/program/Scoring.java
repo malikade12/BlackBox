@@ -8,11 +8,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Line;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -59,33 +59,8 @@ public class Scoring{
                      if (!Objects.equals(selectedValue, "Passed through")) System.out.println("Ray was " + selectedValue);
                      System.out.println("Entered at " + entryValue);
                      System.out.println("Exited at : " + exitValue);
-                     if (!Objects.equals("0", exitValue)) Main.RayPoints.put(Integer.valueOf(entryValue), Integer.valueOf(exitValue));
+                     if (!Objects.equals("0", exitValue)) Main.SetterRayPoints.put(Integer.valueOf(entryValue), Integer.valueOf(exitValue));
                      dropdownStage.close();
-                     for (Arrow a: Main.allArrows
-                          ) {
-
-                            if(a.arrowid == Integer.parseInt(entryValue)){
-
-                                   //CHECK FOR INTERSECTION IN ARROW
-
-                                   truth.set(false);
-                                   System.out.println("FALSEE");
-                            }
-                            if(a.arrowid == Integer.parseInt(exitValue)){
-                                   truth.set(false);
-                                   System.out.println("FALSEE");
-                            }
-                     }
-                     if (truth.get() || truth.get()){
-                           if(Main.roundcount<1) {
-                                  Main.ExScore-=5;
-                                  System.out.println("Thats a LIE!!!");
-                           }
-                           else {
-                                  Main.SetScore-=5;
-                                  System.out.println("Thats a LIE!!!");
-                           }
-                     }
 
                      System.out.println("Switching to Experimenter....");
                      PauseTransition pause = new PauseTransition(Duration.seconds(3));
@@ -108,8 +83,33 @@ public class Scoring{
               dropdownStage.show();
        }
        public static void EndRound(){
+              ValidatePoints();
               System.out.println("Switch roles ....");
               System.out.println(InitGame.ExperimenterName + " finished with " + Main.ExScore + " points....");
+       }
+       public static void ValidatePoints(){
+
+              for (Map.Entry<Integer, Integer> x: Main.ActualRayPoints.entrySet()){
+                     for (Map.Entry<Integer,Integer> y: Main.SetterRayPoints.entrySet()){
+                            if (Main.ActualRayPoints.get(y.getKey()) == null ){
+                                   System.out.println(InitGame.ExperimenterName + " lied about ray entering from " + y.getKey() );
+                                   if(Main.roundcount == 0) Main.ExScore -= 5;
+                                   else{
+                                          Main.SetScore -=5;
+                                   }
+
+                            }
+                            else if (Objects.equals(x.getKey(), y.getKey()) && (!Objects.equals(x.getValue(), y.getValue()))){
+                                   System.out.println(InitGame.ExperimenterName + " lied about ray enting from " + x.getKey() + " and exiting from " + y.getValue());
+                                   if(Main.roundcount == 0) Main.ExScore -= 5;
+                                   else{
+                                          Main.SetScore -=5;
+                                   }
+                            }
+                     }
+              }
+              if (Main.ExScore < 0) Main.ExScore = 0;
+              if (Main.SetScore < 0) Main.SetScore = 0;
        }
        public static void EndRound2(){
               System.out.println("Switch roles ....");

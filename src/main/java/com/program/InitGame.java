@@ -204,7 +204,7 @@ public  class InitGame {
                                 double[] p3 = {hex.points[10], hex.points[11]};
                                 Object[] a2 = Arrow.createArrow(p3, p1, Main.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid6);
                                 arrowid6--;
-                                if (hex.Id != 5 && hex.Id != 1){
+                                if (hex.Id != 1){
                                     Main.allArrows.add((Arrow) a1[0]);
                                     Main.allNumbers.add((Label) a1[1]);
                                 }
@@ -220,6 +220,6 @@ public  class InitGame {
                     }
                 }
             }}
-        System.out.println(Main.allArrows.size());
+
     }
 }

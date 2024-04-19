@@ -1,10 +1,10 @@
 package com.program;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -34,7 +34,8 @@ public class Main extends Application {
     public static int SetScore;
     public static boolean EndOfRound = false;
     public static Scene scene;
-    public static Map<Integer, Integer> RayPoints;
+    public static Map<Integer, Integer> SetterRayPoints;
+    public static Map<Integer, Integer> ActualRayPoints;
     public static boolean SetterSwitched = false;
     public static boolean IsSetter = true;
     public static ArrayList<ArrayList<Line>> rays;
@@ -50,8 +51,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-         //InitGame.Getnames();
-        RayPoints = new HashMap<>();
+        InitGame.Getnames();
         //START SCENE
         Parent startRoot = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
         Scene startScene = new Scene(startRoot,1400,800);
@@ -88,8 +88,11 @@ public class Main extends Application {
         allArrows = new ArrayList<>();
         allNumbers = new ArrayList<>();
         rays = new ArrayList<>();
+        ActualRayPoints = new HashMap<>();
+        SetterRayPoints = new HashMap<>();
 
         Scene scene = new Scene(root, 1400, 800, Color.BLACK);
+
 
 
         Group groupStart = new Group();

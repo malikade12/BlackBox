@@ -58,6 +58,8 @@ public class ChangeView {
     EventHandler<ActionEvent> event4 = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
+            EndButton.setVisible(false);
+            Scoring.ValidatePoints();
             System.out.println(Main.ExScore);
             //Call end Round method
             System.out.println("Cleaning");
@@ -67,14 +69,17 @@ public class ChangeView {
                 // Optionally, remove it from the lis
             }
             Main.allAtoms.clear();
+            Main.ActualRayPoints.clear();
+            Main.SetterRayPoints.clear();
 
+          if (Arrow.rays != null) {
+              for (Line ray : Arrow.rays) {
 
-            for (Line ray : Arrow.rays) {
-
-                Main.root.getChildren().remove(ray);
-                // Optionally, remove it from the list
-            }
-            Arrow.rays.clear();
+                  Main.root.getChildren().remove(ray);
+                  // Optionally, remove it from the list
+              }
+              Arrow.rays.clear();
+          }
             for (Circle marker : Main.markerList) {
 
                 Main.root.getChildren().remove(marker);
@@ -104,6 +109,7 @@ public class ChangeView {
             else{
                 Scoring.EndRound2();
             }
+            SetterButton.fire();
 
 
 
