@@ -29,7 +29,6 @@ public class Main extends Application {
     static public List<Circle> markerList = new ArrayList<>();
     public static boolean markerEnabled = false; // Flag to track whether marker functionality is enabled
     private int curr = 0;
-    public static int MarkerCounter = 0;
     public static int ExScore;
     public static int SetScore;
     public static boolean EndOfRound = false;
@@ -95,7 +94,6 @@ public class Main extends Application {
 
 
 
-        Group groupStart = new Group();
         test.getButton2().fire();
         Color[] colors = {Color.PURPLE, Color.HOTPINK, Color.ORANGE}; // Define your colors here
         startScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
@@ -123,9 +121,6 @@ public class Main extends Application {
         });
        InitGame.print();
 
-        root.getChildren().addAll(allArrows);
-        root.getChildren().addAll(allNumbers);
-
 
         primaryStage.setScene(startScene);
         primaryStage.setTitle("BlackBox Alpha");
@@ -139,9 +134,6 @@ public class Main extends Application {
         circle.setFill(color);
         markerList.add(circle); // Add the circle to the markerList
         group.getChildren().add(circle);
-    }
-    private void removeMarker(Group group, Circle circleToRemove) {
-        group.getChildren().remove(circleToRemove);
     }
     public static void main(String[] args) {
         launch(args);

@@ -30,7 +30,6 @@ public  class Hexagon extends Polygon {
     public int[] influence= new int[6];
     public boolean Guessed = false;
     public Hexagon[] influencer = new Hexagon[6];
-    Set<Integer> excludedIds = new HashSet<>(Arrays.asList(1, 5, 6, 11, 12, 18, 19, 26, 27, 35));
 
     public Hexagon(double x, double y, int row, int id) {
         this.x = x;

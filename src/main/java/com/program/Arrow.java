@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.program.Main.*;
-import static com.program.Main.directions.*;
 
 
 public class Arrow extends Polygon{
@@ -52,8 +51,9 @@ public class Arrow extends Polygon{
         double x2 = p2[0];
         double x3 = 0;
         double y3 = 0;
-        // ArrayList<Integer> EdgeHexId = new ArrayList<>(Arrays.asList(new Integer[]{1, 1, 2, 3, 4, 5, 6, 11, 12, 18, 19, 26, 27, 35, 36, 43, 44, 50, 51, 56, 57, 58, 59, 60}));
+
         switch (z){
+            //calculating the offsets for the arrow to be drawn based on the direction its facing
             case east -> {
                 y3 = midY - 3;
                 x3 = midX + 20;
@@ -202,14 +202,16 @@ public class Arrow extends Polygon{
                             System.out.println("Switching to Setter.......");
                             pause.setOnFinished(event2 -> {
                                 ChangeView.SetterButton.fire();
-                                Scoring.hi();
+                                Scoring.SetterInput();
                             } );
                             pause.play();
                             root.getChildren().addAll(rays);
                     }
                 } else if (EndOfRound) {
                     System.out.println("round is over please make your guesses   ");
-                } else if (!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom){
+                } else if(markerEnabled){
+
+                }else if (!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom){
                     System.out.println("Cant shoot ray because arrow in hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " because there is an atom here ");
                 }
             }
@@ -529,26 +531,7 @@ public class Arrow extends Polygon{
             return Region.BOTTOM_LEFT;
         }
     }
-    //This method returns a direction based on the angle given.
-    //The switch statement is needed to give a new "z" value for the 2nd ray that is drawn since the
-    //2nd ray has a different direction than the first one we drew
-    private static Main.directions getDirectionFromAngle(int angle) {
-        switch (angle) {
-            case (int) (Northeast):
-                return northEast;
-            case (int) (Northwest):
-                return Main.directions.northWest;
-            case (int) (Southeast):
-                return southEast;
-            case (int) (Southwest):
-                return Main.directions.southWest;
-            case 0:
-                return east;
-            case (int) (West):
-                return Main.directions.west;
-        }
-        return null;
-    }
+
     private static int countCircleLineIntersections(double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
         int intersectingAtomsCount = 0;
         for (Atoms atom : Main.allAtoms) {

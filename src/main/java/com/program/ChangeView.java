@@ -108,11 +108,12 @@ public class ChangeView {
             if(Main.roundcount<1){
                 Main.roundcount++;
                 Scoring.EndRound();
+                SetterButton.fire();
             }
             else{
                 Scoring.EndRound2();
+                System.out.println("Thanks for playing!!!!");
             }
-            SetterButton.fire();
 
 
 
