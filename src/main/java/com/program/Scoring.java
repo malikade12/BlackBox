@@ -81,6 +81,7 @@ public class Scoring{
 
               // Set the scene and show the stage
               dropdownStage.setScene(new Scene(dropdownLayout));
+              dropdownStage.setX(100);
               dropdownStage.show();
        }
        public static void EndRound(){
