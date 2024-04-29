@@ -8,6 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -39,7 +40,13 @@ public class Main extends Application {
     public static boolean IsSetter = true;
     public static ArrayList<ArrayList<Line>> rays;
     public static int roundcount = 0;
+    public static TextArea logTextArea;
 
+    public static void addLog(String logMessage) {//used to log messages onscreen
+        logTextArea.appendText(logMessage + "\n");
+        logTextArea.positionCaret(logTextArea.getText().length());
+
+    }
 
     static enum directions  {
         southEast, southWest,northEast, northWest, east, west; }
@@ -56,6 +63,18 @@ public class Main extends Application {
         Scene startScene = new Scene(startRoot,1400,800);
         root = new Group();
         root.setMouseTransparent(false);
+
+        logTextArea = new TextArea();
+        logTextArea.setEditable(false);
+        logTextArea.setWrapText(true);
+        addLog("*****TEXT CHANNEL*****");
+
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Log Viewer");
+        primaryStage.show();
+
+
 
         ChangeView test = new ChangeView();
         test.Guess();
@@ -74,10 +93,16 @@ public class Main extends Application {
         Pane spacer = new Pane();
         spacer.setMinHeight(10); // Set the desired space height
         container.getChildren().add(spacer);
+        Pane spacer2 = new Pane();
+        spacer2.setMinHeight(300); // Set the desired space height
+
+
 
         container.getChildren().add(test.getButton2());
         container.getChildren().add(test.getButton3());
         container.getChildren().add(test.getButton4());
+        container.getChildren().add(spacer2);
+        container.getChildren().add(logTextArea);
 
 
         root.getChildren().add(container);

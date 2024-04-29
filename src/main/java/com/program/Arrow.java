@@ -200,6 +200,7 @@ public class Arrow extends Polygon{
                             MakeRaysVisible(false);
                             PauseTransition pause = new PauseTransition(Duration.seconds(3));
                             System.out.println("Switching to Setter.......");
+                            Main.addLog("Switching to Setter.......");
                             pause.setOnFinished(event2 -> {
                                 ChangeView.SetterButton.fire();
                                 Scoring.SetterInput();
@@ -209,10 +210,12 @@ public class Arrow extends Polygon{
                     }
                 } else if (EndOfRound) {
                     System.out.println("round is over please make your guesses   ");
+                    Main.addLog("round is over please make your guesses   ");
                 } else if(markerEnabled){
 
                 }else if (!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom){
                     System.out.println("Cant shoot ray because arrow in hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " because there is an atom here ");
+                    Main.addLog("Cant shoot ray because arrow in hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " because there is an atom here ");
                 }
             }
         });

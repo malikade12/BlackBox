@@ -65,6 +65,7 @@ public class Scoring{
                      dropdownStage.close();
 
                      System.out.println("Switching to Experimenter....");
+                     Main.addLog("Switching to Experimenter....\"");
                      //switch back to the experimenter
                      PauseTransition pause = new PauseTransition(Duration.seconds(3));
                      pause.setOnFinished(even -> ChangeView.ExperimenterButton.fire());
@@ -87,7 +88,9 @@ public class Scoring{
        public static void EndRound(){
               ValidatePoints();
               System.out.println("Switch roles ....");
+              Main.addLog("Switch Roles");
               System.out.println(InitGame.SetterName + " finished with " + Main.ExScore + " points....");
+              Main.addLog(InitGame.SetterName + " finished with " + Main.ExScore + " points....");
        }
        public static void ValidatePoints(){
               //check if the setter made errors while reporting
@@ -96,6 +99,7 @@ public class Scoring{
                             //if the setter made a mistake on calling out an entry point, 5 is deducted from the experimenters score
                             if (Main.ActualRayPoints.get(y.getKey()) == null ){
                                    System.out.println(InitGame.ExperimenterName + " lied about ray entering from " + y.getKey() );
+                                   Main.addLog(InitGame.ExperimenterName + " lied about ray entering from " + y.getKey() );
                                    if(Main.roundcount == 0) Main.ExScore -= 5;
                                    else{
                                           Main.SetScore -=5;
@@ -105,6 +109,7 @@ public class Scoring{
                             //if setter lied about an exit point, 5 is deducted from the experimenters score
                             else if (Objects.equals(x.getKey(), y.getKey()) && (!Objects.equals(x.getValue(), y.getValue()))){
                                    System.out.println(InitGame.ExperimenterName + " lied about ray enting from " + x.getKey() + " and exiting from " + y.getValue());
+                                   Main.addLog(InitGame.ExperimenterName + " lied about ray enting from " + x.getKey() + " and exiting from " + y.getValue());
                                    if(Main.roundcount == 0) Main.ExScore -= 5;
                                    else{
                                           Main.SetScore -=5;
@@ -119,11 +124,17 @@ public class Scoring{
        //end round two and announce the results
        public static void EndRound2(){
               System.out.println("Switch roles ....");
+              Main.addLog("Switch roles ....");
               System.out.println(InitGame.SetterName + " finished with " + Main.SetScore + " points....");
+              Main.addLog(InitGame.SetterName + " finished with " + Main.SetScore + " points....");
 
-              if(Main.ExScore < Main.SetScore) System.out.println(InitGame.ExperimenterName+" WON!!");
+              if(Main.ExScore < Main.SetScore) {
+                     System.out.println(InitGame.ExperimenterName+" WON!!");
+                     Main.addLog(InitGame.ExperimenterName+" WON!!");
+              }
               else{
                      System.out.println(InitGame.SetterName+" WON!!!");
+                     Main.addLog(InitGame.SetterName+" WON!!");
               }
 
        }

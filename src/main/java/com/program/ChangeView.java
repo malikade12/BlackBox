@@ -2,8 +2,9 @@ package com.program;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
@@ -16,12 +17,20 @@ public class ChangeView {
     public static Button GuessButton;
     public static Button EndButton;
 
+
+
     // EventHandler for the button click event
     EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
+
+
             System.out.println(InitGame.ExperimenterName + "'s turn..");
+            Main.addLog(InitGame.ExperimenterName + "'s turn..");
+
             System.out.println("Markers Press:\n Q - Purple X - Pink.\nPress key again to stop marking");
+            Main.addLog("Markers Press:\n Q - Purple X - Pink.\nPress key again to stop marking");
+
             Main.IsSetter = false;
             Main.SetterSwitched = true;
             ExperimenterButton.setVisible(false);
@@ -32,6 +41,9 @@ public class ChangeView {
             Hexagon.mode = 1;
         }
     };
+
+
+
     EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
@@ -113,6 +125,7 @@ public class ChangeView {
             else{
                 Scoring.EndRound2();
                 System.out.println("Thanks for playing!!!!");
+                Main.addLog("Thanks for playing!!!!");
             }
 
 
