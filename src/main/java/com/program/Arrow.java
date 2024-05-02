@@ -11,7 +11,6 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.program.BoardItems.*;
 import static com.program.Main.*;
@@ -19,7 +18,7 @@ import static com.program.Main.*;
 
 public class Arrow extends Polygon{
 
-    private enum Region {
+    enum Region {
         TOP_LEFT,
         TOP_RIGHT,
         BOTTOM_LEFT,
@@ -35,11 +34,15 @@ public class Arrow extends Polygon{
     static final double Southwest = 3 * Math.PI / 4 - 0.263;
     static final double East = 0;
     static final double West = Math.PI;
-    private Polygon triangle;
+
     public static double[] midpoints;
     public static ArrayList<Line> rays;
+    //arrow id variable
     public int arrowid;
+    //exit point for the ray that started at the arrow
     public static int ExitId;
+    //boolean to see if experimenter clicked on the arrow already
+    public static boolean ClickedByExp;
 
     /**
      *
@@ -52,6 +55,7 @@ public class Arrow extends Polygon{
      */
     public Object[] createArrow(double[] p1, double[] p2, BoardItems.directions z, int[] hexid, int arrowid){
         this.arrowid=arrowid;
+        ClickedByExp = false;
         double midX = (p1[0] + p2[0] ) / 2;
         double midY = (p1[1] + p2[1] ) / 2;
         double y1 = p1[1];
@@ -175,10 +179,8 @@ public class Arrow extends Polygon{
         polygon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !BoardItems.EndOfRound && !markerEnabled){
-
-
-
+                if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !BoardItems.EndOfRound && !markerEnabled && !ClickedByExp){
+                  ClickedByExp = true;
                     if (Hexagon.mode != 0) {
                         double directionAngle;
                         switch (z) {
@@ -204,30 +206,26 @@ public class Arrow extends Polygon{
                                 directionAngle = -1; // Default to east if direction is unknown
                         }
                          rays = new ArrayList<>();
-                        double rayLength = 5; // Adjust the desired length of the ray
-                        double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
-                        makeRays(midX,midY,directionAngle,rays);
+                        Rays NewRay = new Rays(midX,midY,directionAngle,rays);
+                        ExitId = NewRay.ExitId;
                         ActualRayPoints.put(arrowid, ExitId);
-                            MakeRaysVisible(false);
+                            Arrow.MakeRaysVisible(false);
                             PauseTransition pause = new PauseTransition(Duration.seconds(3));
-                            System.out.println("Switching to Setter.......");
                         BoardItems.addLog("Switching to Setter.......");
                             pause.setOnFinished(event2 -> {
                                 ChangeView.SetterButton.fire();
-                                Scoring.SetterInput();
+                                Scoring.SetterInput(arrowid);
                             } );
                             pause.play();
                             root.getChildren().addAll(rays);
                     }
                 } else if (EndOfRound) {
-                    System.out.println("round is over please make your guesses   ");
                     BoardItems.addLog("round is over please make your guesses   ");
                 } else if(markerEnabled){
 
                 }else if (!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom){
-                    System.out.println("Cant shoot ray because arrow in hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " because there is an atom here ");
                     BoardItems.addLog("Cant shoot ray because arrow in hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " because there is an atom here ");
-                }
+                }else BoardItems.addLog("YOU ALREADY SHOT AN ARROW FROM HERE!!!!");
             }
         });
 
@@ -238,464 +236,7 @@ public class Arrow extends Polygon{
         polygon.setFill(Color.YELLOW);
         return new Object[] {polygon,numberLabel};
     }
-    //This method simply calculates and returns the end x and y points of a ray
 
-    /**
-     *
-     * @param midX The x coordinate of the center point
-     * @param midY The y coordinate of the center point
-     * @param directionAngle The angle of the ray
-     * @param rayLength The length of the ray
-     * @return
-     */
-    private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength) {
-        double endX = midX + rayLength * Math.cos(directionAngle);
-        double endY = midY + rayLength * Math.sin(directionAngle);
-
-        boolean inHexagon = false; // Flag to track if the endpoint is in a hexagon
-
-        for (List<Hexagon> innerList : allHexagons) {
-            for (Hexagon hexagon : innerList) {
-                if (hexagon.shape.contains(endX, endY)) {
-                    inHexagon = true; // Set the flag to true if the endpoint is in a hexagon
-                    break; // Exit the loop since we found the hexagon
-                }
-            }
-            if (inHexagon) {
-                break; // Exit the outer loop if the endpoint is in a hexagon
-            }
-        }
-        if (inHexagon) {
-            // Check if incrementing or decrementing the endpoint would keep it inside a hexagon
-            double slightOffset = 25 / 1.3; // Define a slight offset for checking
-            boolean nextInHexagon = false;
-            int hexid = 0;
-            int rowid = -1;
-
-            // Check with slight offsets in both x and y directions
-            for (double offset : new double[]{-slightOffset, slightOffset}) {
-                if (!nextInHexagon) {
-                    double nextEndX = endX + rayLength * Math.cos(directionAngle);
-                    double nextEndY = endY + rayLength * Math.sin(directionAngle);
-
-                    for (List<Hexagon> innerList : allHexagons) {
-                        rowid++;
-                        for (Hexagon hexagon : innerList) {
-                            hexid = hexagon.Id;
-                            if (hexagon.shape.contains(nextEndX + offset, nextEndY + offset)) {
-                                nextInHexagon = true; // Set the flag to true if the next endpoint with offset is in a hexagon
-                                break; // Exit the loop since we found the hexagon
-                            }
-                        }
-                        if (nextInHexagon) {
-                            break; // Exit the outer loop if the next endpoint with offset is in a hexagon
-                        }
-                    }
-                }
-            }
-
-            if (nextInHexagon) {
-                // If the next endpoint with slight offset is also in a hexagon, recursively call the method again
-                return findEndPoint(endX, endY, directionAngle, rayLength);
-            } else {
-                // If incrementing or decrementing the endpoint would move it out of a hexagon, return the current endpoint
-                return new double[]{endX, endY};
-            }
-        } else {
-            // If the endpoint is not in a hexagon from the beginning, return the current endpoint
-            return new double[]{endX, endY};
-        }
-    }
-
-    /**
-     *
-     * @param circle The orbit whos line intersection is to be found
-     * @param lineStartX X coordinate of the start of the line
-     * @param lineStartY Y coordinate of the start of the line
-     * @param lineEndX X coordinate of the end of the line
-     * @param lineEndY Y coordinate of the end of the line
-     * @param directionAngle The angle of the line
-     * @return The point that the line intersects the orbit
-     */
-
-    private static Point2D getCircleLineIntersection(Circle circle, double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
-        lineStartX += 5 * Math.cos(directionAngle);
-        lineStartY += 5 * Math.sin(directionAngle);
-        double cx = circle.getCenterX();
-        double cy = circle.getCenterY();
-        double radius = circle.getRadius();
-
-        double dx = lineEndX - lineStartX;
-        double dy = lineEndY - lineStartY;
-
-        double A = dx * dx + dy * dy;
-        double B = 2 * (dx * (lineStartX - cx) + dy * (lineStartY - cy));
-        double C = (lineStartX - cx) * (lineStartX - cx) + (lineStartY - cy) * (lineStartY - cy) - radius * radius;
-
-        double discriminant = B * B - 4 * A * C;
-
-        if (discriminant >= 0) {
-            double t1 = (-B + Math.sqrt(discriminant)) / (2 * A);
-            double t2 = (-B - Math.sqrt(discriminant)) / (2 * A);
-
-            // Check if the intersection points are within the line segment
-            if ((t1 > 0 && t1 <= 1) || (t2 > 0 && t2 <= 1)) {
-                // Calculate the intersection points
-                double intersectionX1 = lineStartX + t1 * dx;
-                double intersectionY1 = lineStartY + t1 * dy;
-                double intersectionX2 = lineStartX + t2 * dx;
-                double intersectionY2 = lineStartY + t2 * dy;
-
-                // Return the intersection point closest to the starting point of the ray
-                if (t1 > 0 && t1 <= 1 && t2 > 0 && t2 <= 1) {
-                    double dist1 = Math.sqrt(Math.pow(intersectionX1 - lineStartX, 2) + Math.pow(intersectionY1 - lineStartY, 2));
-                    double dist2 = Math.sqrt(Math.pow(intersectionX2 - lineStartX, 2) + Math.pow(intersectionY2 - lineStartY, 2));
-                    return (dist1 < dist2) ? new Point2D(intersectionX1, intersectionY1) : new Point2D(intersectionX2, intersectionY2);
-                } else if (t1 >= 0 && t1 <= 1) {
-                    return new Point2D(intersectionX1, intersectionY1);
-                } else {
-                    return new Point2D(intersectionX2, intersectionY2);
-                }
-            }
-        }
-        return null;
-    }
-
-
-
-    //This method calculates the angle at which to deflect the ray
-    //It uses the initial direction of the ray and the region of the influence circle that is hit
-    //Depending on these 2 variables, the nested switches determine which direction to give the new ray
-
-    /**
-     *
-     * @param intersectionRegion The region the ray is fired from
-     * @param OriginalDirection The original direction the ray is headed
-     * @return the new angle to reflect the ray
-     */
-    private static double calculateReflection1Atom(Region intersectionRegion, double OriginalDirection) {
-        double directionAngle = 0;
-        switch ((int) OriginalDirection) {
-            case (int) West:
-                switch (intersectionRegion){
-                    case MIDDLE_RIGHT -> directionAngle = -1;
-                    case TOP_RIGHT -> directionAngle = Northwest;
-                    case BOTTOM_RIGHT -> directionAngle = Southwest;
-                }
-                break;
-            case (int) Southeast:
-                switch (intersectionRegion){
-                    case TOP_LEFT -> directionAngle = -1;
-                    case TOP_RIGHT -> directionAngle = East;
-                    case MIDDLE_LEFT -> directionAngle = Southwest;
-                }
-                break;
-            case (int) Northeast:
-                switch (intersectionRegion){
-                    case BOTTOM_RIGHT -> directionAngle = East;
-                    case BOTTOM_LEFT -> directionAngle = -1;
-                    case MIDDLE_LEFT -> directionAngle = Northwest;
-                }
-                break;
-            case (int) Northwest:
-                switch (intersectionRegion){
-                    case MIDDLE_RIGHT -> directionAngle = Northeast;
-                    case BOTTOM_RIGHT -> directionAngle = -1;
-                    case BOTTOM_LEFT -> directionAngle = West;
-                }
-                break;
-            case 0:
-                switch (intersectionRegion){
-                    case MIDDLE_LEFT -> directionAngle = -1;
-                    case TOP_LEFT -> directionAngle = Northeast;
-                    case BOTTOM_LEFT -> directionAngle = Southeast;
-                }
-                break;
-            case (int) Southwest:
-                switch (intersectionRegion){
-                    case TOP_RIGHT -> directionAngle = -1;
-                    case TOP_LEFT -> directionAngle = West;
-                    case MIDDLE_RIGHT -> directionAngle = Southeast;
-                }
-                break;
-            default:
-                directionAngle = -1; // Default to east if direction is unknown
-        }
-        return directionAngle;
-    }
-
-    /**
-     *
-     * @param initialX The initial x cordinate of the ray
-     * @param initialY The initial y coordinate of the ray
-     * @param endX The endpoints X of the ray
-     * @param endY The endpoints Y of the ray
-     * @param directionAngle The angle the ray is being shot at
-     * @return The new reflection angle of the ray
-     */
-    private static double calculateReflection2Atoms(double initialX, double initialY, double endX, double endY, double directionAngle) {
-        Region intersectionRegion1 = null;
-        Region intersectionRegion2 = null;
-        double reflectionAngle = 0;
-        for (Atoms atom : BoardItems.allAtoms) {
-            Point2D intersection = getCircleLineIntersection(atom.orbit, initialX, initialY, endX + 5 * Math.cos(directionAngle), endY + 5 * Math.sin(directionAngle), directionAngle);
-            if (intersection!=null) {
-                endX = intersection.getX();
-                endY = intersection.getY();
-                if(intersectionRegion1 == null){
-                    intersectionRegion1 = determineRegion(intersection, atom.orbit);
-                }
-                else if(intersectionRegion2 == null){
-                    intersectionRegion2 = determineRegion(intersection, atom.orbit);
-
-                }
-            }
-        }
-
-
-        //Northwest
-        if (((intersectionRegion1 == Region.BOTTOM_LEFT && intersectionRegion2 == Region.MIDDLE_RIGHT) ||
-                (intersectionRegion1 == Region.MIDDLE_RIGHT && intersectionRegion2 == Region.BOTTOM_LEFT))
-                && directionAngle == Northwest){
-            reflectionAngle = -1;
-        }
-        else if (((intersectionRegion1 == Region.BOTTOM_LEFT && intersectionRegion2 == Region.BOTTOM_RIGHT) ||
-                (intersectionRegion1 == Region.BOTTOM_RIGHT && intersectionRegion2 == Region.BOTTOM_LEFT))
-                && directionAngle == Northwest){
-            reflectionAngle = Southwest;
-        }
-        else if (((intersectionRegion1 == Region.BOTTOM_RIGHT && intersectionRegion2 == Region.MIDDLE_RIGHT) ||
-                (intersectionRegion1 == Region.MIDDLE_RIGHT && intersectionRegion2 == Region.BOTTOM_RIGHT))
-                && directionAngle == Northwest){
-            reflectionAngle = East;
-        }
-
-        //Northeast
-        else if (((intersectionRegion1 == Region.MIDDLE_LEFT && intersectionRegion2 == Region.BOTTOM_RIGHT) ||
-                (intersectionRegion1 == Region.BOTTOM_RIGHT && intersectionRegion2 == Region.MIDDLE_LEFT))
-                && directionAngle == Northeast){
-            reflectionAngle = -1;
-        }
-        else if (((intersectionRegion1 == Region.MIDDLE_LEFT && intersectionRegion2 == Region.BOTTOM_LEFT) ||
-                (intersectionRegion1 == Region.BOTTOM_LEFT && intersectionRegion2 == Region.MIDDLE_LEFT))
-                && directionAngle == Northeast){
-            reflectionAngle = West;
-        }
-        else if (((intersectionRegion1 == Region.BOTTOM_LEFT && intersectionRegion2 == Region.BOTTOM_RIGHT) ||
-                (intersectionRegion1 == Region.BOTTOM_RIGHT && intersectionRegion2 == Region.BOTTOM_LEFT))
-                && directionAngle == Northeast){
-            reflectionAngle = Southeast;
-        }
-
-        //Southwest
-        else if (((intersectionRegion1 == Region.TOP_LEFT && intersectionRegion2 == Region.MIDDLE_RIGHT) ||
-                (intersectionRegion1 == Region.MIDDLE_RIGHT && intersectionRegion2 == Region.TOP_LEFT))
-                && directionAngle == Southwest){
-            reflectionAngle = -1;
-        }
-        else if (((intersectionRegion1 == Region.TOP_LEFT && intersectionRegion2 == Region.TOP_RIGHT) ||
-                (intersectionRegion1 == Region.TOP_RIGHT && intersectionRegion2 == Region.TOP_LEFT))
-                && directionAngle == Southwest){
-            reflectionAngle = Northwest;
-        }
-        else if (((intersectionRegion1 == Region.TOP_RIGHT && intersectionRegion2 == Region.MIDDLE_RIGHT) ||
-                (intersectionRegion1 == Region.MIDDLE_RIGHT && intersectionRegion2 == Region.TOP_RIGHT))
-                && directionAngle == Southwest){
-            reflectionAngle = East;
-        }
-
-        //Southeast
-        else if (((intersectionRegion1 == Region.MIDDLE_LEFT && intersectionRegion2 == Region.TOP_RIGHT) ||
-                (intersectionRegion1 == Region.TOP_RIGHT && intersectionRegion2 == Region.MIDDLE_LEFT))
-                && directionAngle == Southeast){
-            reflectionAngle = -1;
-        }
-        else if (((intersectionRegion1 == Region.TOP_LEFT && intersectionRegion2 == Region.TOP_RIGHT) ||
-                (intersectionRegion1 == Region.TOP_RIGHT && intersectionRegion2 == Region.TOP_LEFT))
-                && directionAngle == Southeast){
-            reflectionAngle = Northeast;
-        }
-        else if (((intersectionRegion1 == Region.MIDDLE_LEFT && intersectionRegion2 == Region.TOP_LEFT) ||
-                (intersectionRegion1 == Region.TOP_LEFT && intersectionRegion2 == Region.MIDDLE_LEFT))
-                && directionAngle == Southeast){
-            reflectionAngle = West;
-        }
-
-        //West
-        else if (((intersectionRegion1 == Region.TOP_RIGHT && intersectionRegion2 == Region.BOTTOM_RIGHT) ||
-                (intersectionRegion1 == Region.BOTTOM_RIGHT && intersectionRegion2 == Region.TOP_RIGHT))
-                && directionAngle == West){
-            reflectionAngle = -1;
-        }
-        else if (((intersectionRegion1 == Region.TOP_RIGHT && intersectionRegion2 == Region.MIDDLE_RIGHT) ||
-                (intersectionRegion1 == Region.MIDDLE_RIGHT && intersectionRegion2 == Region.TOP_RIGHT))
-                && directionAngle == West){
-            reflectionAngle = Northeast;
-        }
-        else if (((intersectionRegion1 == Region.BOTTOM_RIGHT && intersectionRegion2 == Region.MIDDLE_RIGHT) ||
-                (intersectionRegion1 == Region.MIDDLE_RIGHT && intersectionRegion2 == Region.BOTTOM_RIGHT))
-                && directionAngle == West){
-            reflectionAngle = Southeast;
-        }
-
-        //East
-        else if (((intersectionRegion1 == Region.TOP_LEFT && intersectionRegion2 == Region.BOTTOM_LEFT) ||
-                (intersectionRegion1 == Region.BOTTOM_LEFT && intersectionRegion2 == Region.TOP_LEFT))
-                && directionAngle == East){
-            reflectionAngle = -1;
-        }
-        else if (((intersectionRegion1 == Region.MIDDLE_LEFT && intersectionRegion2 == Region.BOTTOM_LEFT) ||
-                (intersectionRegion1 == Region.BOTTOM_LEFT && intersectionRegion2 == Region.MIDDLE_LEFT))
-                && directionAngle == East){
-            reflectionAngle = Southwest;
-        }
-        else if (((intersectionRegion1 == Region.TOP_LEFT && intersectionRegion2 == Region.MIDDLE_LEFT) ||
-                (intersectionRegion1 == Region.MIDDLE_LEFT && intersectionRegion2 == Region.TOP_LEFT))
-                && directionAngle == East){
-            reflectionAngle = Northwest;
-        }
-
-        return reflectionAngle;
-    }
-        //This is the helper method which calculates which side of the influence circle was hit by the ray
-    //We need this method to be able to reflect the ray correctly
-
-    /**
-     *
-     * @param intersectionPoint the points where the ray intersects the orbit
-     * @param circle the orbit that is being intersected
-     * @return the region of orbit intersected
-     */
-    private static Region determineRegion(Point2D intersectionPoint, Circle circle) {
-        double centerX = circle.getCenterX();
-        double centerY = circle.getCenterY();
-        double x = intersectionPoint.getX();
-        double y = intersectionPoint.getY();
-
-        if (x == centerX && y == centerY) {
-            return Region.CENTER;
-        } else if (x >= centerX && y < centerY - circle.getRadius() / 2) {
-            return Region.TOP_RIGHT;
-        } else if (x < centerX && y < centerY - circle.getRadius() / 2) {
-            return Region.TOP_LEFT;
-        } else if (x < centerX && y >= centerY - circle.getRadius() / 2 && y < centerY + circle.getRadius() / 2) {
-            return Region.MIDDLE_LEFT;
-        } else if (x >= centerX && y >= centerY - circle.getRadius() / 2 && y < centerY + circle.getRadius() / 2) {
-            return Region.MIDDLE_RIGHT;
-        } else if (x >= centerX && y >= centerY + circle.getRadius() / 2) {
-            return Region.BOTTOM_RIGHT;
-        } else {
-            return Region.BOTTOM_LEFT;
-        }
-    }
-
-    /**
-     *
-     * @param lineStartX The x cordinate of the start of the ray
-     * @param lineStartY The y coordinate of the start of the ray
-     * @param lineEndX The x coordinate of the end of the ray
-     * @param lineEndY The y coordinate of the end of the ray
-     * @param directionAngle The direction the ray is fired from
-     * @return The number of orbits the ray intersects
-     */
-    private static int countCircleLineIntersections(double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
-        int intersectingAtomsCount = 0;
-        for (Atoms atom : BoardItems.allAtoms) {
-            // Get the point of intersection
-            Point2D intersection = getCircleLineIntersection(atom.orbit, lineStartX, lineStartY, lineEndX, lineEndY, directionAngle);
-            if (intersection != null) {
-                intersectingAtomsCount++; // Increment the count for each intersecting atom
-
-            }
-        }
-        if (intersectingAtomsCount == 0) return 1;
-        return intersectingAtomsCount;
-    }
-
-    /**
-     *
-     * @param initialX The initial x coordinate of the ray
-     * @param initialY The initial y coordinate of the ray
-     * @param directionAngle The angle of the direction of the ray
-     * @param rays The total list of lines to be combined for the ray
-     */
-    private static void makeRays(double initialX, double initialY, double directionAngle, List<Line> rays) {
-        loops++;
-        double rayLength = 5;
-        double[] endPoint = findEndPoint(initialX, initialY, directionAngle, rayLength);
-        double endX = endPoint[0];
-        double endY = endPoint[1];
-        double reflectionAngle = -1;
-        double currentX=initialX;
-        double currentY=initialY;
-        currentX += 25*Math.cos(directionAngle);
-        currentY += 25*Math.sin(directionAngle);
-        boolean found = false;
-        for (int i = 0 ; i < 50 ; i++ ) {
-            for (Atoms atom : BoardItems.allAtoms) {
-                Point2D Intersection = getCircleLineIntersection(atom.orbit, initialX, initialY, currentX, currentY, directionAngle);
-                if (Intersection != null) {
-                    for (List<Hexagon> innerList : allHexagons) {
-                        for (Hexagon hexagon : innerList) {
-                            if (hexagon.shape.contains(Intersection.getX(), Intersection.getY())) {
-                                currentX = hexagon.x;
-                                currentY = hexagon.y;
-                            }
-                        }
-                    }
-                    Region intersectedRegion = determineRegion(Intersection, atom.orbit);
-                    int AtomsHit = countCircleLineIntersections(initialX, initialY, currentX+25*Math.cos(directionAngle), currentY+25*Math.sin(directionAngle), directionAngle);
-                    if (AtomsHit==1) reflectionAngle = calculateReflection1Atom(intersectedRegion, directionAngle);
-                    if (AtomsHit==2) {
-                        reflectionAngle = calculateReflection2Atoms(initialX, initialY, currentX+25*Math.cos(directionAngle), currentY+25*Math.sin(directionAngle), directionAngle);
-                    }
-                    if (AtomsHit==3) {
-                        reflectionAngle = -1;
-                    }
-
-                    found = true;
-                    if (reflectionAngle == -1) {
-                        break;
-                    }
-                    break;
-                }
-            }
-            if(found){
-                break;
-            }
-            currentX += 25*Math.cos(directionAngle);
-            currentY += 25*Math.sin(directionAngle);
-        }
-        if(!found){
-            currentX = endX;
-            currentY = endY;
-        }
-        Line Ray = new Line(initialX, initialY, currentX, currentY); // Original ray from midpoint to intersection point
-        Ray.setStroke(Color.CYAN);
-        Ray.setStrokeWidth(6);
-        ExitId = FindArrow(Ray.getEndX(), Ray.getEndY());
-        rays.add(Ray);
-        if (reflectionAngle != -1) {
-            makeRays(currentX, currentY, reflectionAngle, rays);
-        }
-    }
-
-    /**
-     *
-     * @param x The x coordinate of the arrow
-     * @param y The y coordinate of the arrow
-     * @return The arrow id of the arrow that contains the points
-     */
-    public static int FindArrow(double x, double y){
-        for (Arrow a: allArrows){
-          for (int i = -5; i <=5; i++){
-              for (int j = -5; j <= 5; j++) {
-                  if (a.contains(x + i, y + j)) return a.arrowid;
-              }
-          }
-        }
-        return 0;
-    }
 
 
     public static void MakeRaysVisible(boolean x){

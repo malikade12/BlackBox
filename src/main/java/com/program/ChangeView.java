@@ -22,13 +22,9 @@ public class ChangeView {
         @Override
         public void handle(ActionEvent e) {
 
-
-            System.out.println(InitGame.ExperimenterName + "'s turn..");
             BoardItems.addLog(InitGame.ExperimenterName + "'s turn..");
 
-            System.out.println("Markers Press:\n Q - Purple X - Pink.\nPress key again to stop marking");
             BoardItems.addLog("Markers Press:\n Q - Purple X - Pink.\nPress key again to stop marking");
-
             BoardItems.IsSetter = false;
             BoardItems.SetterSwitched = true;
             ExperimenterButton.setVisible(false);
@@ -44,7 +40,7 @@ public class ChangeView {
         @Override
         public void handle(ActionEvent e) {
             BoardItems.IsSetter = true;
-            System.out.println(InitGame.SetterName + "'s turn..");
+            BoardItems.addLog(InitGame.SetterName + "'s turn..");
             ExperimenterButton.setVisible(true);
             SetterButton.setVisible(false);
             GuessButton.setVisible(false);
@@ -68,9 +64,7 @@ public class ChangeView {
         public void handle(ActionEvent actionEvent) {
             EndButton.setVisible(false);
             Scoring.ValidatePoints();
-            System.out.println(BoardItems.ExScore);
             //Call end Round method
-            System.out.println("Cleaning");
             for (Atoms atom : BoardItems.allAtoms) {
                 Main.root.getChildren().remove(atom);
                 Main.root.getChildren().remove(atom.orbit);
@@ -120,7 +114,6 @@ public class ChangeView {
             }
             else{
                 Scoring.EndRound2();
-                System.out.println("Thanks for playing!!!!");
                 BoardItems.addLog("Thanks for playing!!!!");
             }
         }

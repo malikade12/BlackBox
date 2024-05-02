@@ -9,13 +9,6 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-import java.lang.annotation.Native;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static com.program.Main.*;
 
 public  class Hexagon extends Polygon {
     public double x;
@@ -49,7 +42,7 @@ public  class Hexagon extends Polygon {
 
     /**
      *
-     * @param x The x cooredinate of the center point
+     * @param x The x coordinate of the center point
      * @param y The y coordinate of the center point
      */
     public void CalculatePosId(int x, int y){
@@ -100,11 +93,11 @@ public  class Hexagon extends Polygon {
                     hasAtom = true;
 
                 } else if (BoardItems.SetterSwitched && BoardItems.IsSetter) {
-                    System.out.println("You already let " + InitGame.ExperimenterName + " go, NO CHEATING!!!!!");
+                    BoardItems.addLog("You already let " + InitGame.ExperimenterName + " go, NO CHEATING!!!!!");
                     
                 } else if (BoardItems.EndOfRound){
                     if(Guessed){
-                        System.out.println("Hexcagon guessed already");
+                        BoardItems.addLog("Hexcagon guessed already");
                     }else if (hasAtom){
                         Guessed = true;
                     } else if (!hasAtom) {
@@ -126,7 +119,7 @@ public  class Hexagon extends Polygon {
 
     /**
      *
-     * @param polygon The Polygon who's center will be calculated
+     * @param polygon The Polygon whose center will be calculated
      * @return An array containing the coordinated of the center of the polygon
      */
     public static double[] calculatePolygonCenter(Polygon polygon) {
