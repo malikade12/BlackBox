@@ -1,10 +1,7 @@
 
 package com.program;
-import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import javafx.scene.shape.*;
 
 public class Atoms extends Sphere {
@@ -32,14 +29,14 @@ public class Atoms extends Sphere {
     }
 
     public static void makeAllAtomsInvisible() {
-        for (Atoms atom : Main.allAtoms) {
+        for (Atoms atom : BoardItems.allAtoms) {
             atom.setVisible(false);
             atom.orbit.setVisible(false);
         }
     }
 
     public static void makeAllAtomsVisible() {
-        for (Atoms atom : Main.allAtoms) {
+        for (Atoms atom : BoardItems.allAtoms) {
             atom.setVisible(true);
             atom.orbit.setVisible(true);
         }

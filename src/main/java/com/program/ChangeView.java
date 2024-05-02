@@ -17,8 +17,6 @@ public class ChangeView {
     public static Button GuessButton;
     public static Button EndButton;
 
-
-
     // EventHandler for the button click event
     EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
         @Override
@@ -26,13 +24,13 @@ public class ChangeView {
 
 
             System.out.println(InitGame.ExperimenterName + "'s turn..");
-            Main.addLog(InitGame.ExperimenterName + "'s turn..");
+            BoardItems.addLog(InitGame.ExperimenterName + "'s turn..");
 
             System.out.println("Markers Press:\n Q - Purple X - Pink.\nPress key again to stop marking");
-            Main.addLog("Markers Press:\n Q - Purple X - Pink.\nPress key again to stop marking");
+            BoardItems.addLog("Markers Press:\n Q - Purple X - Pink.\nPress key again to stop marking");
 
-            Main.IsSetter = false;
-            Main.SetterSwitched = true;
+            BoardItems.IsSetter = false;
+            BoardItems.SetterSwitched = true;
             ExperimenterButton.setVisible(false);
             SetterButton.setVisible(true);
             GuessButton.setVisible(true);
@@ -42,12 +40,10 @@ public class ChangeView {
         }
     };
 
-
-
     EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Main.IsSetter = true;
+            BoardItems.IsSetter = true;
             System.out.println(InitGame.SetterName + "'s turn..");
             ExperimenterButton.setVisible(true);
             SetterButton.setVisible(false);
@@ -60,7 +56,7 @@ public class ChangeView {
     EventHandler<ActionEvent> event3 = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-            Main.EndOfRound = true;
+            BoardItems.EndOfRound = true;
             SetterButton.setVisible(false);
             GuessButton.setVisible(false);
             EndButton.setVisible(true);
@@ -72,17 +68,17 @@ public class ChangeView {
         public void handle(ActionEvent actionEvent) {
             EndButton.setVisible(false);
             Scoring.ValidatePoints();
-            System.out.println(Main.ExScore);
+            System.out.println(BoardItems.ExScore);
             //Call end Round method
             System.out.println("Cleaning");
-            for (Atoms atom : Main.allAtoms) {
+            for (Atoms atom : BoardItems.allAtoms) {
                 Main.root.getChildren().remove(atom);
                 Main.root.getChildren().remove(atom.orbit);
                 // Optionally, remove it from the lis
             }
-            Main.allAtoms.clear();
-            Main.ActualRayPoints.clear();
-            Main.SetterRayPoints.clear();
+            BoardItems.allAtoms.clear();
+            BoardItems.ActualRayPoints.clear();
+            BoardItems.SetterRayPoints.clear();
             String temp = InitGame.ExperimenterName;
             InitGame.ExperimenterName = InitGame.SetterName;
             InitGame.SetterName = temp;
@@ -95,21 +91,21 @@ public class ChangeView {
               }
               Arrow.rays.clear();
           }
-            for (Circle marker : Main.markerList) {
+            for (Circle marker : BoardItems.markerList) {
 
                 Main.root.getChildren().remove(marker);
                 // Optionally, remove it from the list
             }
 
-            Main.markerList.clear();
+            BoardItems.markerList.clear();
 
-            Main.IsSetter = true;
-            Main.SetterSwitched = false;
-            Main.EndOfRound = false;
-            Main.markerEnabled = false;
+            BoardItems.IsSetter = true;
+            BoardItems.SetterSwitched = false;
+            BoardItems.EndOfRound = false;
+            BoardItems.markerEnabled = false;
             Hexagon.counter=0;
             SetterButton.setVisible(true);
-            for (List<Hexagon> a: Main.allHexagons
+            for (List<Hexagon> a: BoardItems.allHexagons
                  ) {
                 for (Hexagon n:a
                      ) {
@@ -117,19 +113,16 @@ public class ChangeView {
                 }
             }
 
-            if(Main.roundcount<1){
-                Main.roundcount++;
+            if(BoardItems.roundcount<1){
+                BoardItems.roundcount++;
                 Scoring.EndRound();
                 SetterButton.fire();
             }
             else{
                 Scoring.EndRound2();
                 System.out.println("Thanks for playing!!!!");
-                Main.addLog("Thanks for playing!!!!");
+                BoardItems.addLog("Thanks for playing!!!!");
             }
-
-
-
         }
     };
 
@@ -192,9 +185,6 @@ public class ChangeView {
 
 
     }
-
-
-
 
 
     // Method to get the button

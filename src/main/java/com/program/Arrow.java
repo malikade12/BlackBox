@@ -13,6 +13,7 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.program.BoardItems.*;
 import static com.program.Main.*;
 
 
@@ -40,8 +41,16 @@ public class Arrow extends Polygon{
     public int arrowid;
     public static int ExitId;
 
-
-    public Object[] createArrow(double[] p1, double[] p2, Main.directions z, int[] hexid, int arrowid){
+    /**
+     *
+     * @param p1
+     * @param p2
+     * @param z
+     * @param hexid
+     * @param arrowid
+     * @return
+     */
+    public Object[] createArrow(double[] p1, double[] p2, BoardItems.directions z, int[] hexid, int arrowid){
         this.arrowid=arrowid;
         double midX = (p1[0] + p2[0] ) / 2;
         double midY = (p1[1] + p2[1] ) / 2;
@@ -51,6 +60,7 @@ public class Arrow extends Polygon{
         double x2 = p2[0];
         double x3 = 0;
         double y3 = 0;
+
 
         switch (z){
             //calculating the offsets for the arrow to be drawn based on the direction its facing
@@ -104,6 +114,7 @@ public class Arrow extends Polygon{
         midpoints = new double[]{midX, midY};
         Arrow polygon = new Arrow();
         polygon.arrowid=arrowid;
+
 
         //ARROW ID IS FOR THE NUMBERS
         String arrowIDstring = Integer.toString(arrowid);
@@ -164,7 +175,7 @@ public class Arrow extends Polygon{
         polygon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !Main.EndOfRound && !markerEnabled){
+                if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !BoardItems.EndOfRound && !markerEnabled){
 
 
 
@@ -200,7 +211,7 @@ public class Arrow extends Polygon{
                             MakeRaysVisible(false);
                             PauseTransition pause = new PauseTransition(Duration.seconds(3));
                             System.out.println("Switching to Setter.......");
-                            Main.addLog("Switching to Setter.......");
+                        BoardItems.addLog("Switching to Setter.......");
                             pause.setOnFinished(event2 -> {
                                 ChangeView.SetterButton.fire();
                                 Scoring.SetterInput();
@@ -210,12 +221,12 @@ public class Arrow extends Polygon{
                     }
                 } else if (EndOfRound) {
                     System.out.println("round is over please make your guesses   ");
-                    Main.addLog("round is over please make your guesses   ");
+                    BoardItems.addLog("round is over please make your guesses   ");
                 } else if(markerEnabled){
 
                 }else if (!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom){
                     System.out.println("Cant shoot ray because arrow in hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " because there is an atom here ");
-                    Main.addLog("Cant shoot ray because arrow in hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " because there is an atom here ");
+                    BoardItems.addLog("Cant shoot ray because arrow in hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " because there is an atom here ");
                 }
             }
         });
@@ -228,6 +239,15 @@ public class Arrow extends Polygon{
         return new Object[] {polygon,numberLabel};
     }
     //This method simply calculates and returns the end x and y points of a ray
+
+    /**
+     *
+     * @param midX The x coordinate of the center point
+     * @param midY The y coordinate of the center point
+     * @param directionAngle The angle of the ray
+     * @param rayLength The length of the ray
+     * @return
+     */
     private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength) {
         double endX = midX + rayLength * Math.cos(directionAngle);
         double endY = midY + rayLength * Math.sin(directionAngle);
@@ -287,6 +307,16 @@ public class Arrow extends Polygon{
         }
     }
 
+    /**
+     *
+     * @param circle The orbit whos line intersection is to be found
+     * @param lineStartX X coordinate of the start of the line
+     * @param lineStartY Y coordinate of the start of the line
+     * @param lineEndX X coordinate of the end of the line
+     * @param lineEndY Y coordinate of the end of the line
+     * @param directionAngle The angle of the line
+     * @return The point that the line intersects the orbit
+     */
 
     private static Point2D getCircleLineIntersection(Circle circle, double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
         lineStartX += 5 * Math.cos(directionAngle);
@@ -336,6 +366,13 @@ public class Arrow extends Polygon{
     //This method calculates the angle at which to deflect the ray
     //It uses the initial direction of the ray and the region of the influence circle that is hit
     //Depending on these 2 variables, the nested switches determine which direction to give the new ray
+
+    /**
+     *
+     * @param intersectionRegion The region the ray is fired from
+     * @param OriginalDirection The original direction the ray is headed
+     * @return the new angle to reflect the ray
+     */
     private static double calculateReflection1Atom(Region intersectionRegion, double OriginalDirection) {
         double directionAngle = 0;
         switch ((int) OriginalDirection) {
@@ -386,11 +423,21 @@ public class Arrow extends Polygon{
         }
         return directionAngle;
     }
+
+    /**
+     *
+     * @param initialX The initial x cordinate of the ray
+     * @param initialY The initial y coordinate of the ray
+     * @param endX The endpoints X of the ray
+     * @param endY The endpoints Y of the ray
+     * @param directionAngle The angle the ray is being shot at
+     * @return The new reflection angle of the ray
+     */
     private static double calculateReflection2Atoms(double initialX, double initialY, double endX, double endY, double directionAngle) {
         Region intersectionRegion1 = null;
         Region intersectionRegion2 = null;
         double reflectionAngle = 0;
-        for (Atoms atom : Main.allAtoms) {
+        for (Atoms atom : BoardItems.allAtoms) {
             Point2D intersection = getCircleLineIntersection(atom.orbit, initialX, initialY, endX + 5 * Math.cos(directionAngle), endY + 5 * Math.sin(directionAngle), directionAngle);
             if (intersection!=null) {
                 endX = intersection.getX();
@@ -512,6 +559,13 @@ public class Arrow extends Polygon{
     }
         //This is the helper method which calculates which side of the influence circle was hit by the ray
     //We need this method to be able to reflect the ray correctly
+
+    /**
+     *
+     * @param intersectionPoint the points where the ray intersects the orbit
+     * @param circle the orbit that is being intersected
+     * @return the region of orbit intersected
+     */
     private static Region determineRegion(Point2D intersectionPoint, Circle circle) {
         double centerX = circle.getCenterX();
         double centerY = circle.getCenterY();
@@ -535,9 +589,18 @@ public class Arrow extends Polygon{
         }
     }
 
+    /**
+     *
+     * @param lineStartX The x cordinate of the start of the ray
+     * @param lineStartY The y coordinate of the start of the ray
+     * @param lineEndX The x coordinate of the end of the ray
+     * @param lineEndY The y coordinate of the end of the ray
+     * @param directionAngle The direction the ray is fired from
+     * @return The number of orbits the ray intersects
+     */
     private static int countCircleLineIntersections(double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
         int intersectingAtomsCount = 0;
-        for (Atoms atom : Main.allAtoms) {
+        for (Atoms atom : BoardItems.allAtoms) {
             // Get the point of intersection
             Point2D intersection = getCircleLineIntersection(atom.orbit, lineStartX, lineStartY, lineEndX, lineEndY, directionAngle);
             if (intersection != null) {
@@ -549,6 +612,13 @@ public class Arrow extends Polygon{
         return intersectingAtomsCount;
     }
 
+    /**
+     *
+     * @param initialX The initial x coordinate of the ray
+     * @param initialY The initial y coordinate of the ray
+     * @param directionAngle The angle of the direction of the ray
+     * @param rays The total list of lines to be combined for the ray
+     */
     private static void makeRays(double initialX, double initialY, double directionAngle, List<Line> rays) {
         loops++;
         double rayLength = 5;
@@ -562,7 +632,7 @@ public class Arrow extends Polygon{
         currentY += 25*Math.sin(directionAngle);
         boolean found = false;
         for (int i = 0 ; i < 50 ; i++ ) {
-            for (Atoms atom : Main.allAtoms) {
+            for (Atoms atom : BoardItems.allAtoms) {
                 Point2D Intersection = getCircleLineIntersection(atom.orbit, initialX, initialY, currentX, currentY, directionAngle);
                 if (Intersection != null) {
                     for (List<Hexagon> innerList : allHexagons) {
@@ -609,6 +679,13 @@ public class Arrow extends Polygon{
             makeRays(currentX, currentY, reflectionAngle, rays);
         }
     }
+
+    /**
+     *
+     * @param x The x coordinate of the arrow
+     * @param y The y coordinate of the arrow
+     * @return The arrow id of the arrow that contains the points
+     */
     public static int FindArrow(double x, double y){
         for (Arrow a: allArrows){
           for (int i = -5; i <=5; i++){
@@ -619,6 +696,7 @@ public class Arrow extends Polygon{
         }
         return 0;
     }
+
 
     public static void MakeRaysVisible(boolean x){
         if (rays != null) {

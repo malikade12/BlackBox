@@ -78,7 +78,7 @@ public  class InitGame {
             }
 
 
-            Main.allHexagons.add(rows);
+            BoardItems.allHexagons.add(rows);
         }
     }
     public static void PrintArrows(){
@@ -94,7 +94,7 @@ public  class InitGame {
 
         Arrow Arrow = new Arrow();
         //looping through the hexagon to find matches with rowIds arrays
-        for (List<Hexagon> rows: Main.allHexagons){
+        for (List<Hexagon> rows: BoardItems.allHexagons){
             for (Hexagon hex: rows){
                 for (int[] x: rowIds){
                     for (int y: x) {
@@ -106,17 +106,17 @@ public  class InitGame {
                                 double[] p2 = {hex.points[6], hex.points[7]};
                                 double[] p3 = {hex.points[4], hex.points[5]};
                                 //uses the points to draw the south-east facing arrow
-                                Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.southEast, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid);
+                                Object[] a1 = Arrow.createArrow(p1, p2, BoardItems.directions.southEast, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid);
                                 arrowid++;
                                 //uses the points to draw the east facing arrow
-                                Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.east, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid);
+                                Object[] a2 = Arrow.createArrow(p2, p3, BoardItems.directions.east, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid);
                                 arrowid++;
 
                                     //adds the numbers and arrow to their respective arraylists
-                                    Main.allNumbers.add((Label) a2[1]);
-                                    Main.allArrows.add((Arrow) a1[0]);
-                                    Main.allArrows.add((Arrow) a2[0]);
-                                    Main.allNumbers.add((Label) a1[1]);
+                                BoardItems.allNumbers.add((Label) a2[1]);
+                                BoardItems.allArrows.add((Arrow) a1[0]);
+                                BoardItems.allArrows.add((Arrow) a2[0]);
+                                BoardItems.allNumbers.add((Label) a1[1]);
 
 
 
@@ -128,20 +128,20 @@ public  class InitGame {
                                 double[] p2 = {hex.points[4], hex.points[5]};
                                 double[] p3 = {hex.points[2], hex.points[3]};
                                 //uses the points to draw the east facing arrow
-                                Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.east, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid2);
+                                Object[] a1 = Arrow.createArrow(p1, p2, BoardItems.directions.east, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid2);
                                 arrowid2++;
                                 //uses the points to draw the north-east facing arrow
-                                Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.northEast, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid2);
+                                Object[] a2 = Arrow.createArrow(p2, p3, BoardItems.directions.northEast, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid2);
                                 arrowid2++;
                                 //if hex id is 27, dont draw the east facing arrow because it was previously drawn
                                 //adds the numbers and arrow to their respective arraylists
 
                                 if (hex.Id != 27){
-                                    Main.allArrows.add((Arrow) a1[0]);
-                                    Main.allNumbers.add((Label) a1[1]);
+                                    BoardItems.allArrows.add((Arrow) a1[0]);
+                                    BoardItems.allNumbers.add((Label) a1[1]);
                                 }
-                                    Main.allArrows.add((Arrow) a2[0]);
-                                    Main.allNumbers.add((Label) a2[1]);
+                                BoardItems.allArrows.add((Arrow) a2[0]);
+                                BoardItems.allNumbers.add((Label) a2[1]);
 
                             }
                             //if the id is in the thrid index this is the line of arrows on the lower middle side of the bigger hexagon
@@ -153,20 +153,20 @@ public  class InitGame {
                                 double[] p2 = {hex.points[2], hex.points[3]};
                                 double[] p3 = {hex.points[0], hex.points[1]};
                                 //uses the points to draw the north-east facing arrow
-                                Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.northEast, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid3);
+                                Object[] a1 = Arrow.createArrow(p1, p2, BoardItems.directions.northEast, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid3);
                                 arrowid3++;
                                 //uses the points to draw the north-west facing arrow
-                                Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.northWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid3);
+                                Object[] a2 = Arrow.createArrow(p2, p3, BoardItems.directions.northWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid3);
                                 arrowid3++;
                                 //if hex id is 57, dont draw the north-east facing arrow because it was previously drawn
                                 //adds the numbers and arrow to their respective arraylists
 
                                 if (hex.Id != 57){
-                                    Main.allArrows.add((Arrow) a1[0]);
-                                    Main.allNumbers.add((Label) a1[1]);
+                                    BoardItems.allArrows.add((Arrow) a1[0]);
+                                    BoardItems.allNumbers.add((Label) a1[1]);
                                 }
-                                    Main.allArrows.add((Arrow) a2[0]);
-                                    Main.allNumbers.add((Label) a2[1]);
+                                BoardItems.allArrows.add((Arrow) a2[0]);
+                                BoardItems.allNumbers.add((Label) a2[1]);
 
                             }
                             //if the id is in the fourth index this is the line of arrows on the lower right side of the bigger hexagon
@@ -178,24 +178,24 @@ public  class InitGame {
                                 double[] p2 = {hex.points[0], hex.points[1]};
                                 double[] p3 = {hex.points[10], hex.points[11]};
                                 //uses the points to draw the west facing arrow
-                                Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.west, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid4);
+                                Object[] a2 = Arrow.createArrow(p2, p3, BoardItems.directions.west, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid4);
                                 arrowid4--;
                                 //uses the points to draw the north-west facing arrow
-                                Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.northWest, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid4);
+                                Object[] a1 = Arrow.createArrow(p1, p2, BoardItems.directions.northWest, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid4);
                                 arrowid4--;
 
                                 if (hex.Id != 61){
-                                    Main.allArrows.add((Arrow) a1[0]);
+                                    BoardItems.allArrows.add((Arrow) a1[0]);
                                     if (arrowid4>26) {
 
-                                        Main.allNumbers.add((Label) a1[1]);
+                                        BoardItems.allNumbers.add((Label) a1[1]);
                                     }
                                 }
-                                if (!Main.allArrows.contains((Arrow) a2[0])){
-                                    Main.allArrows.add((Arrow) a2[0]);
+                                if (!BoardItems.allArrows.contains((Arrow) a2[0])){
+                                    BoardItems.allArrows.add((Arrow) a2[0]);
                                     if(arrowid4>26) {
 
-                                        Main.allNumbers.add((Label) a2[1]);
+                                        BoardItems.allNumbers.add((Label) a2[1]);
                                     }
                                 }else {
                                     arrowid4--;
@@ -210,23 +210,23 @@ public  class InitGame {
                                 double[] p2 = {hex.points[10], hex.points[11]};
                                 double[] p3 = {hex.points[8], hex.points[9]};
                                 //uses the points to draw the south-west facing arrow
-                                Object[] a2 = Arrow.createArrow(p2, p3, Main.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid5);
+                                Object[] a2 = Arrow.createArrow(p2, p3, BoardItems.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid5);
                                 arrowid5--;
                                 //uses the points to draw the west facing arrow
-                                Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.west, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid5);
+                                Object[] a1 = Arrow.createArrow(p1, p2, BoardItems.directions.west, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid5);
                                 arrowid5--;
                                 if (hex.Id != 35){
-                                    Main.allArrows.add((Arrow) a1[0]);
+                                    BoardItems.allArrows.add((Arrow) a1[0]);
 
 
-                                        Main.allNumbers.add((Label) a1[1]);
+                                    BoardItems.allNumbers.add((Label) a1[1]);
 
                                 }
-                                if (!Main.allArrows.contains((Arrow) a2[0])){
-                                    Main.allArrows.add((Arrow) a2[0]);
+                                if (!BoardItems.allArrows.contains((Arrow) a2[0])){
+                                    BoardItems.allArrows.add((Arrow) a2[0]);
 
 
-                                        Main.allNumbers.add((Label) a2[1]);
+                                    BoardItems.allNumbers.add((Label) a2[1]);
 
                                 }
                             }
@@ -238,20 +238,20 @@ public  class InitGame {
                                 double[] p2 = {hex.points[6], hex.points[7]};
                                 double[] p3 = {hex.points[10], hex.points[11]};
                                 //uses the points to draw the south-east facing arrow
-                                Object[] a1 = Arrow.createArrow(p1, p2, Main.directions.southEast, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid6);
+                                Object[] a1 = Arrow.createArrow(p1, p2, BoardItems.directions.southEast, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid6);
                                 arrowid6--;
                                 if(arrowid6 < 1) arrowid6 = 54;
                                 //uses the points to draw the south-west facing arrow
 
-                                Object[] a2 = Arrow.createArrow(p3, p1, Main.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid6);
+                                Object[] a2 = Arrow.createArrow(p3, p1, BoardItems.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid6);
                                 arrowid6--;
                                 if (hex.Id != 1){
-                                    Main.allArrows.add((Arrow) a1[0]);
-                                    Main.allNumbers.add((Label) a1[1]);
+                                    BoardItems.allArrows.add((Arrow) a1[0]);
+                                    BoardItems.allNumbers.add((Label) a1[1]);
                                 }
-                                if (!Main.allArrows.contains((Arrow) a2[0])){
-                                    Main.allArrows.add((Arrow) a2[0]);
-                                    Main.allNumbers.add((Label) a2[1]);
+                                if (!BoardItems.allArrows.contains((Arrow) a2[0])){
+                                    BoardItems.allArrows.add((Arrow) a2[0]);
+                                    BoardItems.allNumbers.add((Label) a2[1]);
                                 }else{
                                         arrowid6--;
                                     }
@@ -261,8 +261,8 @@ public  class InitGame {
                     }
                 }
             }}
-        Main.root.getChildren().addAll(Main.allArrows);
-        Main.root.getChildren().addAll(Main.allNumbers);
+        Main.root.getChildren().addAll(BoardItems.allArrows);
+        Main.root.getChildren().addAll(BoardItems.allNumbers);
 
     }
 }

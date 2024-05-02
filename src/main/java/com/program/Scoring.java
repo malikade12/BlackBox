@@ -61,11 +61,11 @@ public class Scoring{
                      System.out.println("Entered at " + entryValue);
                      System.out.println("Exited at : " + exitValue);
                      //add entry and exit values to a map to check for errors in the setters reporting
-                     if (!Objects.equals("0", exitValue)) Main.SetterRayPoints.put(Integer.valueOf(entryValue), Integer.valueOf(exitValue));
+                     if (!Objects.equals("0", exitValue)) BoardItems.SetterRayPoints.put(Integer.valueOf(entryValue), Integer.valueOf(exitValue));
                      dropdownStage.close();
 
                      System.out.println("Switching to Experimenter....");
-                     Main.addLog("Switching to Experimenter....\"");
+                     BoardItems.addLog("Switching to Experimenter....\"");
                      //switch back to the experimenter
                      PauseTransition pause = new PauseTransition(Duration.seconds(3));
                      pause.setOnFinished(even -> ChangeView.ExperimenterButton.fire());
@@ -88,53 +88,53 @@ public class Scoring{
        public static void EndRound(){
               ValidatePoints();
               System.out.println("Switch roles ....");
-              Main.addLog("Switch Roles");
-              System.out.println(InitGame.SetterName + " finished with " + Main.ExScore + " points....");
-              Main.addLog(InitGame.SetterName + " finished with " + Main.ExScore + " points....");
+              BoardItems.addLog("Switch Roles");
+              System.out.println(InitGame.SetterName + " finished with " + BoardItems.ExScore + " points....");
+              BoardItems.addLog(InitGame.SetterName + " finished with " + BoardItems.ExScore + " points....");
        }
        public static void ValidatePoints(){
               //check if the setter made errors while reporting
-              for (Map.Entry<Integer, Integer> x: Main.ActualRayPoints.entrySet()){
-                     for (Map.Entry<Integer,Integer> y: Main.SetterRayPoints.entrySet()){
+              for (Map.Entry<Integer, Integer> x: BoardItems.ActualRayPoints.entrySet()){
+                     for (Map.Entry<Integer,Integer> y: BoardItems.SetterRayPoints.entrySet()){
                             //if the setter made a mistake on calling out an entry point, 5 is deducted from the experimenters score
-                            if (Main.ActualRayPoints.get(y.getKey()) == null ){
+                            if (BoardItems.ActualRayPoints.get(y.getKey()) == null ){
                                    System.out.println(InitGame.ExperimenterName + " lied about ray entering from " + y.getKey() );
-                                   Main.addLog(InitGame.ExperimenterName + " lied about ray entering from " + y.getKey() );
-                                   if(Main.roundcount == 0) Main.ExScore -= 5;
+                                   BoardItems.addLog(InitGame.ExperimenterName + " lied about ray entering from " + y.getKey() );
+                                   if(BoardItems.roundcount == 0) BoardItems.ExScore -= 5;
                                    else{
-                                          Main.SetScore -=5;
+                                          BoardItems.SetScore -=5;
                                    }
 
                             }
                             //if setter lied about an exit point, 5 is deducted from the experimenters score
                             else if (Objects.equals(x.getKey(), y.getKey()) && (!Objects.equals(x.getValue(), y.getValue()))){
                                    System.out.println(InitGame.ExperimenterName + " lied about ray enting from " + x.getKey() + " and exiting from " + y.getValue());
-                                   Main.addLog(InitGame.ExperimenterName + " lied about ray enting from " + x.getKey() + " and exiting from " + y.getValue());
-                                   if(Main.roundcount == 0) Main.ExScore -= 5;
+                                   BoardItems.addLog(InitGame.ExperimenterName + " lied about ray enting from " + x.getKey() + " and exiting from " + y.getValue());
+                                   if(BoardItems.roundcount == 0) BoardItems.ExScore -= 5;
                                    else{
-                                          Main.SetScore -=5;
+                                          BoardItems.SetScore -=5;
                                    }
                             }
                      }
               }
               //making sure the scores are never negative
-              if (Main.ExScore < 0) Main.ExScore = 0;
-              if (Main.SetScore < 0) Main.SetScore = 0;
+              if (BoardItems.ExScore < 0) BoardItems.ExScore = 0;
+              if (BoardItems.SetScore < 0) BoardItems.SetScore = 0;
        }
        //end round two and announce the results
        public static void EndRound2(){
               System.out.println("Switch roles ....");
-              Main.addLog("Switch roles ....");
-              System.out.println(InitGame.SetterName + " finished with " + Main.SetScore + " points....");
-              Main.addLog(InitGame.SetterName + " finished with " + Main.SetScore + " points....");
+              BoardItems.addLog("Switch roles ....");
+              System.out.println(InitGame.SetterName + " finished with " + BoardItems.SetScore + " points....");
+              BoardItems.addLog(InitGame.SetterName + " finished with " + BoardItems.SetScore + " points....");
 
-              if(Main.ExScore < Main.SetScore) {
+              if(BoardItems.ExScore < BoardItems.SetScore) {
                      System.out.println(InitGame.ExperimenterName+" WON!!");
-                     Main.addLog(InitGame.ExperimenterName+" WON!!");
+                     BoardItems.addLog(InitGame.ExperimenterName+" WON!!");
               }
               else{
                      System.out.println(InitGame.SetterName+" WON!!!");
-                     Main.addLog(InitGame.SetterName+" WON!!");
+                     BoardItems.addLog(InitGame.SetterName+" WON!!");
               }
 
        }
