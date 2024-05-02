@@ -182,15 +182,22 @@ public class Arrow {
                                 directionAngle = -1; // Default to east if direction is unknown
                         }
                          rays = new ArrayList<>();
-                        double rayLength = 5; // Adjust the desired length of the ray
-                        double[] endPoint = findEndPoint(midX, midY, directionAngle, rayLength);
                         makeRays(midX,midY,directionAngle,rays);
                             MakeRaysVisible(false);
+<<<<<<< Updated upstream
                             PauseTransition pause = new PauseTransition(Duration.seconds(3));
                             System.out.println("Switching to Setter.......");
                             pause.setOnFinished(event2 -> {
                                 ChangeView.SetterButton.fire();
                                 Scoring.hi();
+=======
+                            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+                            polygon.setFill(Color.PURPLE);
+                            Main.addLog("Switching to Setter.......");
+                            pause.setOnFinished(event2 -> {
+                                ChangeView.SetterButton.fire();
+                                Scoring.SetterInput(arrowid);
+>>>>>>> Stashed changes
                             } );
                             pause.play();
                             root.getChildren().addAll(rays);
@@ -201,7 +208,8 @@ public class Arrow {
                     System.out.println("Cant shoot ray because arrow in hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " because there is an atom here ");
                 }
             }
-        });
+        }
+        );
 
         polygon.getPoints().addAll(new Double[]{
                 x1, y1,

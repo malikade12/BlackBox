@@ -15,8 +15,16 @@ public class ChangeView {
     EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
+<<<<<<< Updated upstream
             System.out.println(InitGame.ExperimenterName + "'s turn..");
             System.out.println("Markers Press:\n Q - Purple X - Pink.\nPress key again to stop marking");
+=======
+
+
+            Main.addLog(InitGame.ExperimenterName + "'s turn..");
+            Main.addLog("Markers Press:\n Q - Purple X - Pink.\nPress key again to stop marking");
+
+>>>>>>> Stashed changes
             Main.IsSetter = false;
             Main.SetterSwitched = true;
             ExperimenterButton.setVisible(false);
@@ -31,7 +39,7 @@ public class ChangeView {
         @Override
         public void handle(ActionEvent e) {
             Main.IsSetter = true;
-            System.out.println(InitGame.SetterName + "'s turn..");
+            Main.addLog(InitGame.SetterName + "'s turn..");
             ExperimenterButton.setVisible(true);
             SetterButton.setVisible(false);
             GuessButton.setVisible(false);
@@ -53,8 +61,69 @@ public class ChangeView {
     EventHandler<ActionEvent> event4 = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
+<<<<<<< Updated upstream
             System.out.println(Main.ExScore);
             //Call end Round method
+=======
+            EndButton.setVisible(false);
+            Scoring.ValidatePoints();//Call end Round method
+            Main.addLog("Cleaning");
+            for (Atoms atom : Main.allAtoms) {
+                Main.root.getChildren().remove(atom);
+                Main.root.getChildren().remove(atom.orbit);
+                // Optionally, remove it from the lis
+            }
+            Main.allAtoms.clear();
+            Main.ActualRayPoints.clear();
+            Main.SetterRayPoints.clear();
+
+            String temp = InitGame.ExperimenterName;
+            InitGame.ExperimenterName = InitGame.SetterName;
+            InitGame.SetterName = temp;
+
+          if (Arrow.rays != null) {
+              for (Line ray : Arrow.rays) {
+
+                  Main.root.getChildren().remove(ray);
+                  // Optionally, remove it from the list
+              }
+              Arrow.rays.clear();
+          }
+            for (Circle marker : Main.markerList) {
+
+                Main.root.getChildren().remove(marker);
+                // Optionally, remove it from the list
+            }
+
+            Main.markerList.clear();
+
+            Main.IsSetter = true;
+            Main.SetterSwitched = false;
+            Main.EndOfRound = false;
+            Main.markerEnabled = false;
+            Hexagon.counter=0;
+            SetterButton.setVisible(true);
+            for (List<Hexagon> a: Main.allHexagons
+                 ) {
+                for (Hexagon n:a
+                     ) {
+                    n.Guessed = false;
+                }
+            }
+
+            if(Main.roundcount<1){
+                Main.roundcount++;
+                Scoring.EndRound();
+                SetterButton.fire();
+            }
+            else{
+                Scoring.EndRound2();
+                Main.addLog("Thanks for playing!!!!");
+            }
+
+
+
+>>>>>>> Stashed changes
         }
     };
     public void Guess() {
