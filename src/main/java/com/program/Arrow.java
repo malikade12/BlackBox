@@ -175,7 +175,7 @@ public class Arrow extends Polygon {
             @Override
             public void handle(MouseEvent event) {
                 if (!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !BoardItems.endRound && !markerEnabled && !clickedByExp) {
-                    clickedByExp = true;
+                    //clickedByExp = true;
                     if (Hexagon.gameMode != 0) {
                         double directionAngle;
                         switch (z) {

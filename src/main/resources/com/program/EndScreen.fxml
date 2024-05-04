@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.program.Controller">
+   <children>
+      <Label layoutX="648.0" layoutY="34.0" prefHeight="66.0" prefWidth="239.0" text="Game Over">
+         <font>
+            <Font size="44.0" />
+         </font></Label>
+      <Label layoutX="4.0" layoutY="210.0" prefHeight="75.0" prefWidth="727.0" text="Player 1">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="playerOne" layoutY="339.0" prefHeight="75.0" prefWidth="755.0" text="lol" textFill="#c6cc248a">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="759.0" layoutY="210.0" prefHeight="75.0" prefWidth="630.0" text="Player 2">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="playerTwo" layoutX="763.0" layoutY="344.0" prefHeight="75.0" prefWidth="638.0" textFill="#f2ff00">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="winnerText" layoutY="476.0" prefHeight="266.0" prefWidth="1400.0" textFill="#e6ff03">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="212.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@yellowAtom.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1074.0" layoutY="609.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@yellowAtom.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1137.0" layoutY="201.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@yellowAtom.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="106.0" layoutY="552.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@yellowAtom.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

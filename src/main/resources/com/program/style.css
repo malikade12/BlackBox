@@ -11,6 +11,13 @@
 .label{
     -fx-text-fill: "yellow";
     -fx-font-family: "Lucida Console";
+    -fx-alignment: center;
+}
+#playerOne{
+    -fx-alignment: center;
+}
+#playerTwo{
+    -fx-text-alignment: center;
 }
 
 .button{

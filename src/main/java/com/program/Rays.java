@@ -111,16 +111,17 @@ public class Rays {
     private static Point2D getCircleLineIntersection(Circle circle, double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
         lineStartX += 5 * Math.cos(directionAngle);
         lineStartY += 5 * Math.sin(directionAngle);
-        double cx = circle.getCenterX();
-        double cy = circle.getCenterY();
+        double circleCenterX = circle.getCenterX();
+        double circleCenterY = circle.getCenterY();
         double radius = circle.getRadius();
 
         double dx = lineEndX - lineStartX;
         double dy = lineEndY - lineStartY;
 
+        //Calculations
         double A = dx * dx + dy * dy;
-        double B = 2 * (dx * (lineStartX - cx) + dy * (lineStartY - cy));
-        double C = (lineStartX - cx) * (lineStartX - cx) + (lineStartY - cy) * (lineStartY - cy) - radius * radius;
+        double B = 2 * (dx * (lineStartX - circleCenterX) + dy * (lineStartY - circleCenterY));
+        double C = (lineStartX - circleCenterX) * (lineStartX - circleCenterX) + (lineStartY - circleCenterY) * (lineStartY - circleCenterY) - radius * radius;
 
         double discriminant = B * B - 4 * A * C;
 

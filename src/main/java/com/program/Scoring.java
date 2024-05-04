@@ -2,6 +2,7 @@ package com.program;
 
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -12,10 +13,21 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
 public class Scoring {
+
+
+    private static Controller controller;
+
+
+    public static void setController(Controller controller) {
+        Scoring.controller = controller;
+    }
+
+
 
     //getting setter feedback after a ray is shot
     public static void SetterInput(int EntryPoint) {
@@ -114,16 +126,35 @@ public class Scoring {
 
     //end round two and announce the results
     public static void EndRound2() {
+
         BoardItems.addLog("Switch roles ....");
         BoardItems.addLog(InitGame.setterName + " finished with " + BoardItems.setScore + " points....");
 
         if (BoardItems.expScore < BoardItems.setScore) {
             BoardItems.addLog(InitGame.experimenterName + " WON!!");
+            BoardItems.winnerMessage = InitGame.experimenterName + " WON!!";
         } else {
             BoardItems.addLog(InitGame.setterName + " WON!!");
+            BoardItems.winnerMessage = InitGame.setterName + " WON!!";
         }
+
+
+
+
+
+        Controller switcher = new Controller();
+
+        try {
+            switcher.switchToEndScreen();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
 
-}
+
+    }
+
+

@@ -13,12 +13,13 @@ import java.util.Map;
 public class BoardItems {
     static List<Atoms> allAtoms;
     static List<Arrow> allArrows;
+    static String winnerMessage;
     static List<List<Hexagon>> allHexagons;
     static List<Label> allNumbers;
     static public List<Circle> markerList = new ArrayList<>();
     public static boolean markerEnabled = false; // Flag to track whether marker functionality is enabled
-    public static int expScore; //Experimenter score
-    public static int setScore; //Setter score
+    public static int expScore =0; //Experimenter score
+    public static int setScore =0; //Setter score
     public static boolean endRound = false;
     public static Scene scene;
     public static Map<Integer, Integer> setterRayPoints;

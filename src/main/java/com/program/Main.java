@@ -24,6 +24,7 @@ import static com.program.BoardItems.*;
 public class Main extends Application {
     public static Group root;
     private int markerColor = 0;
+    public static Stage home;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -31,6 +32,7 @@ public class Main extends Application {
         //START SCENE
         Parent startRoot = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
         Scene startScene = new Scene(startRoot, 1400, 800);
+        home = primaryStage;
         root = new Group();
         root.setMouseTransparent(false);
 
