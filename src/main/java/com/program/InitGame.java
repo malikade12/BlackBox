@@ -1,7 +1,6 @@
 package com.program;
 
 import javafx.scene.control.Label;
-import javafx.scene.shape.Polygon;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -11,8 +10,8 @@ import java.util.Scanner;
 
 public  class InitGame {
     //user names
-    public static String ExperimenterName;
-    public static String SetterName;
+    public static String experimenterName;
+    public static String setterName;
     public static void print(){
         //print the hexagons and arrows to the screen
         PrintHexagons();
@@ -20,18 +19,18 @@ public  class InitGame {
     }
     //prompts users to enter their names
     public static void Getnames(){
-         ExperimenterName = null;
-         SetterName = null;
+         experimenterName = null;
+         setterName = null;
          System.out.println("Enter The players Name");
 
 
         do{
             System.out.println("Enter Experimenters Name:");
             Scanner myScanner = new Scanner(System.in, StandardCharsets.UTF_8.displayName());
-            ExperimenterName = myScanner.nextLine();
+            experimenterName = myScanner.nextLine();
             System.out.println("Enter Setters Name:");
-            SetterName = myScanner.nextLine();
-        }while (Objects.equals(ExperimenterName, "") || Objects.equals(SetterName, ""));
+            setterName = myScanner.nextLine();
+        }while (Objects.equals(experimenterName, "") || Objects.equals(setterName, ""));
         System.out.println("initliasing Game....");
     }
     public static void PrintHexagons(){

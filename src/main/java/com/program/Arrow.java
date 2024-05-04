@@ -1,7 +1,7 @@
 package com.program;
+
 import javafx.animation.PauseTransition;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -15,8 +15,11 @@ import java.util.ArrayList;
 import static com.program.BoardItems.*;
 import static com.program.Main.*;
 
-
-public class Arrow extends Polygon{
+/**
+ * @author Bhavnyash Singh
+ * @version 1.0 May 2024
+ */
+public class Arrow extends Polygon {
 
     enum Region {
         TOP_LEFT,
@@ -27,7 +30,8 @@ public class Arrow extends Polygon{
         MIDDLE_LEFT,
         MIDDLE_RIGHT
     }
-    static int loops=0;
+
+    static int loops = 0;
     static final double Northeast = -Math.PI / 4 - 0.263;
     static final double Northwest = -3 * Math.PI / 4 + 0.263;
     static final double Southeast = Math.PI / 4 + 0.263;
@@ -42,22 +46,21 @@ public class Arrow extends Polygon{
     //exit point for the ray that started at the arrow
     public static int ExitId;
     //boolean to see if experimenter clicked on the arrow already
-    public static boolean ClickedByExp;
+    public static boolean clickedByExp;
 
     /**
-     *
      * @param p1
      * @param p2
-     * @param z
-     * @param hexid
-     * @param arrowid
-     * @return
+     * @param z The direction of the arrow
+     * @param hexid the id of the hexagons
+     * @param arrowid the id of the arrow
+     * @return  An object array of an arrow and its id
      */
-    public Object[] createArrow(double[] p1, double[] p2, BoardItems.directions z, int[] hexid, int arrowid){
-        this.arrowid=arrowid;
-        ClickedByExp = false;
-        double midX = (p1[0] + p2[0] ) / 2;
-        double midY = (p1[1] + p2[1] ) / 2;
+    public Object[] createArrow(double[] p1, double[] p2, BoardItems.directions z, int[] hexid, int arrowid) {
+        this.arrowid = arrowid;
+        clickedByExp = false;
+        double midX = (p1[0] + p2[0]) / 2;
+        double midY = (p1[1] + p2[1]) / 2;
         double y1 = p1[1];
         double x1 = p1[0];
         double y2 = p2[1];
@@ -66,7 +69,7 @@ public class Arrow extends Polygon{
         double y3 = 0;
 
 
-        switch (z){
+        switch (z) {
             //calculating the offsets for the arrow to be drawn based on the direction its facing
             case east -> {
                 y3 = midY - 3;
@@ -117,60 +120,52 @@ public class Arrow extends Polygon{
         }
         midpoints = new double[]{midX, midY};
         Arrow polygon = new Arrow();
-        polygon.arrowid=arrowid;
+        polygon.arrowid = arrowid;
 
 
         //ARROW ID IS FOR THE NUMBERS
-        String arrowIDstring = Integer.toString(arrowid);
-        Label numberLabel = new Label(arrowIDstring);
-        int addIndex1 = 0;
-        int addIndexX = 0;
+        Label numberLabel = new Label(Integer.toString(arrowid));
+        int addOffsetY = 0;
+        int addOffsetX = 0;
 
-        if((arrowid > 45 && arrowid < 80)||arrowid==1 ){
-            addIndex1= 45;
-            addIndexX = 10;
-        }
-        else if(arrowid > 36 && arrowid < 80){
-            addIndexX = -20;
-            addIndex1 =20;
-            if (arrowid%2==0){
-                addIndex1 = 30;
-                addIndexX = -10;
+        if ((arrowid > 45 && arrowid < 80) || arrowid == 1) {
+            addOffsetY = 45;
+            addOffsetX = 10;
+        } else if (arrowid > 36 && arrowid < 80) {
+            addOffsetX = -20;
+            addOffsetY = 20;
+            if (arrowid % 2 == 0) {
+                addOffsetY = 30;
+                addOffsetX = -10;
             }
-        } else if(arrowid >= 28 && arrowid < 80){
-            addIndex1= -20;
-            addIndexX = -20;
+        } else if (arrowid >= 28 && arrowid < 80) {
+            addOffsetY = -20;
+            addOffsetX = -20;
 
-            if(arrowid%2==1){
-                addIndexX = -20;
-                addIndex1 = 0;
+            if (arrowid % 2 == 1) {
+                addOffsetY = 0;
             }
 
         } else if (arrowid > 18 && arrowid < 80) {
-            addIndex1 = -30;
-            addIndexX=0;
-        }
-        else if (arrowid > 10 && arrowid < 80) {
-            addIndexX = 20;
-            addIndex1 = -1;
-            if(arrowid%2==1){
-                addIndex1 = -20;
-                addIndexX = 15;
+            addOffsetY = -30;
+        } else if (arrowid > 10 && arrowid < 80) {
+            addOffsetX = 20;
+            addOffsetY = -1;
+            if (arrowid % 2 == 1) {
+                addOffsetY = -20;
+                addOffsetX = 15;
             }
-        }
-        else {
-            addIndex1 = 40;
-            addIndexX = 20;
-            if(arrowid%2==0){
-                addIndex1 = 0;
-                addIndexX = 20;
+        } else {
+            addOffsetY = 40;
+            addOffsetX = 20;
+            if (arrowid % 2 == 0) {
+                addOffsetY = 0;
             }
         }
 
 
-
-        numberLabel.setLayoutX(x1-addIndexX);
-        numberLabel.setLayoutY(y3-addIndex1);
+        numberLabel.setLayoutX(x1 - addOffsetX);
+        numberLabel.setLayoutY(y3 - addOffsetY);
         numberLabel.setFont(Font.font("Arial", FontWeight.BOLD, 15)); // You can adjust the font family and size as needed
 
         numberLabel.setTextFill(Color.WHITE);
@@ -179,9 +174,9 @@ public class Arrow extends Polygon{
         polygon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !BoardItems.EndOfRound && !markerEnabled && !ClickedByExp){
-                  ClickedByExp = true;
-                    if (Hexagon.mode != 0) {
+                if (!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom && !BoardItems.endRound && !markerEnabled && !clickedByExp) {
+                    clickedByExp = true;
+                    if (Hexagon.gameMode != 0) {
                         double directionAngle;
                         switch (z) {
                             case east:
@@ -205,27 +200,27 @@ public class Arrow extends Polygon{
                             default:
                                 directionAngle = -1; // Default to east if direction is unknown
                         }
-                         rays = new ArrayList<>();
-                        Rays NewRay = new Rays(midX,midY,directionAngle,rays);
-                        ExitId = NewRay.ExitId;
-                        ActualRayPoints.put(arrowid, ExitId);
-                            Arrow.MakeRaysVisible(false);
-                            PauseTransition pause = new PauseTransition(Duration.seconds(3));
+                        rays = new ArrayList<>();
+                        Rays NewRay = new Rays(midX, midY, directionAngle, rays);
+                        ExitId = NewRay.exitId;
+                        actualRayPoints.put(arrowid, ExitId);
+                        Arrow.MakeRaysVisible(false);
+                        PauseTransition pause = new PauseTransition(Duration.seconds(3));
                         BoardItems.addLog("Switching to Setter.......");
-                            pause.setOnFinished(event2 -> {
-                                ChangeView.SetterButton.fire();
-                                Scoring.SetterInput(arrowid);
-                            } );
-                            pause.play();
-                            root.getChildren().addAll(rays);
+                        pause.setOnFinished(event2 -> {
+                            ChangeView.setterButton.fire();
+                            Scoring.SetterInput(arrowid);
+                        });
+                        pause.play();
+                        root.getChildren().addAll(rays);
                     }
-                } else if (EndOfRound) {
+                } else if (endRound) {
                     BoardItems.addLog("round is over please make your guesses   ");
-                } else if(markerEnabled){
+                } else if (markerEnabled) {
 
-                }else if (!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom){
+                } else if (!allHexagons.get(hexid[0]).get(hexid[1]).hasAtom) {
                     BoardItems.addLog("Cant shoot ray because arrow in hexagon number " + allHexagons.get(hexid[0]).get(hexid[1]).Id + " because there is an atom here ");
-                }else BoardItems.addLog("YOU ALREADY SHOT AN ARROW FROM HERE!!!!");
+                } else BoardItems.addLog("YOU ALREADY SHOT AN ARROW FROM HERE!!!!");
             }
         });
 
@@ -234,12 +229,14 @@ public class Arrow extends Polygon{
                 x2, y2,
                 x3, y3,});
         polygon.setFill(Color.YELLOW);
-        return new Object[] {polygon,numberLabel};
+        return new Object[]{polygon, numberLabel};
     }
 
-
-
-    public static void MakeRaysVisible(boolean x){
+    /**
+     * Decides whether rays should be visible
+     * @param x boolean to decide ray visibility
+     */
+    public static void MakeRaysVisible(boolean x) {
         if (rays != null) {
             if (x) {
                 for (Line r : rays) r.setVisible(true);

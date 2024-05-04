@@ -2,34 +2,37 @@ package com.program;
 
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-
-public  class Hexagon extends Polygon {
+/**
+ * @author Abdulmalik Adeyemo
+ * @version 1.0 May 2024
+ */
+public class Hexagon extends Polygon {
     public double x;
     public double y;
     public int rowId;
     public int rowPositionId;
     boolean hasAtom = false;
-    static int mode;
-    static int counter =0;
+    static int gameMode;
+    static int counter = 0;
     public int Id;
     public Polygon shape;
     public double[] points;
-    public boolean Guessed = false;
-    public Hexagon[] influencer = new Hexagon[6];
+    public boolean guessed = false;
 
     /**
      * *
-     * @param x The x coordinate for the center point
-     * @param y The y coordinate of the center point
+     * Constructor for hexagon
+     *
+     * @param x   The x coordinate for the center point
+     * @param y   The y coordinate of the center point
      * @param row The row the hexagon will be in
-     * @param id The id of the hexagon
+     * @param id  The id of the hexagon
      */
     public Hexagon(double x, double y, int row, int id) {
         this.x = x;
@@ -41,32 +44,34 @@ public  class Hexagon extends Polygon {
     }
 
     /**
+     * Calculates the position ID
      *
      * @param x The x coordinate of the center point
      * @param y The y coordinate of the center point
      */
-    public void CalculatePosId(int x, int y){
-        if (x != 0){
+    public void CalculatePosId(int x, int y) {
+        if (x != 0) {
             int total = 0;
-            for (int i = x - 1; i >= 0 ; i--) {
+            for (int i = x - 1; i >= 0; i--) {
                 total += BoardItems.allHexagons.get(i).size();
             }
             rowPositionId = y - total;
 
-        }else{
+        } else {
             rowPositionId = y;
         }
 
     }
 
     /**
+     * Draws the hexagon on screen
      *
      * @param root The group the hexagon will be added to
      * @param size The scalar that will define the hexagon size
-     * @return The hexagon shape
+     * @return Returns the hexagon shape
      */
     public Polygon draw(Group root, double size) {
-         points = new double[12];
+        points = new double[12];
 
         for (int i = 0; i < 6; i++) {
             double angle = Math.toRadians(60 * i + 30);
@@ -85,26 +90,26 @@ public  class Hexagon extends Polygon {
         hexagon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (mode != 1 && counter < 6 && !BoardItems.EndOfRound && !BoardItems.SetterSwitched) {
+                if (gameMode != 1 && counter < 6 && !BoardItems.endRound && !BoardItems.setterSwitched) {
                     double[] center = calculatePolygonCenter(hexagon);
                     Atoms at = new Atoms(root, center[0], center[1], Id);
-                    BoardItems.allAtoms.add(0,at);  // Add the created Atom to the list
+                    BoardItems.allAtoms.add(0, at);  // Add the created Atom to the list
                     counter++;
                     hasAtom = true;
 
-                } else if (BoardItems.SetterSwitched && BoardItems.IsSetter) {
-                    BoardItems.addLog("You already let " + InitGame.ExperimenterName + " go, NO CHEATING!!!!!");
-                    
-                } else if (BoardItems.EndOfRound){
-                    if(Guessed){
+                } else if (BoardItems.setterSwitched && BoardItems.isSetter) {
+                    BoardItems.addLog("You already let " + InitGame.experimenterName + " go, NO CHEATING!!!!!");
+
+                } else if (BoardItems.endRound) {
+                    if (guessed) {
                         BoardItems.addLog("Hexcagon guessed already");
-                    }else if (hasAtom){
-                        Guessed = true;
+                    } else if (hasAtom) {
+                        guessed = true;
                     } else if (!hasAtom) {
-                        Guessed = true;
-                        if (BoardItems.roundcount==0)BoardItems.ExScore += 5;
-                        else{
-                            BoardItems.SetScore+=5;
+                        guessed = true;
+                        if (BoardItems.roundCount == 0) BoardItems.expScore += 5;
+                        else {
+                            BoardItems.setScore += 5;
                         }
 
                     }
@@ -118,6 +123,7 @@ public  class Hexagon extends Polygon {
     }
 
     /**
+     * Calculates the center point of the shape
      *
      * @param polygon The Polygon whose center will be calculated
      * @return An array containing the coordinated of the center of the polygon
@@ -128,9 +134,9 @@ public  class Hexagon extends Polygon {
         double centerY = (bounds.getMinY() + bounds.getMaxY()) / 2;
         return new double[]{centerX, centerY};
     }
-    // Method to create a Text node with a number in the middle of the hexagon
 
     /**
+     * Create a Text node with a number in the middle of the hexagon
      *
      * @param points Array containing the points of the polygon that will contain the number
      * @param number The number to be added to the polygon

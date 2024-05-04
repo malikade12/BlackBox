@@ -22,21 +22,21 @@ import java.util.*;
 import static com.program.BoardItems.*;
 
 public class Main extends Application {
-    public static  Group root;
-    private int curr = 0;
+    public static Group root;
+    private int markerColor = 0;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
         InitGame.Getnames();
         //START SCENE
         Parent startRoot = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
-        Scene startScene = new Scene(startRoot,1400,800);
+        Scene startScene = new Scene(startRoot, 1400, 800);
         root = new Group();
         root.setMouseTransparent(false);
 
-        logTextArea = new TextArea();
-        logTextArea.setEditable(false);
-        logTextArea.setWrapText(true);
+        textArea = new TextArea();
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
         addLog("*****TEXT CHANNEL*****");
 
 
@@ -62,12 +62,11 @@ public class Main extends Application {
         spacer2.setMinHeight(300); // Set the desired space height
 
 
-
         container.getChildren().add(test.getButton2());
         container.getChildren().add(test.getButton3());
         container.getChildren().add(test.getButton4());
         container.getChildren().add(spacer2);
-        container.getChildren().add(logTextArea);
+        container.getChildren().add(textArea);
 
 
         root.getChildren().add(container);
@@ -77,58 +76,59 @@ public class Main extends Application {
         BoardItems.allArrows = new ArrayList<>();
         BoardItems.allNumbers = new ArrayList<>();
         rays = new ArrayList<>();
-        ActualRayPoints = new HashMap<>();
-        SetterRayPoints = new HashMap<>();
+        actualRayPoints = new HashMap<>();
+        setterRayPoints = new HashMap<>();
 
         Scene scene = new Scene(root, 1400, 800, Color.BLACK);
-
 
 
         test.getButton2().fire();
         Color[] colors = {Color.PURPLE, Color.HOTPINK, Color.ORANGE}; // Define your colors here
         startScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode() == KeyCode.Q && !IsSetter) { // Change this to your desired key combination
-                curr = 0;
+            if (event.getCode() == KeyCode.Q && !isSetter) { // Change this to your desired key combination
+                markerColor = 0;
                 toggleMarkerFunctionality();
                 event.consume(); // Consume the event to prevent it from being processed further
             } else if (event.getCode() == KeyCode.X) { // Change this to your desired key combination
-                curr = 1;
+                markerColor = 1;
                 toggleMarkerFunctionality();
                 event.consume(); // Consume the event to prevent it from being processed further
             }
         });
         scene.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (event.isStillSincePress() && BoardItems.markerEnabled && !IsSetter) { // Check if the mouse click was not part of a drag gesture
+            if (event.isStillSincePress() && BoardItems.markerEnabled && !isSetter) { // Check if the mouse click was not part of a drag gesture
                 double x = event.getX();
                 double y = event.getY();
-                Color color = colors[curr];
+                Color color = colors[markerColor];
                 drawMarker(root, x, y, color);
-                if (roundcount == 0)ExScore++;
-                else SetScore++;
+                if (roundCount == 0) expScore++;
+                else setScore++;
 
             }
         });
-       InitGame.print();
+        InitGame.print();
 
 
         primaryStage.setScene(startScene);
         primaryStage.setTitle("BlackBox Alpha");
         primaryStage.show();
     }
+
     private void toggleMarkerFunctionality() {
         BoardItems.markerEnabled = !BoardItems.markerEnabled; // Toggle the marker functionality flag
     }
+
     private void drawMarker(Group group, double x, double y, Color color) {
         Circle circle = new Circle(x, y, 5); // Adjust the radius as needed
         circle.setFill(color);
         BoardItems.markerList.add(circle); // Add the circle to the markerList
         group.getChildren().add(circle);
     }
+
     public static void main(String[] args) {
         launch(args);
     }
-
 
 
 }
