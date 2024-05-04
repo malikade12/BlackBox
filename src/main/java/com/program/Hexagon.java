@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 /**
  * @author Abdulmalik Adeyemo
  * @version 1.0 May 2024
+ * Class containing hexagon and methods to draw the hexagon on the screen
  */
 public class Hexagon extends Polygon {
     public double x;

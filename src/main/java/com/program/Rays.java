@@ -16,6 +16,7 @@ import static com.program.BoardItems.allHexagons;
  * @author Elvis Okoh
  * @version 2.0 May 2024
  * @since Feburary 2024
+ * Ray class containing methods for constructing rays and calculating reflection angles
  */
 public class Rays {
 

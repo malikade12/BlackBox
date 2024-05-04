@@ -18,6 +18,8 @@ import static com.program.Main.*;
 /**
  * @author Bhavnyash Singh
  * @version 1.0 May 2024
+ * Constructs arrows and their corresponding numbers <p>
+ * Has a handler that projects rays when arrows are pressed
  */
 public class Arrow extends Polygon {
 
