@@ -41,6 +41,7 @@ public class Rays {
     private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength) {
         double endX = midX + rayLength * Math.cos(directionAngle);
         double endY = midY + rayLength * Math.sin(directionAngle);
+        //We progressively increment endpoint until it is not in a hexagon
 
         boolean inHexagon = false; // Flag to track if the endpoint is in a hexagon
 
@@ -57,7 +58,8 @@ public class Rays {
         }
         if (inHexagon) {
             // Check if incrementing or decrementing the endpoint would keep it inside a hexagon
-            double slightOffset = 25 / 1.3; // Define a slight offset for checking
+            // If it is not then that means that we cannot increment it anymore so we stop
+            double slightOffset = 25 / 1.3; //Offset is half of hexagon size
             boolean nextInHexagon = false;
             int hexid = 0;
             int rowid = -1;
@@ -110,6 +112,8 @@ public class Rays {
      */
 
     private static Point2D getCircleLineIntersection(Circle circle, double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
+        //Method makes a tangent or line between the start and end points given and checks if any points on the tangent are on the atom
+        //If they are then that point is the intersection point
         lineStartX += 5 * Math.cos(directionAngle);
         lineStartY += 5 * Math.sin(directionAngle);
         double circleCenterX = circle.getCenterX();
@@ -119,7 +123,6 @@ public class Rays {
         double dx = lineEndX - lineStartX;
         double dy = lineEndY - lineStartY;
 
-        //Calculations
         double A = dx * dx + dy * dy;
         double B = 2 * (dx * (lineStartX - circleCenterX) + dy * (lineStartY - circleCenterY));
         double C = (lineStartX - circleCenterX) * (lineStartX - circleCenterX) + (lineStartY - circleCenterY) * (lineStartY - circleCenterY) - radius * radius;
@@ -153,10 +156,6 @@ public class Rays {
         return null;
     }
 
-
-    //It uses the initial direction of the ray and the region of the influence circle that is hit
-    //Depending on these 2 variables, the nested switches determine which direction to give the new ray
-
     /**
      * calculates the angle at which to deflect the ray
      *
@@ -165,6 +164,8 @@ public class Rays {
      * @return The new angle to reflect the ray
      */
     private static double calculateReflection1Atom(Arrow.Region intersectionRegion, double OriginalDirection) {
+        //Calculate deflection angle when a ray hits an atom
+        //Switch statement which simply determines the new angle based on the original and the region which was intersected
         double directionAngle = 0;
         switch ((int) OriginalDirection) {
             case (int) West:
@@ -210,7 +211,7 @@ public class Rays {
                 }
                 break;
             default:
-                directionAngle = -1; // Default to east if direction is unknown
+                directionAngle = -1;
         }
         return directionAngle;
     }
@@ -226,6 +227,8 @@ public class Rays {
      * @return The new reflection angle of the ray
      */
     private static double calculateReflection2Atoms(double initialX, double initialY, double endX, double endY, double directionAngle) {
+        //This method calculates the deflection angle in the case that the point is on 2 atoms
+        //So first we find both points and determine the regions
         Arrow.Region intersectionRegion1 = null;
         Arrow.Region intersectionRegion2 = null;
         double reflectionAngle = 0;
@@ -242,7 +245,8 @@ public class Rays {
                 }
             }
         }
-
+        //If statements for each combination of regions and original ray direction to calculate new direction
+        //statements are grouped by original direction
 
         //Northwest
         if (((intersectionRegion1 == Arrow.Region.BOTTOM_LEFT && intersectionRegion2 == Arrow.Region.MIDDLE_RIGHT) || (intersectionRegion1 == Arrow.Region.MIDDLE_RIGHT && intersectionRegion2 == Arrow.Region.BOTTOM_LEFT)) && directionAngle == Northwest) {
@@ -301,7 +305,6 @@ public class Rays {
         return reflectionAngle;
     }
 
-    //We need this method to be able to reflect the ray correctly
 
     /**
      * helper method which calculates which side of the influence circle was hit by the ray
@@ -315,7 +318,9 @@ public class Rays {
         double centerY = circle.getCenterY();
         double x = intersectionPoint.getX();
         double y = intersectionPoint.getY();
-
+        //Separate the atom into 6 regions (excluding center)
+        //To be able to determine the region which was hit by the ray by using the intersection point
+        //It simply checks which region the point is on
         if (x == centerX && y == centerY) {
             return Arrow.Region.CENTER;
         } else if (x >= centerX && y < centerY - circle.getRadius() / 2) {
@@ -344,6 +349,7 @@ public class Rays {
      * @return The number of orbits the ray intersects
      */
     private static int countCircleLineIntersections(double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
+        //Calculate the number of atoms on the point of intersection
         int intersectingAtomsCount = 0;
         for (Atoms atom : BoardItems.allAtoms) {
             // Get the point of intersection
@@ -368,19 +374,25 @@ public class Rays {
     private static void makeRays(double initialX, double initialY, double directionAngle, List<Line> rays) {
         loops++;
         double rayLength = 5;
+        //Calculate endpoint where no intersection
         double[] endPoint = findEndPoint(initialX, initialY, directionAngle, rayLength);
         double endX = endPoint[0];
         double endY = endPoint[1];
         double reflectionAngle = -1;
         double currentX = initialX;
         double currentY = initialY;
+        //Current coordinates will be used to check for intersection progressively until calculated endpoint is reached
         currentX += 25 * Math.cos(directionAngle);
         currentY += 25 * Math.sin(directionAngle);
         boolean found = false;
         for (int i = 0; i < 50; i++) {
+            //For loop keeps incrementing current coordinates until we hit an intersection
+            //If we do not then it means endpoint was correct
             for (Atoms atom : BoardItems.allAtoms) {
+                //Loop through all atoms to find intersection
                 Point2D Intersection = getCircleLineIntersection(atom.orbit, initialX, initialY, currentX, currentY, directionAngle);
                 if (Intersection != null) {
+                    //If intersection is found, set current coordinates to center of hexagon of the atom
                     for (List<Hexagon> innerList : allHexagons) {
                         for (Hexagon hexagon : innerList) {
                             if (hexagon.shape.contains(Intersection.getX(), Intersection.getY())) {
@@ -389,6 +401,8 @@ public class Rays {
                             }
                         }
                     }
+                    //Calculate how many atoms are on the point of intersection so we can use that to determine
+                    //How to calculate the angle of deflection
                     Arrow.Region intersectedRegion = determineRegion(Intersection, atom.orbit);
                     int AtomsHit = countCircleLineIntersections(initialX, initialY, currentX + 25 * Math.cos(directionAngle), currentY + 25 * Math.sin(directionAngle), directionAngle);
                     if (AtomsHit == 1) reflectionAngle = calculateReflection1Atom(intersectedRegion, directionAngle);
@@ -407,16 +421,18 @@ public class Rays {
                 }
             }
             if (found) {
+                //if intersection is found, stop incrementing
                 break;
             }
             currentX += 25 * Math.cos(directionAngle);
             currentY += 25 * Math.sin(directionAngle);
         }
         if (!found) {
+            //If intersection was not found then we can conclude that the real endpoint was the one we calculated
             currentX = endX;
             currentY = endY;
         }
-        Line Ray = new Line(initialX, initialY, currentX, currentY); // Original ray from midpoint to intersection point
+        Line Ray = new Line(initialX, initialY, currentX, currentY); //Original ray from midpoint to intersection point
         Ray.setStroke(Color.CYAN);
         Ray.setStrokeWidth(6);
         exitId = FindArrow(Ray.getEndX(), Ray.getEndY());
