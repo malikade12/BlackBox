@@ -78,7 +78,6 @@ public class Main extends Application {
         BoardItems.allAtoms = new ArrayList<>();
         BoardItems.allHexagons = new ArrayList<>();
         BoardItems.allArrows = new ArrayList<>();
-        BoardItems.allNumbers = new ArrayList<>();
         rays = new ArrayList<>();
         actualRayPoints = new HashMap<>();
         setterRayPoints = new HashMap<>();
@@ -106,8 +105,8 @@ public class Main extends Application {
                 double y = event.getY();
                 Color color = colors[markerColor];
                 drawMarker(root, x, y, color);
-                if (roundCount == 0) expScore++;
-                else setScore++;
+                if (roundCount == 0) PlayerOneScore++;
+                else PlayerTwoScore++;
 
             }
         });

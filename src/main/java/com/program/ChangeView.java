@@ -24,7 +24,7 @@ public class ChangeView {
         @Override
         public void handle(ActionEvent e) {
 
-            BoardItems.addLog(InitGame.experimenterName + "'s turn..");
+            BoardItems.addLog(InitGame.PlayerOneName + "'s turn..");
 
             BoardItems.addLog("Markers Press:\n Q - Purple X - Pink.\nPress key again to stop marking");
             BoardItems.isSetter = false;
@@ -42,7 +42,7 @@ public class ChangeView {
         @Override
         public void handle(ActionEvent e) {
             BoardItems.isSetter = true;
-            BoardItems.addLog(InitGame.setterName + "'s turn..");
+            BoardItems.addLog(InitGame.PlayerTwoName + "'s turn..");
             experimenterButton.setVisible(true);
             setterButton.setVisible(false);
             guessButton.setVisible(false);
@@ -103,9 +103,9 @@ public class ChangeView {
             BoardItems.allAtoms.clear();
             BoardItems.actualRayPoints.clear();
             BoardItems.setterRayPoints.clear();
-            String temp = InitGame.experimenterName;
-            InitGame.experimenterName = InitGame.setterName;
-            InitGame.setterName = temp;
+            String temp = InitGame.PlayerOneName;
+            InitGame.PlayerOneName = InitGame.PlayerTwoName;
+            InitGame.PlayerTwoName = temp;
 
             if (Arrow.rays != null) {
                 for (Line ray : Arrow.rays) {
