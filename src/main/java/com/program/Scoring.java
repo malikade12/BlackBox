@@ -132,9 +132,12 @@ public class Scoring {
         if (BoardItems.playerOneScore < BoardItems.playerTwoScore) {
             BoardItems.addLog(InitGame.PlayerOneName + " WON!!");
             BoardItems.winnerMessage = InitGame.PlayerOneName.toUpperCase() + " WON!!";
-        } else {
+        } else if (BoardItems.playerOneScore > BoardItems.playerTwoScore){
             BoardItems.addLog(InitGame.PlayerTwoName + " WON!!");
             BoardItems.winnerMessage = InitGame.PlayerTwoName.toUpperCase() + " WON!!";
+        }else{
+            BoardItems.addLog("Its a Draw!!");
+            BoardItems.winnerMessage =  "Its a Draw!!";
         }
 
 
