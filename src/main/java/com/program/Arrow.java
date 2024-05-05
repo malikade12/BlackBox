@@ -127,7 +127,15 @@ public class Arrow extends Polygon {
 
 
 
+        polygon.setOnMouseEntered(e->
+        {
+            polygon.setFill(Color.PURPLE);
+            polygon.setStroke(Color.YELLOW);
+        });
+        polygon.setOnMouseExited(e-> {
+            polygon.setFill(Color.YELLOW);
 
+        });
         polygon.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 

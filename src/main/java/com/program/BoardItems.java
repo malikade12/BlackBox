@@ -40,6 +40,7 @@ public class BoardItems {
     public static void addLog(String logMessage) {//used to log messages onscreen
         textArea.appendText(logMessage + "\n");
         textArea.positionCaret(textArea.getText().length());
+        textArea.setScrollTop(Double.MAX_VALUE);
 
     }
 
