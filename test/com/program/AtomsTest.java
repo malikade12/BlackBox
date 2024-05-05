@@ -40,7 +40,7 @@ public class AtomsTest {
     }
 
     @Test
-    void testMakeAllAtomsInvisible() {
+    void testAtomsInvisible() {
         //Make all atoms invisible
         Atoms.makeAllAtomsInvisible();
         //Verify that all atoms and orbits are invisible
@@ -53,7 +53,7 @@ public class AtomsTest {
 
 
     @Test
-    void testMakeAllAtomsVisible() {
+    void testAtomsVisible() {
         //Make all atoms visible
         Atoms.makeAllAtomsVisible();
         //Verify that all atoms and orbits are visible
