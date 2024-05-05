@@ -45,31 +45,31 @@ public  class InitGame {
             ArrayList<Hexagon> rows = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * i)/1.3), ydefault, j, k);
-                h1.draw(Main.root, 50/1.3); // Draw the hexagon with size 50
+                h1.draw(Main.root, 50/1.3); 
                 rows.add(h1);
                 k++;
             }
             if (j > 0 && j != 8) {
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 5)/1.3), ydefault, j, k);
-                h1.draw(Main.root, 50/1.3); // Draw the hexagon with size 50
+                h1.draw(Main.root, 50/1.3); 
                 rows.add(h1);
                 k++;
             }
             if (j > 1 && j < 7) {
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 6)/1.3), ydefault, j, k);
-                h1.draw(Main.root, 50/1.3); // Draw the hexagon with size 50
+                h1.draw(Main.root, 50/1.3); 
                 rows.add(h1);
                 k++;
             }
             if (j > 2 && j < 6) {
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 7)/1.3), ydefault, j, k);
-                h1.draw(Main.root, 50/1.3); // Draw the hexagon with size 50
+                h1.draw(Main.root, 50/1.3); 
                 rows.add(h1);
                 k++;
             }
             if (j == 4) {
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 8)/1.3), ydefault, j, k);
-                h1.draw(Main.root, 50/1.3); // Draw the hexagon with size 50
+                h1.draw(Main.root, 50/1.3); 
                 rows.add(h1);
                 k++;
             }
