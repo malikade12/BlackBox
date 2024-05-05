@@ -435,29 +435,14 @@ public class Rays {
      */
     public static int FindArrow(double x, double y) {
         for (Arrow a : allArrows) {
+            //uses a slight offset to get the correct arrow
             for (int i = -5; i <= 5; i++) {
                 for (int j = -5; j <= 5; j++) {
-                    if (a.contains(x + i, y + j)) return a.arrowid;
+                    if (a.shape.contains(x + i, y + j)) return a.arrowid;
                 }
             }
         }
         return 0;
-    }
-
-    /**
-     * Determine whether to make ray visible
-     *
-     * @param x If true ray will be visible
-     */
-    public static void MakeRaysVisible(boolean x) {
-        if (rays != null) {
-            if (x) {
-                for (Line r : rays) r.setVisible(true);
-            } else {
-                for (Line r : rays) r.setVisible(false);
-            }
-
-        }
     }
 
 }

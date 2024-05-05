@@ -2,7 +2,6 @@ package com.program;
 
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
-import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -52,6 +51,7 @@ public class Scoring {
         Button submitButton = new Button("Submit");
         //initialing variables using the setter's feedback
         submitButton.setOnAction(e -> {
+            //get the inputted values
             String selectedValue = comboBox.getValue();
             String exitValue = textField2.getText();
             //check if they give an invalid arrow number
@@ -91,9 +91,8 @@ public class Scoring {
 
     public static void EndRound() {
         ValidatePoints();
-
         BoardItems.addLog("Switch Roles");
-        BoardItems.addLog(InitGame.setterName + " finished with " + BoardItems.expScore + " points....");
+        BoardItems.addLog(InitGame.PlayerTwoName + " finished with " + BoardItems.PlayerOneScore + " points....");
     }
 
     public static void ValidatePoints() {
@@ -102,40 +101,40 @@ public class Scoring {
             for (Map.Entry<Integer, Integer> y : BoardItems.setterRayPoints.entrySet()) {
                 //if the setter made a mistake on calling out an entry point, 5 is deducted from the experimenters score
                 if (BoardItems.actualRayPoints.get(y.getKey()) == null) {
-                    BoardItems.addLog(InitGame.experimenterName + " lied about ray entering from " + y.getKey());
-                    if (BoardItems.roundCount == 0) BoardItems.expScore -= 5;
+                    BoardItems.addLog(InitGame.PlayerOneName + " lied about ray entering from " + y.getKey());
+                    if (BoardItems.roundCount == 0) BoardItems.PlayerOneScore -= 5;
                     else {
-                        BoardItems.setScore -= 5;
+                        BoardItems.PlayerTwoScore -= 5;
                     }
 
                 }
                 //if setter lied about an exit point, 5 is deducted from the experimenters score
                 else if (Objects.equals(x.getKey(), y.getKey()) && (!Objects.equals(x.getValue(), y.getValue()))) {
-                    BoardItems.addLog(InitGame.experimenterName + " lied about ray enting from " + x.getKey() + " and exiting from " + y.getValue());
-                    if (BoardItems.roundCount == 0) BoardItems.expScore -= 5;
+                    BoardItems.addLog(InitGame.PlayerOneName + " lied about ray entering from " + x.getKey() + " and exiting from " + y.getValue() + "\n so 5 has been deducted from your score");
+                    if (BoardItems.roundCount == 0) BoardItems.PlayerOneScore -= 5;
                     else {
-                        BoardItems.setScore -= 5;
+                        BoardItems.PlayerTwoScore -= 5;
                     }
                 }
             }
         }
         //making sure the scores are never negative
-        if (BoardItems.expScore < 0) BoardItems.expScore = 0;
-        if (BoardItems.setScore < 0) BoardItems.setScore = 0;
+        if (BoardItems.PlayerOneScore < 0) BoardItems.PlayerOneScore = 0;
+        if (BoardItems.PlayerTwoScore < 0) BoardItems.PlayerTwoScore = 0;
     }
 
     //end round two and announce the results
     public static void EndRound2() {
 
         BoardItems.addLog("Switch roles ....");
-        BoardItems.addLog(InitGame.setterName + " finished with " + BoardItems.setScore + " points....");
+        BoardItems.addLog(InitGame.PlayerTwoName + " finished with " + BoardItems.PlayerTwoScore + " points....");
 
-        if (BoardItems.expScore < BoardItems.setScore) {
-            BoardItems.addLog(InitGame.experimenterName + " WON!!");
-            BoardItems.winnerMessage = InitGame.experimenterName + " WON!!";
+        if (BoardItems.PlayerOneScore < BoardItems.PlayerTwoScore) {
+            BoardItems.addLog(InitGame.PlayerOneName + " WON!!");
+            BoardItems.winnerMessage = InitGame.PlayerOneName.toUpperCase() + " WON!!";
         } else {
-            BoardItems.addLog(InitGame.setterName + " WON!!");
-            BoardItems.winnerMessage = InitGame.setterName + " WON!!";
+            BoardItems.addLog(InitGame.PlayerTwoName + " WON!!");
+            BoardItems.winnerMessage = InitGame.PlayerTwoName.toUpperCase() + " WON!!";
         }
 
 

@@ -15,7 +15,6 @@ import java.io.IOException;
 public class Controller {
     private Stage stage;
     private Scene scene;
-    private Parent root;
 
     public void EnterGame(ActionEvent event) throws IOException {
         Parent root = Main.root;
@@ -46,9 +45,9 @@ public class Controller {
     }
 
     @FXML
-    Label playerOne = new Label("Player One scored "+String.valueOf(BoardItems.setScore)+" points");
+    Label playerOne = new Label("Player One scored "+String.valueOf(BoardItems.PlayerTwoScore)+" points");
     @FXML
-    Label playerTwo = new Label("Player Two scored" +String.valueOf(BoardItems.expScore)+" points");
+    Label playerTwo = new Label("Player Two scored" +String.valueOf(BoardItems.PlayerOneScore)+" points");
 
     @FXML
     Label winnerText = new Label(BoardItems.winnerMessage);
@@ -56,8 +55,8 @@ public class Controller {
 
 
     public void switchToEndScreen() throws IOException {
-        playerOne.setText(String.valueOf(BoardItems.expScore));
-        playerTwo.setText(String.valueOf(BoardItems.setScore));
+        playerOne.setText(String.valueOf(BoardItems.PlayerOneScore));
+        playerTwo.setText(String.valueOf(BoardItems.PlayerTwoScore));
 
         Parent root = FXMLLoader.load(getClass().getResource("EndScreen.fxml"));
         stage = Main.home;
@@ -71,8 +70,8 @@ public class Controller {
     @FXML
     public void initialize() {
         // Initialize playerOne and playerTwo labels here
-        playerOne.setText(InitGame.setterName+" scored "+String.valueOf(BoardItems.setScore)+" points");
-        playerTwo.setText(InitGame.experimenterName+" scored " +String.valueOf(BoardItems.expScore)+" points");
+        playerOne.setText(InitGame.PlayerTwoName +" scored "+String.valueOf(BoardItems.PlayerTwoScore)+" points");
+        playerTwo.setText(InitGame.PlayerOneName +" scored " +String.valueOf(BoardItems.PlayerOneScore)+" points");
         winnerText.setText(BoardItems.winnerMessage);
     }
 }
