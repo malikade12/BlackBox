@@ -16,12 +16,14 @@ public class Controller {
     private Stage stage;
     private Scene scene;
 
+    //Event to change to game scene on button press
     public void EnterGame(ActionEvent event) throws IOException {
         Parent root = Main.root;
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(Main.root.getScene());
         stage.show();
     }
+    //Event to change scene to Rules
     public void switchToRules(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Rules.fxml"));
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -31,10 +33,12 @@ public class Controller {
         stage.show();
 
     }
+    //Method used to close game
     public void Quit(ActionEvent event) throws IOException {
         Platform.exit();
 
     }
+    //Method to switch scet to the menu
     public void switchToMenu(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
         scene  = new Scene(root,1400,800);
@@ -57,6 +61,7 @@ public class Controller {
 
 
 
+    //Switched to end screen on call
     public void switchToEndScreen() throws IOException {
         playerOne.setText(String.valueOf(BoardItems.playerOneScore));
         playerTwo.setText(String.valueOf(BoardItems.playerTwoScore));
@@ -69,7 +74,7 @@ public class Controller {
         stage.show();
 
     }
-
+//Initialize all variables before scene switches
     @FXML
     public void initialize() {
         // Initialize playerOne and playerTwo labels here
