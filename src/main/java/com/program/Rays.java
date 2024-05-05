@@ -119,7 +119,7 @@ public class Rays {
         double dx = lineEndX - lineStartX;
         double dy = lineEndY - lineStartY;
 
-        //Calculations
+        //Calculations for line intersection
         double A = dx * dx + dy * dy;
         double B = 2 * (dx * (lineStartX - circleCenterX) + dy * (lineStartY - circleCenterY));
         double C = (lineStartX - circleCenterX) * (lineStartX - circleCenterX) + (lineStartY - circleCenterY) * (lineStartY - circleCenterY) - radius * radius;
