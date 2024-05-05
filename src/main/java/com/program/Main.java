@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
@@ -52,11 +51,12 @@ public class Main extends Application {
         test.experimenterButton();
         test.setterButton();
         test.EndRound();
+        test.HelpPage();
 
         VBox container = new VBox(10); // 10 pixels spacing between components
         container.setPadding(new Insets(10));
 
-        container.getChildren().add(test.getButton1());
+        container.getChildren().add(test.getExperimenterButton());
 
         Pane spacer = new Pane();
         spacer.setMinHeight(10); // Set the desired space height
@@ -65,9 +65,10 @@ public class Main extends Application {
         spacer2.setMinHeight(300); // Set the desired space height
 
 
-        container.getChildren().add(test.getButton2());
-        container.getChildren().add(test.getButton3());
-        container.getChildren().add(test.getButton4());
+        container.getChildren().add(test.getSetterButton());
+        container.getChildren().add(test.getGuessButton());
+        container.getChildren().add(test.getEndButton());
+        container.getChildren().add(ChangeView.getHelpButton());
         container.getChildren().add(spacer2);
         container.getChildren().add(textArea);
 
@@ -85,7 +86,7 @@ public class Main extends Application {
         Scene scene = new Scene(root, 1400, 800, Color.BLACK);
 
 
-        test.getButton2().fire();
+        test.getSetterButton().fire();
         Color[] colors = {Color.PURPLE, Color.HOTPINK, Color.ORANGE}; // Define your colors here
         startScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {

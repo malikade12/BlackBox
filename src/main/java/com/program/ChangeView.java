@@ -2,9 +2,13 @@ package com.program;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -13,6 +17,7 @@ public class ChangeView {
     public static Button setterButton;
     public static Button guessButton;
     public static Button endButton;
+    public static Button helpButton;
 
     // EventHandler for the button click event
     EventHandler<ActionEvent> experimenterTurn = new EventHandler<ActionEvent>() {
@@ -46,6 +51,7 @@ public class ChangeView {
             Hexagon.gameMode = 0;
         }
     };
+    //Event handler for the end round button
     EventHandler<ActionEvent> endRound = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
@@ -56,6 +62,33 @@ public class ChangeView {
 
         }
     };
+//EventHandler for The help button
+    EventHandler<ActionEvent> help = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            BoardItems.endRound = true;
+            try {
+                // Load the FXML file
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("HelpPage.fxml"));
+                Parent root = loader.load();
+
+                // Create a new scene
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());//styles the scene
+
+
+                // Create a new stage and set the scene
+                Stage stage = new Stage();
+                stage.setScene(scene);
+
+                // Show the stage
+                stage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        };
+    //eventHandler to clear the board after each turn
     EventHandler<ActionEvent> clearBoard = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
@@ -115,7 +148,7 @@ public class ChangeView {
         }
     };
 
-
+//Button for ending turn and submitting guesses
     public void Guess() {
         guessButton = new Button("Make Guesses");
         guessButton.setOnAction(endRound);
@@ -145,7 +178,7 @@ public class ChangeView {
         );
     }
 
-
+//Method to swap to setter view
     public void setterButton() {
         setterButton = new Button("Change to Setter view");
 
@@ -159,7 +192,7 @@ public class ChangeView {
 
 
     }
-
+//Provides logic for ending round to be used by eventHandler
     public void EndRound() {
         endButton = new Button("End Round");
         endButton.setVisible(false);
@@ -175,24 +208,40 @@ public class ChangeView {
 
 
     }
+//Method and style for help button
+    public void HelpPage() {
+        helpButton = new Button("Help");
+        helpButton.setOnAction(help);
+
+        helpButton.setStyle(
+                "-fx-background-color: black; " +
+                        "-fx-text-fill: yellow; " +
+                        "-fx-font-size: 15px; " +
+                        "-fx-font-family: 'Lucida Console';"
+        );
+
+
+    }
 
 
     // Method to get the button
-    public Button getButton1() {
+    public Button getExperimenterButton() {
         return experimenterButton;
     }
 
-    public Button getButton2() {
+    public Button getSetterButton() {
         return setterButton;
     }
 
-    public Button getButton3() {
+    public Button getGuessButton() {
         return guessButton;
     }
 
-    public Button getButton4() {
+    public Button getEndButton() {
         return endButton;
     }
 
-
+    public static Button getHelpButton() {
+        return helpButton;
+    }
 }
