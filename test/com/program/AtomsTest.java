@@ -1,9 +1,8 @@
 package com.program;
 
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +10,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AtomsTest {
-
     private Group root;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         root = new Group();
         //Initialize the BoardItems.allAtoms list
         List<Atoms> allAtoms = new ArrayList<>();
@@ -27,39 +25,71 @@ public class AtomsTest {
 
 
     @Test
-    void testConstructor() {
+    public void testConstructor() {
         Atoms atom = new Atoms(root, 100, 100, 1);
-        //Verify that the atom is not null
+        //Check that the atom is not null and thus created
         assertNotNull(atom);
+    }
+    @Test
+    public void testConstructorID() {
+        Atoms atom = new Atoms(root, 100, 100, 3);
         //Verify that the atom's properties are initialized correctly
-        assertEquals(1, atom.hexId);
+        //by checking if the atom is made on the correct hexagon
+        assertEquals(3, atom.hexId);
+    }
+    @Test
+    public void testConstructorVisibility() {
+        Atoms atom = new Atoms(root, 100, 100, 1);
+        //Make sure the atom is visible on screen
         assertTrue(atom.isVisible());
-        //Verify that the orbit is created and added to the root
+    }
+    @Test
+    public void testConstructorOrbit() {
+        Atoms atom = new Atoms(root, 100, 100, 1);
+        //Check if the orbit was created
         assertNotNull(atom.orbit);
+    }
+    @Test
+    public void testOrbitAddedToRoot() {
+        Atoms atom = new Atoms(root, 100, 100, 1);
+        //Verify that the orbit is added to the root
         assertTrue(root.getChildren().contains(atom.orbit));
     }
 
     @Test
-    void testAtomsInvisible() {
+    public void testAtomsInvisible() {
         //Make all atoms invisible
         Atoms.makeAllAtomsInvisible();
-        //Verify that all atoms and orbits are invisible
+        //Check that all atoms are invisible
         for (Atoms atom : BoardItems.allAtoms) {
             assertFalse(atom.isVisible());
+        }
+    }
+    @Test
+    public void testAtomsOrbitInvisible() {
+        //Make all atoms invisible
+        Atoms.makeAllAtomsInvisible();
+        //Check that all orbits are invisible
+        for (Atoms atom : BoardItems.allAtoms) {
             assertFalse(atom.orbit.isVisible());
         }
     }
 
-
-
     @Test
-    void testAtomsVisible() {
+    public void testAtomsVisible() {
         //Make all atoms visible
         Atoms.makeAllAtomsVisible();
-        //Verify that all atoms and orbits are visible
+        //Check that all atoms are visible
         for (Atoms atom : BoardItems.allAtoms) {
             assertTrue(atom.isVisible());
-            assertTrue(atom.orbit.isVisible());
         }
     }
-}
+    @Test
+    public void testAtomsOrbitVisible() {
+        //Make all atoms visible
+        Atoms.makeAllAtomsVisible();
+        //Check that all orbits are visible
+        for (Atoms atom : BoardItems.allAtoms) {
+            assertTrue(atom.orbit.isVisible());
+        }
+    }}
