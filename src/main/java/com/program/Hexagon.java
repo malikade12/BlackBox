@@ -99,18 +99,39 @@ public class Hexagon extends Polygon {
                     hasAtom = true;
 
                 } else if (BoardItems.setterSwitched && BoardItems.isSetter) {
-                    BoardItems.addLog("You already let " + InitGame.experimenterName + " go, NO CHEATING!!!!!");
+                    BoardItems.addLog("You already let " + InitGame.PlayerOneName + " go, NO CHEATING!!!!!");
 
                 } else if (BoardItems.endRound) {
                     if (guessed) {
-                        BoardItems.addLog("Hexcagon guessed already");
+                        BoardItems.addLog("Hexagon guessed already");
+
                     } else if (hasAtom) {
                         guessed = true;
+                        if (BoardItems.roundCount == 0){
+                            BoardItems.PlayerOneGuesses[1]++;
+                            BoardItems.PlayerOneGuesses[0]++;
+                            if (BoardItems.textArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.textArea.setText(BoardItems.textArea.getText().substring(0, BoardItems.textArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
+                            BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.PlayerOneGuesses[0]);
+                        }else{
+                            BoardItems.PlayerTwoGuesses[1]++;
+                            BoardItems.PlayerTwoGuesses[0]++;
+                            if (BoardItems.textArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.textArea.setText(BoardItems.textArea.getText().substring(0, BoardItems.textArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
+                            BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.PlayerTwoGuesses[0]);
+                        }
                     } else if (!hasAtom) {
                         guessed = true;
-                        if (BoardItems.roundCount == 0) BoardItems.expScore += 5;
+                        if (BoardItems.roundCount == 0){
+                            BoardItems.PlayerOneScore += 5;
+                            BoardItems.PlayerOneGuesses[0]++;
+                            if (BoardItems.textArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.textArea.setText(BoardItems.textArea.getText().substring(0, BoardItems.textArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
+                            BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.PlayerOneGuesses[0]);
+                        }
                         else {
-                            BoardItems.setScore += 5;
+                            BoardItems.PlayerTwoScore += 5;
+                            BoardItems.PlayerTwoGuesses[0]++;
+                            if (BoardItems.textArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.textArea.setText(BoardItems.textArea.getText().substring(0, BoardItems.textArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
+                            BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.PlayerTwoGuesses[0]);
+
                         }
 
                     }

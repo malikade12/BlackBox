@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
@@ -15,7 +14,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.shape.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -37,10 +35,10 @@ public class Main extends Application {
         root = new Group();
         root.setMouseTransparent(false);
 
-        textArea = new TextArea();
+        textArea = new TextArea("*****TEXT CHANNEL*****\n");
         textArea.setEditable(false);
         textArea.setWrapText(true);
-        addLog("*****TEXT CHANNEL*****");
+
 
 
         primaryStage.setScene(scene);
@@ -48,10 +46,7 @@ public class Main extends Application {
         primaryStage.show();
 
         ChangeView test = new ChangeView();
-        test.Guess();
-        test.experimenterButton();
-        test.setterButton();
-        test.EndRound();
+
 
         VBox container = new VBox(10); // 10 pixels spacing between components
         container.setPadding(new Insets(10));
@@ -76,9 +71,7 @@ public class Main extends Application {
 
         BoardItems.allAtoms = new ArrayList<>();
         BoardItems.allHexagons = new ArrayList<>();
-        BoardItems.allArrows = new ArrayList<>();
-        BoardItems.allNumbers = new ArrayList<>();
-        rays = new ArrayList<>();
+        BoardItems.allArrows = new ArrayList<>();rays = new ArrayList<>();
         actualRayPoints = new HashMap<>();
         setterRayPoints = new HashMap<>();
 
@@ -91,7 +84,7 @@ public class Main extends Application {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.Q && !isSetter) { // Change this to your desired key combination
                 markerColor = 0;
-                toggleMarkerFunctionality();
+                BoardItems.toggleMarkerFunctionality();
                 event.consume(); // Consume the event to prevent it from being processed further
             } else if (event.getCode() == KeyCode.X) { // Change this to your desired key combination
                 markerColor = 1;
@@ -104,9 +97,9 @@ public class Main extends Application {
                 double x = event.getX();
                 double y = event.getY();
                 Color color = colors[markerColor];
-                drawMarker(root, x, y, color);
-                if (roundCount == 0) expScore++;
-                else setScore++;
+                BoardItems.drawMarker(root, x, y, color);
+                if (roundCount == 0) PlayerOneScore++;
+                else PlayerTwoScore++;
 
             }
         });
@@ -118,16 +111,6 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void toggleMarkerFunctionality() {
-        BoardItems.markerEnabled = !BoardItems.markerEnabled; // Toggle the marker functionality flag
-    }
-
-    private void drawMarker(Group group, double x, double y, Color color) {
-        Circle circle = new Circle(x, y, 5); // Adjust the radius as needed
-        circle.setFill(color);
-        BoardItems.markerList.add(circle); // Add the circle to the markerList
-        group.getChildren().add(circle);
-    }
 
     public static void main(String[] args) {
         launch(args);

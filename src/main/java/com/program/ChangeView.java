@@ -13,17 +13,24 @@ public class ChangeView {
     public static Button setterButton;
     public static Button guessButton;
     public static Button endButton;
+    public ChangeView() {
+        GuessButton();
+        experimenterButton();
+        setterButton();
+        EndRoundButton();
+    }
 
     // EventHandler for the button click event
     EventHandler<ActionEvent> experimenterTurn = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
 
-            BoardItems.addLog(InitGame.experimenterName + "'s turn..");
+            BoardItems.addLog(InitGame.PlayerOneName + "'s turn..");
 
             BoardItems.addLog("Markers Press:\n Q - Purple X - Pink.\nPress key again to stop marking");
             BoardItems.isSetter = false;
             BoardItems.setterSwitched = true;
+            if (BoardItems.allAtoms.size() == 0) BoardItems.setterSwitched = false;
             experimenterButton.setVisible(false);
             setterButton.setVisible(true);
             guessButton.setVisible(true);
@@ -37,7 +44,7 @@ public class ChangeView {
         @Override
         public void handle(ActionEvent e) {
             BoardItems.isSetter = true;
-            BoardItems.addLog(InitGame.setterName + "'s turn..");
+            BoardItems.addLog(InitGame.PlayerTwoName + "'s turn..");
             experimenterButton.setVisible(true);
             setterButton.setVisible(false);
             guessButton.setVisible(false);
@@ -70,10 +77,9 @@ public class ChangeView {
             BoardItems.allAtoms.clear();
             BoardItems.actualRayPoints.clear();
             BoardItems.setterRayPoints.clear();
-            String temp = InitGame.experimenterName;
-            InitGame.experimenterName = InitGame.setterName;
-            InitGame.setterName = temp;
-
+            String temp = InitGame.PlayerOneName;
+            InitGame.PlayerOneName = InitGame.PlayerTwoName;
+            InitGame.PlayerTwoName = temp;
             if (Arrow.rays != null) {
                 for (Line ray : Arrow.rays) {
 
@@ -103,6 +109,9 @@ public class ChangeView {
                     n.guessed = false;
                 }
             }
+            for (Arrow a: BoardItems.allArrows){
+                a.ShotAlready = false;
+            }
 
             if (BoardItems.roundCount < 1) {
                 BoardItems.roundCount++;
@@ -116,7 +125,7 @@ public class ChangeView {
     };
 
 
-    public void Guess() {
+    public void GuessButton() {
         guessButton = new Button("Make Guesses");
         guessButton.setOnAction(endRound);
         guessButton.setVisible(false);
@@ -160,7 +169,7 @@ public class ChangeView {
 
     }
 
-    public void EndRound() {
+    public void EndRoundButton() {
         endButton = new Button("End Round");
         endButton.setVisible(false);
         endButton.setOnAction(clearBoard);
