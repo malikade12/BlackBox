@@ -45,18 +45,21 @@ public class Controller {
     }
 
     @FXML
-    Label playerOne = new Label("Player One scored "+String.valueOf(BoardItems.PlayerTwoScore)+" points");
+    Label playerOne = new Label("Player One scored "+String.valueOf(BoardItems.playerTwoScore)+" points");
     @FXML
-    Label playerTwo = new Label("Player Two scored" +String.valueOf(BoardItems.PlayerOneScore)+" points");
-
+    Label playerTwo = new Label("Player Two scored" +String.valueOf(BoardItems.playerOneScore)+" points");
+    @FXML
+    Label pOneGuess = new Label(BoardItems.winnerMessage);
+    @FXML
+    Label pTwoGuess = new Label(BoardItems.winnerMessage);
     @FXML
     Label winnerText = new Label(BoardItems.winnerMessage);
 
 
 
     public void switchToEndScreen() throws IOException {
-        playerOne.setText(String.valueOf(BoardItems.PlayerOneScore));
-        playerTwo.setText(String.valueOf(BoardItems.PlayerTwoScore));
+        playerOne.setText(String.valueOf(BoardItems.playerOneScore));
+        playerTwo.setText(String.valueOf(BoardItems.playerTwoScore));
 
         Parent root = FXMLLoader.load(getClass().getResource("EndScreen.fxml"));
         stage = Main.home;
@@ -70,8 +73,11 @@ public class Controller {
     @FXML
     public void initialize() {
         // Initialize playerOne and playerTwo labels here
-        playerOne.setText(InitGame.PlayerTwoName +" scored "+String.valueOf(BoardItems.PlayerTwoScore)+" points");
-        playerTwo.setText(InitGame.PlayerOneName +" scored " +String.valueOf(BoardItems.PlayerOneScore)+" points");
+        playerOne.setText(InitGame.PlayerTwoName +" scored "+String.valueOf(BoardItems.playerTwoScore)+" points");
+        playerTwo.setText(InitGame.PlayerOneName +" scored " +String.valueOf(BoardItems.playerOneScore)+" points");
+        pOneGuess.setText(InitGame.PlayerOneName + " guessed "+BoardItems.playerOneGuesses[0]+" times\n\n"+BoardItems.playerOneGuesses[1]+" times were correct");
+        pTwoGuess.setText(InitGame.PlayerTwoName + " guessed "+BoardItems.playerTwoGuesses[0]+" times\n\n"+BoardItems.playerTwoGuesses[1]+" times were correct");
+
         winnerText.setText(BoardItems.winnerMessage);
     }
 }

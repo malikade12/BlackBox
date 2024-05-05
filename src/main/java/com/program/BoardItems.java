@@ -18,8 +18,8 @@ public class BoardItems {
     static List<List<Hexagon>> allHexagons;
     static public List<Circle> markerList = new ArrayList<>();
     public static boolean markerEnabled = false; // Flag to track whether marker functionality is enabled
-    public static int PlayerOneScore =0; //Experimenter score
-    public static int PlayerTwoScore =0; //Setter score
+    public static int playerOneScore =0; //Experimenter score
+    public static int playerTwoScore =0; //Setter score
     public static boolean endRound = false;
     public static Scene scene;
     public static Map<Integer, Integer> setterRayPoints;
@@ -29,8 +29,8 @@ public class BoardItems {
     public static ArrayList<ArrayList<Line>> rays;
     public static int roundCount = 0;
     public static TextArea textArea;
-    public static int[] PlayerOneGuesses = {0, 0};
-    public static int[] PlayerTwoGuesses = {0, 0};
+    public static int[] playerOneGuesses = {0, 0};
+    public static int[] playerTwoGuesses = {0, 0};
 
      enum directions {
         southEast, southWest, northEast, northWest, east, west;

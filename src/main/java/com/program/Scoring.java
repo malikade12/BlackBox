@@ -92,7 +92,7 @@ public class Scoring {
     public static void EndRound() {
         ValidatePoints();
         BoardItems.addLog("Switch Roles");
-        BoardItems.addLog(InitGame.PlayerTwoName + " finished with " + BoardItems.PlayerOneScore + " points....");
+        BoardItems.addLog(InitGame.PlayerTwoName + " finished with " + BoardItems.playerOneScore + " points....");
     }
 
     public static void ValidatePoints() {
@@ -102,34 +102,34 @@ public class Scoring {
                 //if the setter made a mistake on calling out an entry point, 5 is deducted from the experimenters score
                 if (BoardItems.actualRayPoints.get(y.getKey()) == null) {
                     BoardItems.addLog(InitGame.PlayerOneName + " lied about ray entering from " + y.getKey());
-                    if (BoardItems.roundCount == 0) BoardItems.PlayerOneScore -= 5;
+                    if (BoardItems.roundCount == 0) BoardItems.playerOneScore -= 5;
                     else {
-                        BoardItems.PlayerTwoScore -= 5;
+                        BoardItems.playerTwoScore -= 5;
                     }
 
                 }
                 //if setter lied about an exit point, 5 is deducted from the experimenters score
                 else if (Objects.equals(x.getKey(), y.getKey()) && (!Objects.equals(x.getValue(), y.getValue()))) {
                     BoardItems.addLog(InitGame.PlayerOneName + " lied about ray entering from " + x.getKey() + " and exiting from " + y.getValue() + "\n so 5 has been deducted from your score");
-                    if (BoardItems.roundCount == 0) BoardItems.PlayerOneScore -= 5;
+                    if (BoardItems.roundCount == 0) BoardItems.playerOneScore -= 5;
                     else {
-                        BoardItems.PlayerTwoScore -= 5;
+                        BoardItems.playerTwoScore -= 5;
                     }
                 }
             }
         }
         //making sure the scores are never negative
-        if (BoardItems.PlayerOneScore < 0) BoardItems.PlayerOneScore = 0;
-        if (BoardItems.PlayerTwoScore < 0) BoardItems.PlayerTwoScore = 0;
+        if (BoardItems.playerOneScore < 0) BoardItems.playerOneScore = 0;
+        if (BoardItems.playerTwoScore < 0) BoardItems.playerTwoScore = 0;
     }
 
     //end round two and announce the results
     public static void EndRound2() {
 
         BoardItems.addLog("Switch roles ....");
-        BoardItems.addLog(InitGame.PlayerTwoName + " finished with " + BoardItems.PlayerTwoScore + " points....");
+        BoardItems.addLog(InitGame.PlayerTwoName + " finished with " + BoardItems.playerTwoScore + " points....");
 
-        if (BoardItems.PlayerOneScore < BoardItems.PlayerTwoScore) {
+        if (BoardItems.playerOneScore < BoardItems.playerTwoScore) {
             BoardItems.addLog(InitGame.PlayerOneName + " WON!!");
             BoardItems.winnerMessage = InitGame.PlayerOneName.toUpperCase() + " WON!!";
         } else {

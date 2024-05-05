@@ -57,5 +57,15 @@
             <Image url="@yellowAtom.png" />
          </image>
       </ImageView>
+      <Label fx:id="pOneGuess" layoutX="5.0" layoutY="418.0" prefHeight="75.0" prefWidth="755.0" text="Label">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="pTwoGuess" layoutX="748.0" layoutY="418.0" prefHeight="75.0" prefWidth="638.0" text="Label">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

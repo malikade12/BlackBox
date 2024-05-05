@@ -105,8 +105,8 @@ public class Main extends Application {
                 double y = event.getY();
                 Color color = colors[markerColor];
                 drawMarker(root, x, y, color);
-                if (roundCount == 0) PlayerOneScore++;
-                else PlayerTwoScore++;
+                if (roundCount == 0) playerOneScore++;
+                else playerTwoScore++;
 
             }
         });
