@@ -215,9 +215,11 @@ public class Arrow extends Polygon {
     public void DrawNumber(double x1, double y3){
         //ARROW ID IS FOR THE NUMBERS
         Label numberLabel = new Label(Integer.toString(arrowid));
+        //Calculating X and Y offset for the Ids of the arrows on the board
         int addOffsetY = 0;
         int addOffsetX = 0;
 
+        //Conditions for the arrow offset
         if ((arrowid > 45 && arrowid < 80) || arrowid == 1) {
             addOffsetY = 45;
             addOffsetX = 10;
@@ -254,7 +256,7 @@ public class Arrow extends Polygon {
         }
 
 
-        numberLabel.setLayoutX(x1 - addOffsetX);
+        numberLabel.setLayoutX(x1 - addOffsetX);//Adjusting the placement of the number lables based of the X and Y offset
         numberLabel.setLayoutY(y3 - addOffsetY);
         numberLabel.setFont(Font.font("Arial", FontWeight.BOLD, 15)); // You can adjust the font family and size as needed
 

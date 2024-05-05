@@ -82,6 +82,7 @@ public  class InitGame {
         //array of hex ids that have arrows in them
         int[][] rowIds = {{1, 6, 12, 19, 27}, {27, 36, 44, 51, 57}, {57, 58, 59, 60, 61}, {61, 56, 50, 43, 35}, {35, 26, 18, 11, 5}, {1, 2, 3, 4, 5}};
 
+        //start Ids for arrows on all sides of the board
         int arrowid = 1;
         int arrowid2 = 10;
         int arrowid3 = 19;
