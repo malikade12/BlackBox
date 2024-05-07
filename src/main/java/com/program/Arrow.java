@@ -28,12 +28,10 @@ public class Arrow extends Polygon {
         TOP_RIGHT,
         BOTTOM_LEFT,
         BOTTOM_RIGHT,
-        CENTER,
         MIDDLE_LEFT,
         MIDDLE_RIGHT
     }
 
-    static int loops = 0;
     static final double NORTH_EAST = -Math.PI / 4 - 0.263;
     static final double NORTH_WEST = -3 * Math.PI / 4 + 0.263;
     static final double SOUTH_EAST = Math.PI / 4 + 0.263;
