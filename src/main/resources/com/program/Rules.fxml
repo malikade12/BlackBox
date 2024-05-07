@@ -43,7 +43,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="64.0" layoutY="531.0" prefHeight="17.0" prefWidth="1215.0" text="Experimenter can make guesses by pressing the hexagon they widh to guess using the mouse">
+      <Label layoutX="64.0" layoutY="531.0" prefHeight="17.0" prefWidth="1215.0" text="selects 'make guess' they can make guesses by pressing the hexagon they wish to guess using the mouse">
          <font>
             <Font size="18.0" />
          </font>
@@ -78,7 +78,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="504.0" prefHeight="17.0" prefWidth="1130.0" text="4. Once experimenter selects 'make guess' press 'Q' or 'X' to determine marker colour">
+      <Label layoutX="47.0" layoutY="504.0" prefHeight="17.0" prefWidth="1130.0" text="4. Experimenter press 'Q' or 'X' to determine marker colour once the experimenter ">
          <font>
             <Font size="18.0" />
          </font>

@@ -58,6 +58,7 @@ public class Main extends Application {
         spacer2.setMinHeight(300); // Set the desired space height
 
 
+        //Adding buttons and spacing to the scene
         container.getChildren().add(test.GetSetterButton());
         container.getChildren().add(test.GetGuessButton());
         container.getChildren().add(test.GetEndButton());
