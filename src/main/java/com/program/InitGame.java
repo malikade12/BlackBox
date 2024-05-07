@@ -45,37 +45,37 @@ public  class InitGame {
             ArrayList<Hexagon> rows = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * i)/1.3), ydefault, j, k);
-                h1.draw(Main.root, 50/1.3); // Draw the hexagon with size 50
+                h1.Draw(Main.Root, 50/1.3); // Draw the hexagon with size 50
                 rows.add(h1);
                 k++;
             }
             if (j > 0 && j != 8) {
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 5)/1.3), ydefault, j, k);
-                h1.draw(Main.root, 50/1.3); // Draw the hexagon with size 50
+                h1.Draw(Main.Root, 50/1.3); // Draw the hexagon with size 50
                 rows.add(h1);
                 k++;
             }
             if (j > 1 && j < 7) {
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 6)/1.3), ydefault, j, k);
-                h1.draw(Main.root, 50/1.3); // Draw the hexagon with size 50
+                h1.Draw(Main.Root, 50/1.3); // Draw the hexagon with size 50
                 rows.add(h1);
                 k++;
             }
             if (j > 2 && j < 6) {
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 7)/1.3), ydefault, j, k);
-                h1.draw(Main.root, 50/1.3); // Draw the hexagon with size 50
+                h1.Draw(Main.Root, 50/1.3); // Draw the hexagon with size 50
                 rows.add(h1);
                 k++;
             }
             if (j == 4) {
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 8)/1.3), ydefault, j, k);
-                h1.draw(Main.root, 50/1.3); // Draw the hexagon with size 50
+                h1.Draw(Main.Root, 50/1.3); // Draw the hexagon with size 50
                 rows.add(h1);
                 k++;
             }
 
 
-            BoardItems.allHexagons.add(rows);
+            BoardItems.AllHexagons.add(rows);
         }
     }
     public static void PrintArrows(){
@@ -83,15 +83,15 @@ public  class InitGame {
         int[][] rowIds = {{1, 6, 12, 19, 27}, {27, 36, 44, 51, 57}, {57, 58, 59, 60, 61}, {61, 56, 50, 43, 35}, {35, 26, 18, 11, 5}, {1, 2, 3, 4, 5}};
 
         //start Ids for arrows on all sides of the board
-        int arrowid = 1;
-        int arrowid2 = 10;
-        int arrowid3 = 19;
-        int arrowid4 = 37;
-        int arrowid5 = 46;
-        int arrowid6 = 1;
+        int ArrowId = 1;
+        int ArrowId2 = 10;
+        int ArrowId3 = 19;
+        int ArrowId4 = 37;
+        int ArrowId5 = 46;
+        int ArrowId6 = 1;
 
         //looping through the hexagon to find matches with rowIds arrays
-        for (List<Hexagon> rows: BoardItems.allHexagons){
+        for (List<Hexagon> rows: BoardItems.AllHexagons){
             for (Hexagon hex: rows){
                 for (int[] x: rowIds){
                     for (int y: x) {
@@ -99,67 +99,65 @@ public  class InitGame {
                             //if the id is in the first index this is the line of arrows on the upper left side of the bigger hexagon
                             if(x == rowIds[0]) {
                                 //getting the coordinates of the upper left and mid left lines of the individual hexagon
-                                double[] CoOrdinates1 = {hex.points[8], hex.points[9]};
-                                double[] CoOrdinates2 = {hex.points[6], hex.points[7]};
-                                double[] CoOrdinates3 = {hex.points[4], hex.points[5]};
+                                double[] CoOrdinates1 = {hex.Points[8], hex.Points[9]};
+                                double[] CoOrdinates2 = {hex.Points[6], hex.Points[7]};
+                                double[] CoOrdinates3 = {hex.Points[4], hex.Points[5]};
                                 //uses the points to draw the south-east facing arrow
                                 Arrow Arrow1 = new Arrow();
-                                Arrow1.createArrow(CoOrdinates1, CoOrdinates2, BoardItems.directions.southEast, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid);
-                                BoardItems.allArrows.add(Arrow1);
-                                arrowid++;
+                                Arrow1.CreateArrow(CoOrdinates1, CoOrdinates2, BoardItems.directions.SouthEast, new int[]{hex.RowId, hex.RowPositionId - 1},ArrowId);
+                                BoardItems.AllArrows.add(Arrow1);
+                                ArrowId++;
                                 //uses the points to draw the east facing arrow
                                 Arrow Arrow2 = new Arrow();
-                               Arrow2.createArrow(CoOrdinates2, CoOrdinates3, BoardItems.directions.east, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid);
-                                arrowid++;
-                                BoardItems.allArrows.add(Arrow2);
-
+                               Arrow2.CreateArrow(CoOrdinates2, CoOrdinates3, BoardItems.directions.East, new int[]{hex.RowId, hex.RowPositionId - 1},ArrowId);
+                                ArrowId++;
+                                BoardItems.AllArrows.add(Arrow2);
 
 
                             }
                             //if the id is in the second index this is the line of arrows on the lower left side of the bigger hexagon
                             else if (x == rowIds[1]) {
                                 //getting the coordinates of the lower left and mid left lines of the individual hexagon
-                                double[] CoOrdinates1 = {hex.points[6], hex.points[7]};
-                                double[] CoOrdinates2 = {hex.points[4], hex.points[5]};
-                                double[] CoOrdinates3 = {hex.points[2], hex.points[3]};
+                                double[] CoOrdinates1 = {hex.Points[6], hex.Points[7]};
+                                double[] CoOrdinates2 = {hex.Points[4], hex.Points[5]};
+                                double[] CoOrdinates3 = {hex.Points[2], hex.Points[3]};
                                 //if hex id is 27, dont draw the east facing arrow because it was previously drawn
                                 if (hex.Id != 27) {
                                     Arrow Arrow1 = new Arrow();
-
                                     //uses the points to draw the east facing arrow
-                                    Arrow1.createArrow(CoOrdinates1, CoOrdinates2, BoardItems.directions.east, new int[]{hex.rowId, hex.rowPositionId - 1}, arrowid2);
-                                    BoardItems.allArrows.add(Arrow1);
+                                    Arrow1.CreateArrow(CoOrdinates1, CoOrdinates2, BoardItems.directions.East, new int[]{hex.RowId, hex.RowPositionId - 1}, ArrowId2);
+                                    BoardItems.AllArrows.add(Arrow1);
                                 }
-                                arrowid2++;
+                                ArrowId2++;
                                 Arrow Arrow2 = new Arrow();
                                 //uses the points to draw the north-east facing arrow
-                               Arrow2.createArrow(CoOrdinates2, CoOrdinates3, BoardItems.directions.northEast, new int[]{hex.rowId, hex.rowPositionId - 1},arrowid2);
-                                arrowid2++;
+                               Arrow2.CreateArrow(CoOrdinates2, CoOrdinates3, BoardItems.directions.NorthEast, new int[]{hex.RowId, hex.RowPositionId - 1},ArrowId2);
+                                ArrowId2++;
                                 //adds the numbers and arrow to their respective arraylists
 
-                                BoardItems.allArrows.add(Arrow2);
+                                BoardItems.AllArrows.add(Arrow2);
                             }
                             //if the id is in the third index this is the line of arrows on the lower middle side of the bigger hexagon
 
                             else if (x == rowIds[2]) {
                                 //getting the coordinates of the lower left and lower right lines of the individual hexagon
-                                double[] CoOrdinates1 = {hex.points[4], hex.points[5]};
-                                double[] CoOrdinates2 = {hex.points[2], hex.points[3]};
-                                double[] CoOrdinates3 = {hex.points[0], hex.points[1]};
+                                double[] CoOrdinates1 = {hex.Points[4], hex.Points[5]};
+                                double[] CoOrdinates2 = {hex.Points[2], hex.Points[3]};
+                                double[] CoOrdinates3 = {hex.Points[0], hex.Points[1]};
                                 //if hex id is 57, dont draw the north-east facing arrow because it was previously drawn
                                 if (hex.Id != 57) {
                                     Arrow Arrow1 = new Arrow();
 
                                     //uses the points to draw the north-east facing arrow
-                                     Arrow1.createArrow(CoOrdinates1, CoOrdinates2, BoardItems.directions.northEast, new int[]{hex.rowId, hex.rowPositionId - 1}, arrowid3);
-                                    BoardItems.allArrows.add(Arrow1);
+                                     Arrow1.CreateArrow(CoOrdinates1, CoOrdinates2, BoardItems.directions.NorthEast, new int[]{hex.RowId, hex.RowPositionId - 1}, ArrowId3);
+                                    BoardItems.AllArrows.add(Arrow1);
                                 }
-                                arrowid3++;
+                                ArrowId3++;
                                 Arrow Arrow2 = new Arrow();
                                 //uses the points to draw the north-west facing arrow
-                                Arrow2.createArrow(CoOrdinates2, CoOrdinates3, BoardItems.directions.northWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid3);
-                                arrowid3++;
-                                BoardItems.allArrows.add(Arrow2);
+                                Arrow2.CreateArrow(CoOrdinates2, CoOrdinates3, BoardItems.directions.NorthWest, new int[]{hex.RowId, hex.RowPositionId - 1},ArrowId3);
+                                ArrowId3++;
+                                BoardItems.AllArrows.add(Arrow2);
 
 
                             }
@@ -168,44 +166,44 @@ public  class InitGame {
                             else if (x == rowIds[3]) {
                                 //getting the coordinates of the lower right and mid right lines of the individual hexagon
 
-                                double[] CoOrdinates1 = {hex.points[2], hex.points[3]};
-                                double[] CoOrdinates2 = {hex.points[0], hex.points[1]};
-                                double[] CoOrdinates3 = {hex.points[10], hex.points[11]};
+                                double[] CoOrdinates1 = {hex.Points[2], hex.Points[3]};
+                                double[] CoOrdinates2 = {hex.Points[0], hex.Points[1]};
+                                double[] CoOrdinates3 = {hex.Points[10], hex.Points[11]};
                                 //uses the points to draw the west facing arrow
                                 Arrow Arrow2 = new Arrow();
 
-                                Arrow2.createArrow(CoOrdinates2, CoOrdinates3, BoardItems.directions.west, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid4);
-                                BoardItems.allArrows.add(Arrow2);
-                                arrowid4--;
+                                Arrow2.CreateArrow(CoOrdinates2, CoOrdinates3, BoardItems.directions.West, new int[]{hex.RowId, hex.RowPositionId - 1},ArrowId4);
+                                BoardItems.AllArrows.add(Arrow2);
+                                ArrowId4--;
                                 //uses the points to draw the north-west facing arrow if the id isnt 61
                                 if (hex.Id != 61) {
                                     Arrow Arrow1 = new Arrow();
-                                    Arrow1.createArrow(CoOrdinates1, CoOrdinates2, BoardItems.directions.northWest, new int[]{hex.rowId, hex.rowPositionId - 1}, arrowid4);
-                                    BoardItems.allArrows.add(Arrow1);
+                                    Arrow1.CreateArrow(CoOrdinates1, CoOrdinates2, BoardItems.directions.NorthWest, new int[]{hex.RowId, hex.RowPositionId - 1}, ArrowId4);
+                                    BoardItems.AllArrows.add(Arrow1);
                                 }
-                                arrowid4--;
+                                ArrowId4--;
 
                             }
                             //if the id is in the fifth index this is the line of arrows on the upper right side of the bigger hexagon
 
                             else if (x == rowIds[4]) {
                                 //getting the coordinates of the middle right and upper right lines of the individual hexagon
-                                double[] CoOrdinates1 = {hex.points[0], hex.points[1]};
-                                double[] CoOrdinates2 = {hex.points[10], hex.points[11]};
-                                double[] CoOrdinates3 = {hex.points[8], hex.points[9]};
+                                double[] CoOrdinates1 = {hex.Points[0], hex.Points[1]};
+                                double[] CoOrdinates2 = {hex.Points[10], hex.Points[11]};
+                                double[] CoOrdinates3 = {hex.Points[8], hex.Points[9]};
                                 //uses the points to draw the south-west facing arrow
                                 Arrow Arrow2 = new Arrow();
 
-                               Arrow2.createArrow(CoOrdinates2, CoOrdinates3, BoardItems.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid5);
-                                BoardItems.allArrows.add(Arrow2);
-                                arrowid5--;
+                               Arrow2.CreateArrow(CoOrdinates2, CoOrdinates3, BoardItems.directions.SouthWest, new int[]{hex.RowId, hex.RowPositionId - 1},ArrowId5);
+                                BoardItems.AllArrows.add(Arrow2);
+                                ArrowId5--;
                                 //uses the points to draw the west facing arrow
                                 if (hex.Id != 35) {
                                     Arrow Arrow1 = new Arrow();
-                                   Arrow1.createArrow(CoOrdinates1, CoOrdinates2, BoardItems.directions.west, new int[]{hex.rowId, hex.rowPositionId - 1}, arrowid5);
-                                    BoardItems.allArrows.add(Arrow1);
+                                   Arrow1.CreateArrow(CoOrdinates1, CoOrdinates2, BoardItems.directions.West, new int[]{hex.RowId, hex.RowPositionId - 1}, ArrowId5);
+                                    BoardItems.AllArrows.add(Arrow1);
                                 }
-                                arrowid5--;
+                                ArrowId5--;
 
 
 
@@ -216,24 +214,24 @@ public  class InitGame {
 
                             else if (x == rowIds[5]) {
                                 //getting the coordinates of the upper left and upper right lines of the individual hexagon
-                                double[] CoOrdinates1 = {hex.points[8], hex.points[9]};
-                                double[] CoOrdinates2 = {hex.points[6], hex.points[7]};
-                                double[] CoOrdinates3 = {hex.points[10], hex.points[11]};
+                                double[] CoOrdinates1 = {hex.Points[8], hex.Points[9]};
+                                double[] CoOrdinates2 = {hex.Points[6], hex.Points[7]};
+                                double[] CoOrdinates3 = {hex.Points[10], hex.Points[11]};
                                 //uses the points to draw the south-east facing arrow
                                 if (hex.Id != 1) {
                                     Arrow Arrow1 = new Arrow();
-                                    Arrow1.createArrow(CoOrdinates1, CoOrdinates2, BoardItems.directions.southEast, new int[]{hex.rowId, hex.rowPositionId - 1}, arrowid6);
-                                    BoardItems.allArrows.add(Arrow1);
+                                    Arrow1.CreateArrow(CoOrdinates1, CoOrdinates2, BoardItems.directions.SouthEast, new int[]{hex.RowId, hex.RowPositionId - 1}, ArrowId6);
+                                    BoardItems.AllArrows.add(Arrow1);
                                 }
 
-                                    arrowid6--;
-                                if(arrowid6 < 1) arrowid6 = 54;
+                                    ArrowId6--;
+                                if(ArrowId6 < 1) ArrowId6 = 54;
                                 //uses the points to draw the south-west facing arrow
                                 Arrow Arrow2 = new Arrow();
-                                Arrow2.createArrow(CoOrdinates3, CoOrdinates1, BoardItems.directions.southWest, new int[]{hex.rowId , hex.rowPositionId - 1},arrowid6);
-                                arrowid6--;
+                                Arrow2.CreateArrow(CoOrdinates3, CoOrdinates1, BoardItems.directions.SouthWest, new int[]{hex.RowId, hex.RowPositionId - 1},ArrowId6);
+                                ArrowId6--;
 
-                                BoardItems.allArrows.add(Arrow2);
+                                BoardItems.AllArrows.add(Arrow2);
 
 
                             }
@@ -241,7 +239,9 @@ public  class InitGame {
                     }
                 }
             }}
-        Main.root.getChildren().addAll(BoardItems.allArrows);
-
+    }
+    public static Arrow FindArrow(int x){
+        for(Arrow a: BoardItems.AllArrows){if (x == a.ArrowId) return a;}
+        return null;
     }
 }

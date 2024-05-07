@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.program.Arrow.*;
-import static com.program.BoardItems.allArrows;
-import static com.program.BoardItems.allHexagons;
+import static com.program.BoardItems.AllArrows;
+import static com.program.BoardItems.AllHexagons;
 
 /**
  * @author Elvis Okoh
@@ -20,33 +20,32 @@ import static com.program.BoardItems.allHexagons;
  */
 public class Rays {
 
-    public static ArrayList<Line> rays;
-    public static int exitId;
+    public static int ExitId;
 
-    public Rays(double midX, double midY, double directionAngle, ArrayList<Line> ray) {
+    public Rays(double MidX, double MidY, double DirectionAngle, ArrayList<Line> Ray) {
 
-        makeRays(midX, midY, directionAngle, ray);
+        MakeRays(MidX, MidY, DirectionAngle, Ray);
 
     }
 
     /**
      * Calculates and returns the end x and y points of a ray
      *
-     * @param midX           The x coordinate of the center point
-     * @param midY           The y coordinate of the center point
-     * @param directionAngle The angle of the ray
-     * @param rayLength      The length of the ray
+     * @param MidX           The x coordinate of the center point
+     * @param MidY           The y coordinate of the center point
+     * @param DirectionAngle The angle of the ray
+     * @param RayLength      The length of the ray
      * @return End point of the ray
      */
-    private static double[] findEndPoint(double midX, double midY, double directionAngle, double rayLength) {
-        double endX = midX + rayLength * Math.cos(directionAngle);
-        double endY = midY + rayLength * Math.sin(directionAngle);
+    private static double[] FindEndPoint(double MidX, double MidY, double DirectionAngle, double RayLength) {
+        double EndX = MidX + RayLength * Math.cos(DirectionAngle);
+        double EndY = MidY + RayLength * Math.sin(DirectionAngle);
 
         boolean inHexagon = false; // Flag to track if the endpoint is in a hexagon
 
-        for (List<Hexagon> innerList : allHexagons) {
+        for (List<Hexagon> innerList : AllHexagons) {
             for (Hexagon hexagon : innerList) {
-                if (hexagon.shape.contains(endX, endY)) {
+                if (hexagon.Shape.contains(EndX, EndY)) {
                     inHexagon = true; // Set the flag to true if the endpoint is in a hexagon
                     break; // Exit the loop since we found the hexagon
                 }
@@ -65,14 +64,14 @@ public class Rays {
             // Check with slight offsets in both x and y directions
             for (double offset : new double[]{-slightOffset, slightOffset}) {
                 if (!nextInHexagon) {
-                    double nextEndX = endX + rayLength * Math.cos(directionAngle);
-                    double nextEndY = endY + rayLength * Math.sin(directionAngle);
+                    double nextEndX = EndX + RayLength * Math.cos(DirectionAngle);
+                    double nextEndY = EndY + RayLength * Math.sin(DirectionAngle);
 
-                    for (List<Hexagon> innerList : allHexagons) {
+                    for (List<Hexagon> innerList : AllHexagons) {
                         rowid++;
                         for (Hexagon hexagon : innerList) {
                             hexid = hexagon.Id;
-                            if (hexagon.shape.contains(nextEndX + offset, nextEndY + offset)) {
+                            if (hexagon.Shape.contains(nextEndX + offset, nextEndY + offset)) {
                                 nextInHexagon = true; // Set the flag to true if the next endpoint with offset is in a hexagon
                                 break; // Exit the loop since we found the hexagon
                             }
@@ -86,14 +85,14 @@ public class Rays {
 
             if (nextInHexagon) {
                 // If the next endpoint with slight offset is also in a hexagon, recursively call the method again
-                return findEndPoint(endX, endY, directionAngle, rayLength);
+                return FindEndPoint(EndX, EndY, DirectionAngle, RayLength);
             } else {
                 // If incrementing or decrementing the endpoint would move it out of a hexagon, return the current endpoint
-                return new double[]{endX, endY};
+                return new double[]{EndX, EndY};
             }
         } else {
             // If the endpoint is not in a hexagon from the beginning, return the current endpoint
-            return new double[]{endX, endY};
+            return new double[]{EndX, EndY};
         }
     }
 
@@ -109,7 +108,7 @@ public class Rays {
      * @return The point that the line intersects the orbit
      */
 
-    private static Point2D getCircleLineIntersection(Circle circle, double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
+    private static Point2D GetCircleLineIntersection(Circle circle, double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
         lineStartX += 5 * Math.cos(directionAngle);
         lineStartY += 5 * Math.sin(directionAngle);
         double circleCenterX = circle.getCenterX();
@@ -164,49 +163,49 @@ public class Rays {
      * @param OriginalDirection  The original direction the ray is headed
      * @return The new angle to reflect the ray
      */
-    private static double calculateReflection1Atom(Arrow.Region intersectionRegion, double OriginalDirection) {
+    private static double CalculateReflection1Atom(Arrow.Region intersectionRegion, double OriginalDirection) {
         double directionAngle = 0;
         switch ((int) OriginalDirection) {
-            case (int) West:
+            case (int) WEST:
                 switch (intersectionRegion) {
                     case MIDDLE_RIGHT -> directionAngle = -1;
-                    case TOP_RIGHT -> directionAngle = Northwest;
-                    case BOTTOM_RIGHT -> directionAngle = Southwest;
+                    case TOP_RIGHT -> directionAngle = NORTH_WEST;
+                    case BOTTOM_RIGHT -> directionAngle = SOUTH_WEST;
                 }
                 break;
-            case (int) Southeast:
+            case (int) SOUTH_EAST:
                 switch (intersectionRegion) {
                     case TOP_LEFT -> directionAngle = -1;
-                    case TOP_RIGHT -> directionAngle = East;
-                    case MIDDLE_LEFT -> directionAngle = Southwest;
+                    case TOP_RIGHT -> directionAngle = EAST;
+                    case MIDDLE_LEFT -> directionAngle = SOUTH_WEST;
                 }
                 break;
-            case (int) Northeast:
+            case (int) NORTH_EAST:
                 switch (intersectionRegion) {
-                    case BOTTOM_RIGHT -> directionAngle = East;
+                    case BOTTOM_RIGHT -> directionAngle = EAST;
                     case BOTTOM_LEFT -> directionAngle = -1;
-                    case MIDDLE_LEFT -> directionAngle = Northwest;
+                    case MIDDLE_LEFT -> directionAngle = NORTH_WEST;
                 }
                 break;
-            case (int) Northwest:
+            case (int) NORTH_WEST:
                 switch (intersectionRegion) {
-                    case MIDDLE_RIGHT -> directionAngle = Northeast;
+                    case MIDDLE_RIGHT -> directionAngle = NORTH_EAST;
                     case BOTTOM_RIGHT -> directionAngle = -1;
-                    case BOTTOM_LEFT -> directionAngle = West;
+                    case BOTTOM_LEFT -> directionAngle = WEST;
                 }
                 break;
             case 0:
                 switch (intersectionRegion) {
                     case MIDDLE_LEFT -> directionAngle = -1;
-                    case TOP_LEFT -> directionAngle = Northeast;
-                    case BOTTOM_LEFT -> directionAngle = Southeast;
+                    case TOP_LEFT -> directionAngle = NORTH_EAST;
+                    case BOTTOM_LEFT -> directionAngle = SOUTH_EAST;
                 }
                 break;
-            case (int) Southwest:
+            case (int) SOUTH_WEST:
                 switch (intersectionRegion) {
                     case TOP_RIGHT -> directionAngle = -1;
-                    case TOP_LEFT -> directionAngle = West;
-                    case MIDDLE_RIGHT -> directionAngle = Southeast;
+                    case TOP_LEFT -> directionAngle = WEST;
+                    case MIDDLE_RIGHT -> directionAngle = SOUTH_EAST;
                 }
                 break;
             default:
@@ -225,19 +224,19 @@ public class Rays {
      * @param directionAngle The angle the ray is being shot at
      * @return The new reflection angle of the ray
      */
-    private static double calculateReflection2Atoms(double initialX, double initialY, double endX, double endY, double directionAngle) {
+    private static double CalculateReflection2Atoms(double initialX, double initialY, double endX, double endY, double directionAngle) {
         Arrow.Region intersectionRegion1 = null;
         Arrow.Region intersectionRegion2 = null;
         double reflectionAngle = 0;
-        for (Atoms atom : BoardItems.allAtoms) {
-            Point2D intersection = getCircleLineIntersection(atom.orbit, initialX, initialY, endX + 5 * Math.cos(directionAngle), endY + 5 * Math.sin(directionAngle), directionAngle);
+        for (Atoms atom : BoardItems.AllAtoms) {
+            Point2D intersection = GetCircleLineIntersection(atom.Orbit, initialX, initialY, endX + 5 * Math.cos(directionAngle), endY + 5 * Math.sin(directionAngle), directionAngle);
             if (intersection != null) {
                 endX = intersection.getX();
                 endY = intersection.getY();
                 if (intersectionRegion1 == null) {
-                    intersectionRegion1 = determineRegion(intersection, atom.orbit);
+                    intersectionRegion1 = DetermineRegion(intersection, atom.Orbit);
                 } else if (intersectionRegion2 == null) {
-                    intersectionRegion2 = determineRegion(intersection, atom.orbit);
+                    intersectionRegion2 = DetermineRegion(intersection, atom.Orbit);
 
                 }
             }
@@ -245,57 +244,57 @@ public class Rays {
 
 
         //Northwest
-        if (((intersectionRegion1 == Arrow.Region.BOTTOM_LEFT && intersectionRegion2 == Arrow.Region.MIDDLE_RIGHT) || (intersectionRegion1 == Arrow.Region.MIDDLE_RIGHT && intersectionRegion2 == Arrow.Region.BOTTOM_LEFT)) && directionAngle == Northwest) {
+        if (((intersectionRegion1 == Arrow.Region.BOTTOM_LEFT && intersectionRegion2 == Arrow.Region.MIDDLE_RIGHT) || (intersectionRegion1 == Arrow.Region.MIDDLE_RIGHT && intersectionRegion2 == Arrow.Region.BOTTOM_LEFT)) && directionAngle == NORTH_WEST) {
             reflectionAngle = -1;
-        } else if (((intersectionRegion1 == Arrow.Region.BOTTOM_LEFT && intersectionRegion2 == Arrow.Region.BOTTOM_RIGHT) || (intersectionRegion1 == Arrow.Region.BOTTOM_RIGHT && intersectionRegion2 == Arrow.Region.BOTTOM_LEFT)) && directionAngle == Northwest) {
-            reflectionAngle = Southwest;
-        } else if (((intersectionRegion1 == Arrow.Region.BOTTOM_RIGHT && intersectionRegion2 == Arrow.Region.MIDDLE_RIGHT) || (intersectionRegion1 == Arrow.Region.MIDDLE_RIGHT && intersectionRegion2 == Arrow.Region.BOTTOM_RIGHT)) && directionAngle == Northwest) {
-            reflectionAngle = East;
+        } else if (((intersectionRegion1 == Arrow.Region.BOTTOM_LEFT && intersectionRegion2 == Arrow.Region.BOTTOM_RIGHT) || (intersectionRegion1 == Arrow.Region.BOTTOM_RIGHT && intersectionRegion2 == Arrow.Region.BOTTOM_LEFT)) && directionAngle == NORTH_WEST) {
+            reflectionAngle = SOUTH_WEST;
+        } else if (((intersectionRegion1 == Arrow.Region.BOTTOM_RIGHT && intersectionRegion2 == Arrow.Region.MIDDLE_RIGHT) || (intersectionRegion1 == Arrow.Region.MIDDLE_RIGHT && intersectionRegion2 == Arrow.Region.BOTTOM_RIGHT)) && directionAngle == NORTH_WEST) {
+            reflectionAngle = EAST;
         }
 
         //Northeast
-        else if (((intersectionRegion1 == Arrow.Region.MIDDLE_LEFT && intersectionRegion2 == Arrow.Region.BOTTOM_RIGHT) || (intersectionRegion1 == Arrow.Region.BOTTOM_RIGHT && intersectionRegion2 == Arrow.Region.MIDDLE_LEFT)) && directionAngle == Northeast) {
+        else if (((intersectionRegion1 == Arrow.Region.MIDDLE_LEFT && intersectionRegion2 == Arrow.Region.BOTTOM_RIGHT) || (intersectionRegion1 == Arrow.Region.BOTTOM_RIGHT && intersectionRegion2 == Arrow.Region.MIDDLE_LEFT)) && directionAngle == NORTH_EAST) {
             reflectionAngle = -1;
-        } else if (((intersectionRegion1 == Arrow.Region.MIDDLE_LEFT && intersectionRegion2 == Arrow.Region.BOTTOM_LEFT) || (intersectionRegion1 == Arrow.Region.BOTTOM_LEFT && intersectionRegion2 == Arrow.Region.MIDDLE_LEFT)) && directionAngle == Northeast) {
-            reflectionAngle = West;
-        } else if (((intersectionRegion1 == Arrow.Region.BOTTOM_LEFT && intersectionRegion2 == Arrow.Region.BOTTOM_RIGHT) || (intersectionRegion1 == Arrow.Region.BOTTOM_RIGHT && intersectionRegion2 == Arrow.Region.BOTTOM_LEFT)) && directionAngle == Northeast) {
-            reflectionAngle = Southeast;
+        } else if (((intersectionRegion1 == Arrow.Region.MIDDLE_LEFT && intersectionRegion2 == Arrow.Region.BOTTOM_LEFT) || (intersectionRegion1 == Arrow.Region.BOTTOM_LEFT && intersectionRegion2 == Arrow.Region.MIDDLE_LEFT)) && directionAngle == NORTH_EAST) {
+            reflectionAngle = WEST;
+        } else if (((intersectionRegion1 == Arrow.Region.BOTTOM_LEFT && intersectionRegion2 == Arrow.Region.BOTTOM_RIGHT) || (intersectionRegion1 == Arrow.Region.BOTTOM_RIGHT && intersectionRegion2 == Arrow.Region.BOTTOM_LEFT)) && directionAngle == NORTH_EAST) {
+            reflectionAngle = SOUTH_EAST;
         }
 
         //Southwest
-        else if (((intersectionRegion1 == Arrow.Region.TOP_LEFT && intersectionRegion2 == Arrow.Region.MIDDLE_RIGHT) || (intersectionRegion1 == Arrow.Region.MIDDLE_RIGHT && intersectionRegion2 == Arrow.Region.TOP_LEFT)) && directionAngle == Southwest) {
+        else if (((intersectionRegion1 == Arrow.Region.TOP_LEFT && intersectionRegion2 == Arrow.Region.MIDDLE_RIGHT) || (intersectionRegion1 == Arrow.Region.MIDDLE_RIGHT && intersectionRegion2 == Arrow.Region.TOP_LEFT)) && directionAngle == SOUTH_WEST) {
             reflectionAngle = -1;
-        } else if (((intersectionRegion1 == Arrow.Region.TOP_LEFT && intersectionRegion2 == Arrow.Region.TOP_RIGHT) || (intersectionRegion1 == Arrow.Region.TOP_RIGHT && intersectionRegion2 == Arrow.Region.TOP_LEFT)) && directionAngle == Southwest) {
-            reflectionAngle = Northwest;
-        } else if (((intersectionRegion1 == Arrow.Region.TOP_RIGHT && intersectionRegion2 == Arrow.Region.MIDDLE_RIGHT) || (intersectionRegion1 == Arrow.Region.MIDDLE_RIGHT && intersectionRegion2 == Arrow.Region.TOP_RIGHT)) && directionAngle == Southwest) {
-            reflectionAngle = East;
+        } else if (((intersectionRegion1 == Arrow.Region.TOP_LEFT && intersectionRegion2 == Arrow.Region.TOP_RIGHT) || (intersectionRegion1 == Arrow.Region.TOP_RIGHT && intersectionRegion2 == Arrow.Region.TOP_LEFT)) && directionAngle == SOUTH_WEST) {
+            reflectionAngle = NORTH_WEST;
+        } else if (((intersectionRegion1 == Arrow.Region.TOP_RIGHT && intersectionRegion2 == Arrow.Region.MIDDLE_RIGHT) || (intersectionRegion1 == Arrow.Region.MIDDLE_RIGHT && intersectionRegion2 == Arrow.Region.TOP_RIGHT)) && directionAngle == SOUTH_WEST) {
+            reflectionAngle = EAST;
         }
 
         //Southeast
-        else if (((intersectionRegion1 == Arrow.Region.MIDDLE_LEFT && intersectionRegion2 == Arrow.Region.TOP_RIGHT) || (intersectionRegion1 == Arrow.Region.TOP_RIGHT && intersectionRegion2 == Arrow.Region.MIDDLE_LEFT)) && directionAngle == Southeast) {
+        else if (((intersectionRegion1 == Arrow.Region.MIDDLE_LEFT && intersectionRegion2 == Arrow.Region.TOP_RIGHT) || (intersectionRegion1 == Arrow.Region.TOP_RIGHT && intersectionRegion2 == Arrow.Region.MIDDLE_LEFT)) && directionAngle == SOUTH_EAST) {
             reflectionAngle = -1;
-        } else if (((intersectionRegion1 == Arrow.Region.TOP_LEFT && intersectionRegion2 == Arrow.Region.TOP_RIGHT) || (intersectionRegion1 == Arrow.Region.TOP_RIGHT && intersectionRegion2 == Arrow.Region.TOP_LEFT)) && directionAngle == Southeast) {
-            reflectionAngle = Northeast;
-        } else if (((intersectionRegion1 == Arrow.Region.MIDDLE_LEFT && intersectionRegion2 == Arrow.Region.TOP_LEFT) || (intersectionRegion1 == Arrow.Region.TOP_LEFT && intersectionRegion2 == Arrow.Region.MIDDLE_LEFT)) && directionAngle == Southeast) {
-            reflectionAngle = West;
+        } else if (((intersectionRegion1 == Arrow.Region.TOP_LEFT && intersectionRegion2 == Arrow.Region.TOP_RIGHT) || (intersectionRegion1 == Arrow.Region.TOP_RIGHT && intersectionRegion2 == Arrow.Region.TOP_LEFT)) && directionAngle == SOUTH_EAST) {
+            reflectionAngle = NORTH_EAST;
+        } else if (((intersectionRegion1 == Arrow.Region.MIDDLE_LEFT && intersectionRegion2 == Arrow.Region.TOP_LEFT) || (intersectionRegion1 == Arrow.Region.TOP_LEFT && intersectionRegion2 == Arrow.Region.MIDDLE_LEFT)) && directionAngle == SOUTH_EAST) {
+            reflectionAngle = WEST;
         }
 
         //West
-        else if (((intersectionRegion1 == Arrow.Region.TOP_RIGHT && intersectionRegion2 == Arrow.Region.BOTTOM_RIGHT) || (intersectionRegion1 == Arrow.Region.BOTTOM_RIGHT && intersectionRegion2 == Arrow.Region.TOP_RIGHT)) && directionAngle == West) {
+        else if (((intersectionRegion1 == Arrow.Region.TOP_RIGHT && intersectionRegion2 == Arrow.Region.BOTTOM_RIGHT) || (intersectionRegion1 == Arrow.Region.BOTTOM_RIGHT && intersectionRegion2 == Arrow.Region.TOP_RIGHT)) && directionAngle == WEST) {
             reflectionAngle = -1;
-        } else if (((intersectionRegion1 == Arrow.Region.TOP_RIGHT && intersectionRegion2 == Arrow.Region.MIDDLE_RIGHT) || (intersectionRegion1 == Arrow.Region.MIDDLE_RIGHT && intersectionRegion2 == Arrow.Region.TOP_RIGHT)) && directionAngle == West) {
-            reflectionAngle = Northeast;
-        } else if (((intersectionRegion1 == Arrow.Region.BOTTOM_RIGHT && intersectionRegion2 == Arrow.Region.MIDDLE_RIGHT) || (intersectionRegion1 == Arrow.Region.MIDDLE_RIGHT && intersectionRegion2 == Arrow.Region.BOTTOM_RIGHT)) && directionAngle == West) {
-            reflectionAngle = Southeast;
+        } else if (((intersectionRegion1 == Arrow.Region.TOP_RIGHT && intersectionRegion2 == Arrow.Region.MIDDLE_RIGHT) || (intersectionRegion1 == Arrow.Region.MIDDLE_RIGHT && intersectionRegion2 == Arrow.Region.TOP_RIGHT)) && directionAngle == WEST) {
+            reflectionAngle = NORTH_EAST;
+        } else if (((intersectionRegion1 == Arrow.Region.BOTTOM_RIGHT && intersectionRegion2 == Arrow.Region.MIDDLE_RIGHT) || (intersectionRegion1 == Arrow.Region.MIDDLE_RIGHT && intersectionRegion2 == Arrow.Region.BOTTOM_RIGHT)) && directionAngle == WEST) {
+            reflectionAngle = SOUTH_EAST;
         }
 
         //East
-        else if (((intersectionRegion1 == Arrow.Region.TOP_LEFT && intersectionRegion2 == Arrow.Region.BOTTOM_LEFT) || (intersectionRegion1 == Arrow.Region.BOTTOM_LEFT && intersectionRegion2 == Arrow.Region.TOP_LEFT)) && directionAngle == East) {
+        else if (((intersectionRegion1 == Arrow.Region.TOP_LEFT && intersectionRegion2 == Arrow.Region.BOTTOM_LEFT) || (intersectionRegion1 == Arrow.Region.BOTTOM_LEFT && intersectionRegion2 == Arrow.Region.TOP_LEFT)) && directionAngle == EAST) {
             reflectionAngle = -1;
-        } else if (((intersectionRegion1 == Arrow.Region.MIDDLE_LEFT && intersectionRegion2 == Arrow.Region.BOTTOM_LEFT) || (intersectionRegion1 == Arrow.Region.BOTTOM_LEFT && intersectionRegion2 == Arrow.Region.MIDDLE_LEFT)) && directionAngle == East) {
-            reflectionAngle = Southwest;
-        } else if (((intersectionRegion1 == Arrow.Region.TOP_LEFT && intersectionRegion2 == Arrow.Region.MIDDLE_LEFT) || (intersectionRegion1 == Arrow.Region.MIDDLE_LEFT && intersectionRegion2 == Arrow.Region.TOP_LEFT)) && directionAngle == East) {
-            reflectionAngle = Northwest;
+        } else if (((intersectionRegion1 == Arrow.Region.MIDDLE_LEFT && intersectionRegion2 == Arrow.Region.BOTTOM_LEFT) || (intersectionRegion1 == Arrow.Region.BOTTOM_LEFT && intersectionRegion2 == Arrow.Region.MIDDLE_LEFT)) && directionAngle == EAST) {
+            reflectionAngle = SOUTH_WEST;
+        } else if (((intersectionRegion1 == Arrow.Region.TOP_LEFT && intersectionRegion2 == Arrow.Region.MIDDLE_LEFT) || (intersectionRegion1 == Arrow.Region.MIDDLE_LEFT && intersectionRegion2 == Arrow.Region.TOP_LEFT)) && directionAngle == EAST) {
+            reflectionAngle = NORTH_WEST;
         }
 
         return reflectionAngle;
@@ -310,7 +309,7 @@ public class Rays {
      * @param circle            the orbit that is being intersected
      * @return the region of orbit intersected
      */
-    private static Arrow.Region determineRegion(Point2D intersectionPoint, Circle circle) {
+    private static Arrow.Region DetermineRegion(Point2D intersectionPoint, Circle circle) {
         double centerX = circle.getCenterX();
         double centerY = circle.getCenterY();
         double x = intersectionPoint.getX();
@@ -343,11 +342,11 @@ public class Rays {
      * @param directionAngle The direction the ray is fired from
      * @return The number of orbits the ray intersects
      */
-    private static int countCircleLineIntersections(double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
+    private static int CountCircleLineIntersections(double lineStartX, double lineStartY, double lineEndX, double lineEndY, double directionAngle) {
         int intersectingAtomsCount = 0;
-        for (Atoms atom : BoardItems.allAtoms) {
+        for (Atoms atom : BoardItems.AllAtoms) {
             // Get the point of intersection
-            Point2D intersection = getCircleLineIntersection(atom.orbit, lineStartX, lineStartY, lineEndX, lineEndY, directionAngle);
+            Point2D intersection = GetCircleLineIntersection(atom.Orbit, lineStartX, lineStartY, lineEndX, lineEndY, directionAngle);
             if (intersection != null) {
                 intersectingAtomsCount++; // Increment the count for each intersecting atom
 
@@ -365,10 +364,10 @@ public class Rays {
      * @param directionAngle The angle of the direction of the ray
      * @param rays           The total list of lines to be combined for the ray
      */
-    private static void makeRays(double initialX, double initialY, double directionAngle, List<Line> rays) {
+    private static void MakeRays(double initialX, double initialY, double directionAngle, List<Line> rays) {
         loops++;
         double rayLength = 5;
-        double[] endPoint = findEndPoint(initialX, initialY, directionAngle, rayLength);
+        double[] endPoint = FindEndPoint(initialX, initialY, directionAngle, rayLength);
         double endX = endPoint[0];
         double endY = endPoint[1];
         double reflectionAngle = -1;
@@ -378,22 +377,22 @@ public class Rays {
         currentY += 25 * Math.sin(directionAngle);
         boolean found = false;
         for (int i = 0; i < 50; i++) {
-            for (Atoms atom : BoardItems.allAtoms) {
-                Point2D Intersection = getCircleLineIntersection(atom.orbit, initialX, initialY, currentX, currentY, directionAngle);
+            for (Atoms atom : BoardItems.AllAtoms) {
+                Point2D Intersection = GetCircleLineIntersection(atom.Orbit, initialX, initialY, currentX, currentY, directionAngle);
                 if (Intersection != null) {
-                    for (List<Hexagon> innerList : allHexagons) {
+                    for (List<Hexagon> innerList : AllHexagons) {
                         for (Hexagon hexagon : innerList) {
-                            if (hexagon.shape.contains(Intersection.getX(), Intersection.getY())) {
+                            if (hexagon.Shape.contains(Intersection.getX(), Intersection.getY())) {
                                 currentX = hexagon.x;
                                 currentY = hexagon.y;
                             }
                         }
                     }
-                    Arrow.Region intersectedRegion = determineRegion(Intersection, atom.orbit);
-                    int AtomsHit = countCircleLineIntersections(initialX, initialY, currentX + 25 * Math.cos(directionAngle), currentY + 25 * Math.sin(directionAngle), directionAngle);
-                    if (AtomsHit == 1) reflectionAngle = calculateReflection1Atom(intersectedRegion, directionAngle);
+                    Arrow.Region intersectedRegion = DetermineRegion(Intersection, atom.Orbit);
+                    int AtomsHit = CountCircleLineIntersections(initialX, initialY, currentX + 25 * Math.cos(directionAngle), currentY + 25 * Math.sin(directionAngle), directionAngle);
+                    if (AtomsHit == 1) reflectionAngle = CalculateReflection1Atom(intersectedRegion, directionAngle);
                     if (AtomsHit == 2) {
-                        reflectionAngle = calculateReflection2Atoms(initialX, initialY, currentX + 25 * Math.cos(directionAngle), currentY + 25 * Math.sin(directionAngle), directionAngle);
+                        reflectionAngle = CalculateReflection2Atoms(initialX, initialY, currentX + 25 * Math.cos(directionAngle), currentY + 25 * Math.sin(directionAngle), directionAngle);
                     }
                     if (AtomsHit == 3) {
                         reflectionAngle = -1;
@@ -419,10 +418,10 @@ public class Rays {
         Line Ray = new Line(initialX, initialY, currentX, currentY); // Original ray from midpoint to intersection point
         Ray.setStroke(Color.CYAN);
         Ray.setStrokeWidth(6);
-        exitId = FindArrow(Ray.getEndX(), Ray.getEndY());
+        ExitId = FindArrow(Ray.getEndX(), Ray.getEndY());
         rays.add(Ray);
         if (reflectionAngle != -1) {
-            makeRays(currentX, currentY, reflectionAngle, rays);
+            MakeRays(currentX, currentY, reflectionAngle, rays);
         }
     }
 
@@ -434,11 +433,11 @@ public class Rays {
      * @return The arrow id of the arrow that contains the points
      */
     public static int FindArrow(double x, double y) {
-        for (Arrow a : allArrows) {
+        for (Arrow a : AllArrows) {
             //uses a slight offset to get the correct arrow
             for (int i = -5; i <= 5; i++) {
                 for (int j = -5; j <= 5; j++) {
-                    if (a.shape.contains(x + i, y + j)) return a.arrowid;
+                    if (a.Shape.contains(x + i, y + j)) return a.ArrowId;
                 }
             }
         }
