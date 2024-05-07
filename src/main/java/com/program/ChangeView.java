@@ -12,53 +12,63 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+import static com.program.BoardItems.*;
+
 public class ChangeView {
-    public static Button experimenterButton;
-    public static Button setterButton;
-    public static Button guessButton;
-    public static Button endButton;
-    public static Button helpButton;
+    public static Button ExperimenterButton;
+    public static Button SetterButton;
+    public static Button GuessButton;
+    public static Button EndButton;
+    public static Button HelpButton;
+    public ChangeView(){
+        Guess();
+        ExperimenterButton();
+        SetterButton();
+        EndRound();
+        HelpPage();
+    }
 
     // EventHandler for the button click event
     EventHandler<ActionEvent> experimenterTurn = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
 
-            BoardItems.addLog(InitGame.PlayerOneName + "'s turn..");
-
-            BoardItems.addLog("Markers Press:\n Q - Purple X - Pink.\nPress key again to stop marking");
-            BoardItems.isSetter = false;
-            BoardItems.setterSwitched = true;
-            experimenterButton.setVisible(false);
-            setterButton.setVisible(true);
-            guessButton.setVisible(true);
-            Atoms.makeAllAtomsInvisible();
+            addLog(InitGame.PlayerOneName + "'s turn..");
+            IsSetter = false;
+            SetterSwitched = true;
+            if (AllAtoms.size() == 0) SetterSwitched = false;
+            ExperimenterButton.setVisible(false);
+            SetterButton.setVisible(true);
+            GuessButton.setVisible(true);
+            HelpButton.setVisible(true);
+            Atoms.MakeAllAtomsInvisible();
             Arrow.MakeRaysVisible(false);
-            Hexagon.gameMode = 1;
+            Hexagon.GameMode = 1;
         }
     };
 
     EventHandler<ActionEvent> setterTurn = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            BoardItems.isSetter = true;
-            BoardItems.addLog(InitGame.PlayerTwoName + "'s turn..");
-            experimenterButton.setVisible(true);
-            setterButton.setVisible(false);
-            guessButton.setVisible(false);
-            Atoms.makeAllAtomsVisible();
+            IsSetter = true;
+            addLog(InitGame.PlayerTwoName + "'s turn..");
+            ExperimenterButton.setVisible(true);
+            SetterButton.setVisible(false);
+            GuessButton.setVisible(false);
+            HelpButton.setVisible(false);
+            Atoms.MakeAllAtomsVisible();
             Arrow.MakeRaysVisible(true);
-            Hexagon.gameMode = 0;
+            Hexagon.GameMode = 0;
         }
     };
     //Event handler for the end round button
     EventHandler<ActionEvent> endRound = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-            BoardItems.endRound = true;
-            setterButton.setVisible(false);
-            guessButton.setVisible(false);
-            endButton.setVisible(true);
+            BoardItems.EndRound = true;
+            SetterButton.setVisible(false);
+            GuessButton.setVisible(false);
+            EndButton.setVisible(true);
 
         }
     };
@@ -66,7 +76,7 @@ public class ChangeView {
     EventHandler<ActionEvent> help = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-            BoardItems.endRound = true;
+
             try {
                 // Load the FXML file
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("HelpPage.fxml"));
@@ -92,69 +102,72 @@ public class ChangeView {
     EventHandler<ActionEvent> clearBoard = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent actionEvent) {
-            endButton.setVisible(false);
+            EndButton.setVisible(false);
             Scoring.ValidatePoints();
             //Call end Round method
-            for (Atoms atom : BoardItems.allAtoms) {
-                Main.root.getChildren().remove(atom);
-                Main.root.getChildren().remove(atom.orbit);
-                // Optionally, remove it from the lis
-            }
-            BoardItems.allAtoms.clear();
-            BoardItems.actualRayPoints.clear();
-            BoardItems.setterRayPoints.clear();
-            String temp = InitGame.PlayerOneName;
-            InitGame.PlayerOneName = InitGame.PlayerTwoName;
-            InitGame.PlayerTwoName = temp;
+            ResetVariables();
 
-            if (Arrow.rays != null) {
-                for (Line ray : Arrow.rays) {
-
-                    Main.root.getChildren().remove(ray);
-                    // Optionally, remove it from the list
-                }
-                Arrow.rays.clear();
-            }
-            for (Circle marker : BoardItems.markerList) {
-
-                Main.root.getChildren().remove(marker);
-                // Optionally, remove it from the list
-            }
-
-            BoardItems.markerList.clear();
-
-            BoardItems.isSetter = true;
-            BoardItems.setterSwitched = false;
-            BoardItems.endRound = false;
-            BoardItems.markerEnabled = false;
-            Hexagon.counter = 0;
-            setterButton.setVisible(true);
-            for (List<Hexagon> a : BoardItems.allHexagons
-            ) {
-                for (Hexagon n : a
-                ) {
-                    n.guessed = false;
-                }
-            }
-
-            if (BoardItems.roundCount < 1) {
-                BoardItems.roundCount++;
+            if (RoundCount < 1) {
+                RoundCount++;
                 Scoring.EndRound();
-                setterButton.fire();
+                SetterButton.fire();
             } else {
                 Scoring.EndRound2();
-                BoardItems.addLog("Thanks for playing!!!!");
+                addLog("Thanks for playing!!!!");
             }
         }
     };
+    public void ResetVariables(){
+        for (Atoms atom : AllAtoms) {
+            Main.Root.getChildren().remove(atom);
+            Main.Root.getChildren().remove(atom.Orbit);
+            // Optionally, remove it from the lis
+        }
+        AllAtoms.clear();
+        ActualRayPoints.clear();
+        SetterRayPoints.clear();
+        String temp = InitGame.PlayerOneName;
+        InitGame.PlayerOneName = InitGame.PlayerTwoName;
+        InitGame.PlayerTwoName = temp;
+
+        if (Arrow.rays != null) {
+            for (Line ray : Arrow.rays) {
+
+                Main.Root.getChildren().remove(ray);
+                // Optionally, remove it from the list
+            }
+            Arrow.rays.clear();
+        }
+        for (Circle marker : MarkerList) {
+
+            Main.Root.getChildren().remove(marker);
+            // Optionally, remove it from the list
+        }
+
+        MarkerList.clear();
+
+        IsSetter = true;
+        SetterSwitched = false;
+        BoardItems.EndRound = false;
+        MarkerEnabled = false;
+        Hexagon.AtomCounter = 0;
+        SetterButton.setVisible(true);
+        for (List<Hexagon> a : AllHexagons
+        ) {
+            for (Hexagon n : a
+            ) {
+                n.Guessed = false;
+            }
+        }
+    }
 
 //Button for ending turn and submitting guesses
     public void Guess() {
-        guessButton = new Button("Make Guesses");
-        guessButton.setOnAction(endRound);
-        guessButton.setVisible(false);
+        GuessButton = new Button("Make Guesses");
+        GuessButton.setOnAction(endRound);
+        GuessButton.setVisible(false);
 
-        guessButton.setStyle(
+        GuessButton.setStyle(
                 "-fx-background-color: black; " +
                         "-fx-text-fill: yellow; " +
                         "-fx-font-size: 15px; " +
@@ -165,12 +178,12 @@ public class ChangeView {
     }
 
     // Method to initialize the button
-    public void experimenterButton() {
-        experimenterButton = new Button("Change to Experimenter view");
+    public void ExperimenterButton() {
+        ExperimenterButton = new Button("Change to Experimenter view");
 
-        experimenterButton.setOnAction(experimenterTurn);
+        ExperimenterButton.setOnAction(experimenterTurn);
 
-        experimenterButton.setStyle(
+        ExperimenterButton.setStyle(
                 "-fx-background-color: black; " +
                         "-fx-text-fill: yellow; " +
                         "-fx-font-size: 15px; " +
@@ -179,11 +192,11 @@ public class ChangeView {
     }
 
 //Method to swap to setter view
-    public void setterButton() {
-        setterButton = new Button("Change to Setter view");
+    public void SetterButton() {
+        SetterButton = new Button("Change to Setter view");
 
-        setterButton.setOnAction(setterTurn);
-        setterButton.setStyle(
+        SetterButton.setOnAction(setterTurn);
+        SetterButton.setStyle(
                 "-fx-background-color: black; " +
                         "-fx-text-fill: yellow; " +
                         "-fx-font-size: 15px; " +
@@ -194,12 +207,12 @@ public class ChangeView {
     }
 //Provides logic for ending round to be used by eventHandler
     public void EndRound() {
-        endButton = new Button("End Round");
-        endButton.setVisible(false);
-        endButton.setOnAction(clearBoard);
-        guessButton.setVisible(false);
+        EndButton = new Button("End Round");
+        EndButton.setVisible(false);
+        EndButton.setOnAction(clearBoard);
+        GuessButton.setVisible(false);
 
-        endButton.setStyle(
+        EndButton.setStyle(
                 "-fx-background-color: black; " +
                         "-fx-text-fill: yellow; " +
                         "-fx-font-size: 15px; " +
@@ -210,10 +223,10 @@ public class ChangeView {
     }
 //Method and style for help button
     public void HelpPage() {
-        helpButton = new Button("Help");
-        helpButton.setOnAction(help);
+        HelpButton = new Button("Help");
+        HelpButton.setOnAction(help);
 
-        helpButton.setStyle(
+        HelpButton.setStyle(
                 "-fx-background-color: black; " +
                         "-fx-text-fill: yellow; " +
                         "-fx-font-size: 15px; " +
@@ -225,23 +238,23 @@ public class ChangeView {
 
 
     // Method to get the button
-    public Button getExperimenterButton() {
-        return experimenterButton;
+    public Button GetExperimenterButton() {
+        return ExperimenterButton;
     }
 
-    public Button getSetterButton() {
-        return setterButton;
+    public Button GetSetterButton() {
+        return SetterButton;
     }
 
-    public Button getGuessButton() {
-        return guessButton;
+    public Button GetGuessButton() {
+        return GuessButton;
     }
 
-    public Button getEndButton() {
-        return endButton;
+    public Button GetEndButton() {
+        return EndButton;
     }
 
-    public static Button getHelpButton() {
-        return helpButton;
+    public static Button GetHelpButton() {
+        return HelpButton;
     }
 }

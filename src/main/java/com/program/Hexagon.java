@@ -16,15 +16,15 @@ import javafx.scene.text.Text;
 public class Hexagon extends Polygon {
     public double x;
     public double y;
-    public int rowId;
-    public int rowPositionId;
-    boolean hasAtom = false;
-    static int gameMode;
-    static int counter = 0;
+    public int RowId;
+    public int RowPositionId;
+    boolean HasAtom = false;
+    static int GameMode;
+    static int AtomCounter = 0;
     public int Id;
-    public Polygon shape;
-    public double[] points;
-    public boolean guessed = false;
+    public Polygon Shape;
+    public double[] Points;
+    public boolean Guessed = false;
 
     /**
      * *
@@ -39,9 +39,9 @@ public class Hexagon extends Polygon {
         this.x = x;
         this.y = y;
 
-        rowId = row;
+        RowId = row;
         Id = id + 1;
-        CalculatePosId(rowId, Id);
+        CalculatePosId(RowId, Id);
     }
 
     /**
@@ -54,12 +54,12 @@ public class Hexagon extends Polygon {
         if (x != 0) {
             int total = 0;
             for (int i = x - 1; i >= 0; i--) {
-                total += BoardItems.allHexagons.get(i).size();
+                total += BoardItems.AllHexagons.get(i).size();
             }
-            rowPositionId = y - total;
+            RowPositionId = y - total;
 
         } else {
-            rowPositionId = y;
+            RowPositionId = y;
         }
 
     }
@@ -71,17 +71,17 @@ public class Hexagon extends Polygon {
      * @param size The scalar that will define the hexagon size
      * @return Returns the hexagon shape
      */
-    public Polygon draw(Group root, double size) {
-        points = new double[12];
+    public Polygon Draw(Group root, double size) {
+        Points = new double[12];
 
         for (int i = 0; i < 6; i++) {
             double angle = Math.toRadians(60 * i + 30);
-            points[i * 2] = x + size * Math.cos(angle);
-            points[i * 2 + 1] = y + size * Math.sin(angle);
+            Points[i * 2] = x + size * Math.cos(angle);
+            Points[i * 2 + 1] = y + size * Math.sin(angle);
         }
-        Text numberText = createNumberText(points, this.Id);
+        Text numberText = createNumberText(Points, this.Id);
         root.getChildren().add(numberText);
-        Polygon hexagon = new Polygon(points);
+        Polygon hexagon = new Polygon(Points);
         hexagon.setFill(Color.BLACK);
         hexagon.setStroke(Color.YELLOW);
         hexagon.setFill(Color.TRANSPARENT);
@@ -91,46 +91,46 @@ public class Hexagon extends Polygon {
         hexagon.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (gameMode != 1 && counter < 6 && !BoardItems.endRound && !BoardItems.setterSwitched) {
+                if (GameMode != 1 && AtomCounter < 6 && !BoardItems.EndRound && !BoardItems.SetterSwitched) {
                     double[] center = calculatePolygonCenter(hexagon);
                     Atoms at = new Atoms(root, center[0], center[1], Id);
-                    BoardItems.allAtoms.add(0, at);  // Add the created Atom to the list
-                    counter++;
-                    hasAtom = true;
+                    BoardItems.AllAtoms.add(0, at);  // Add the created Atom to the list
+                    AtomCounter++;
+                    HasAtom = true;
 
-                } else if (BoardItems.setterSwitched && BoardItems.isSetter) {
+                } else if (BoardItems.SetterSwitched && BoardItems.IsSetter) {
                     BoardItems.addLog("You already let " + InitGame.PlayerOneName + " go, NO CHEATING!!!!!");
 
-                } else if (BoardItems.endRound) {
-                    if (guessed) {
+                } else if (BoardItems.EndRound) {
+                    if (Guessed) {
                         BoardItems.addLog("Hexagon guessed already");
 
-                    } else if (hasAtom) {
-                        guessed = true;
-                        if (BoardItems.roundCount == 0){
-                            BoardItems.playerOneGuesses[1]++;
-                            BoardItems.playerOneGuesses[0]++;
-                            if (BoardItems.textArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.textArea.setText(BoardItems.textArea.getText().substring(0, BoardItems.textArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
-                            BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.playerOneGuesses[0]);
+                    } else if (HasAtom) {
+                        Guessed = true;
+                        if (BoardItems.RoundCount == 0){
+                            BoardItems.PlayerOneGuesses[1]++;
+                            BoardItems.PlayerOneGuesses[0]++;
+                            if (BoardItems.TextArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.TextArea.setText(BoardItems.TextArea.getText().substring(0, BoardItems.TextArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
+                            BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.PlayerOneGuesses[0]);
                         }else{
-                            BoardItems.playerTwoGuesses[1]++;
-                            BoardItems.playerTwoGuesses[0]++;
-                            if (BoardItems.textArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.textArea.setText(BoardItems.textArea.getText().substring(0, BoardItems.textArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
-                            BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.playerTwoGuesses[0]);
+                            BoardItems.PlayerTwoGuesses[1]++;
+                            BoardItems.PlayerTwoGuesses[0]++;
+                            if (BoardItems.TextArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.TextArea.setText(BoardItems.TextArea.getText().substring(0, BoardItems.TextArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
+                            BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.PlayerTwoGuesses[0]);
                         }
-                    } else if (!hasAtom) {
-                        guessed = true;
-                        if (BoardItems.roundCount == 0){
-                            BoardItems.playerOneScore += 5;
-                            BoardItems.playerOneGuesses[0]++;
-                            if (BoardItems.textArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.textArea.setText(BoardItems.textArea.getText().substring(0, BoardItems.textArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
-                            BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.playerOneGuesses[0]);
+                    } else if (!HasAtom) {
+                        Guessed = true;
+                        if (BoardItems.RoundCount == 0){
+                            BoardItems.PlayerOneScore += 5;
+                            BoardItems.PlayerOneGuesses[0]++;
+                            if (BoardItems.TextArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.TextArea.setText(BoardItems.TextArea.getText().substring(0, BoardItems.TextArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
+                            BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.PlayerOneGuesses[0]);
                         }
                         else {
-                            BoardItems.playerTwoScore += 5;
-                            BoardItems.playerTwoGuesses[0]++;
-                            if (BoardItems.textArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.textArea.setText(BoardItems.textArea.getText().substring(0, BoardItems.textArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
-                            BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.playerTwoGuesses[0]);
+                            BoardItems.PlayerTwoScore += 5;
+                            BoardItems.PlayerTwoGuesses[0]++;
+                            if (BoardItems.TextArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.TextArea.setText(BoardItems.TextArea.getText().substring(0, BoardItems.TextArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
+                            BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.PlayerTwoGuesses[0]);
 
                         }
 
@@ -140,7 +140,7 @@ public class Hexagon extends Polygon {
         });
 
         root.getChildren().add(hexagon);
-        shape = hexagon;
+        Shape = hexagon;
         return hexagon;
     }
 

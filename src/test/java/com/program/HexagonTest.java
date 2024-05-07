@@ -25,7 +25,7 @@ public class HexagonTest {
         row1.add(new Hexagon(200, 100, 0, 2));
         allHexagons.add(row1);
         //Set the allHexagons list in the BoardItems class
-        BoardItems.allHexagons = allHexagons;
+        BoardItems.AllHexagons = allHexagons;
     }
 
     @Test
@@ -46,14 +46,14 @@ public class HexagonTest {
         Hexagon hexagon = new Hexagon(100, 100, 0, 3);
         //Verify that the hexagon's properties are initialized correctly
         //by checking if the hexagon is given the correct row ID
-        assertEquals(0, hexagon.rowId);
+        assertEquals(0, hexagon.RowId);
     }
 
     @Test
     public void testDraw() {
         Hexagon hexagon = new Hexagon(100, 100, 0, 0);
         //Draw the hexagon
-        Polygon drawn = hexagon.draw(root, 50);
+        Polygon drawn = hexagon.Draw(root, 50);
         //And then check that the drawn hexagon is not null and thus
         //was actually drawn
         assertNotNull(drawn);
@@ -63,7 +63,7 @@ public class HexagonTest {
     public void testHexagonAddedToRoot() {
         Hexagon hexagon = new Hexagon(100, 100, 0, 0);
         //Draw the hexagon on the root
-        Polygon drawn = hexagon.draw(root, 50);
+        Polygon drawn = hexagon.Draw(root, 50);
         //And check that the hexagon shape is added to the root
         assertTrue(root.getChildren().contains(drawn));
     }
@@ -72,7 +72,7 @@ public class HexagonTest {
     public void testCreateNumberText() {
         Hexagon hexagon = new Hexagon(100, 100, 0, 0);
         //Draw the hexagon on the root
-        Polygon drawn = hexagon.draw(root, 50);
+        Polygon drawn = hexagon.Draw(root, 50);
         //And check if the hexagon center text got added
         //This thus checks if the method createNumberText is working correctly
         assertTrue(root.getChildren().stream().anyMatch(node -> node instanceof Text));

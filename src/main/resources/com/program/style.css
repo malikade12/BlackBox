@@ -13,6 +13,11 @@
     -fx-font-family: "Lucida Console";
     -fx-alignment: center;
 }
+#playScreen{
+    -fx-text-alignment: left;
+    -fx-alignment: left;
+
+}
 #playerOne{
     -fx-alignment: center;
 }
