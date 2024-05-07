@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.program.Controller">
+<AnchorPane id="playScreen" fx:id="playScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.program.Controller">
    <children>
       <Label layoutX="569.0" layoutY="65.0" text="How To Play">
          <font>
@@ -13,77 +13,77 @@
          </font>
       </Label>
       <Button layoutX="47.0" layoutY="88.0" mnemonicParsing="false" onAction="#switchToMenu" text="Back to Menu" />
-      <Label layoutX="47.0" layoutY="196.0" prefHeight="31.0" prefWidth="1215.0" text="Players use rays to detect hidden atoms inside a black box. ">
+      <Label layoutX="47.0" layoutY="196.0" prefHeight="31.0" prefWidth="1215.0" text="How to play BlackBox">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="266.0" prefHeight="17.0" prefWidth="1215.0" text="1.Ray Path on Empty Space: Rays passing through certain positions travel straight through ">
+      <Label layoutX="47.0" layoutY="266.0" prefHeight="17.0" prefWidth="1215.0" text="1.The setter begins by setting position for up to a total of 6 atoms">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="340.0" prefHeight="25.0" prefWidth="1366.0" text="2.Absorption: If a ray hits an atom directly, it's absorbed, marked by a black ray marker.">
+      <Label layoutX="47.0" layoutY="340.0" prefHeight="25.0" prefWidth="1366.0" text="2.The experimenter can now try to locate the atoms with the ade of the rays">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="377.0" prefHeight="17.0" prefWidth="1215.0" text="3.Deflection: Rays approaching atoms at specific positions are deflected at a 60° angle ">
+      <Label layoutX="64.0" layoutY="367.0" prefHeight="17.0" prefWidth="1215.0" text="numbered 1 - 54. Once the ray is shot the game is passed to the setter ">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="451.0" prefHeight="17.0" prefWidth="1215.0" text="4.Dual Deflection: If a ray approaches two adjacent atoms, it turns 120°, marked by a pair of ray markers.">
+      <Label layoutX="47.0" layoutY="437.0" prefHeight="17.0" prefWidth="1215.0" text="3. The game will be passes back to the experimenter and they can continue to use rays or ">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="496.0" prefHeight="17.0" prefWidth="1215.0" text="5.Reflection: When a ray approaches two atoms equally closely, it's reflected back along its path, ">
+      <Label layoutX="64.0" layoutY="464.0" prefHeight="17.0" prefWidth="1215.0" text="they can begin guessing.">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="571.0" prefHeight="17.0" prefWidth="1215.0" text="6.Edge Deflection: At specific positions, a ray is influenced by the edge atom, deflecting as if reflected,">
+      <Label layoutX="64.0" layoutY="531.0" prefHeight="17.0" prefWidth="1215.0" text="Experimenter can make guesses by pressing the hexagon they widh to guess using the mouse">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="653.0" prefHeight="31.0" prefWidth="1215.0" text="The experimenter's score is based on the number of ray markers plus 5 points for every misplaced atom. ">
+      <Label layoutX="47.0" layoutY="606.0" prefHeight="31.0" prefWidth="1215.0" text="6. Game will switch to the 2nd round and roles will swap.">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="684.0" prefHeight="25.0" prefWidth="1215.0" text="Errors in reporting ray results result in a deduction of 5 points. ">
+      <Label layoutX="47.0" layoutY="648.0" prefHeight="25.0" prefWidth="1215.0" text="7. Once the second round is over the game will end and results will be displayed">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="714.0" prefHeight="17.0" prefWidth="1215.0" text="The winner has the lower score over both rounds.">
+      <Label layoutX="64.0" layoutY="675.0" prefHeight="17.0" prefWidth="1215.0" text="The winner has the lower score over both rounds.">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="227.0" prefHeight="17.0" prefWidth="1196.0" text="Here's a summary of how atoms affect rays:">
+      <Label layoutX="47.0" layoutY="227.0" prefHeight="17.0" prefWidth="1196.0" text="Once you select 'Enter Game' the game will begin in setter mode">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="60.0" layoutY="296.0" prefHeight="17.0" prefWidth="1215.0" text="without encountering atoms.">
+      <Label layoutX="60.0" layoutY="296.0" prefHeight="17.0" prefWidth="1215.0" text="Once atoms are set then press the button 'change to experimenter view'">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="60.0" layoutY="407.0" prefHeight="17.0" prefWidth="1215.0" text="and exit from a different position.">
+      <Label layoutX="64.0" layoutY="394.0" prefHeight="17.0" prefWidth="1215.0" text="where they must input where they tell the experimenter where the ray exits">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="60.0" layoutY="526.0" prefHeight="17.0" prefWidth="1130.0" text=" marked by a pair of ray markers.">
+      <Label layoutX="47.0" layoutY="504.0" prefHeight="17.0" prefWidth="1130.0" text="4. Once experimenter selects 'make guess' press 'Q' or 'X' to determine marker colour">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="64.0" layoutY="601.0" prefHeight="17.0" prefWidth="1196.0" text="marked by a white ray marker.">
+      <Label layoutX="47.0" layoutY="573.0" prefHeight="17.0" prefWidth="1196.0" text="5. Select end round when done making guesses">
          <font>
             <Font size="18.0" />
          </font>
