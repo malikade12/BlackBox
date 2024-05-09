@@ -16,14 +16,22 @@ import javafx.scene.text.Text;
 public class Hexagon extends Polygon {
     public double x;
     public double y;
+    //row id number
     public int RowId;
+    //position in row
     public int RowPositionId;
+    //if the hexagon has an atom in it
     boolean HasAtom = false;
     static int GameMode;
+    //counter for the total amount of atoms on the board
     static int AtomCounter = 0;
+    //hexagon id
     public int Id;
+    //hexagon shape
     public Polygon Shape;
+    //points array
     public double[] Points;
+    //if the hexagon was guessed
     public boolean Guessed = false;
 
     /**
