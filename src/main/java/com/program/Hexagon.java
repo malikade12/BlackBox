@@ -16,14 +16,22 @@ import javafx.scene.text.Text;
 public class Hexagon extends Polygon {
     public double x;
     public double y;
+    //row id number
     public int RowId;
+    //position in row
     public int RowPositionId;
+    //if the hexagon has an atom in it
     boolean HasAtom = false;
     static int GameMode;
+    //counter for the total amount of atoms on the board
     static int AtomCounter = 0;
+    //hexagon id
     public int Id;
+    //hexagon shape
     public Polygon Shape;
+    //points array
     public double[] Points;
+    //if the hexagon was guessed
     public boolean Guessed = false;
 
     /**
@@ -98,18 +106,24 @@ public class Hexagon extends Polygon {
                     AtomCounter++;
                     HasAtom = true;
 
-                } else if (BoardItems.SetterSwitched && BoardItems.IsSetter) {
+                }
+                //doesnt allow setter to place atoms after they switch to the experimenter
+                else if (BoardItems.SetterSwitched && BoardItems.IsSetter) {
                     BoardItems.addLog("You already let " + InitGame.PlayerOneName + " go, NO CHEATING!!!!!");
 
                 } else if (BoardItems.EndRound) {
+                    //if the hexagon was already guessed
                     if (Guessed) {
                         BoardItems.addLog("Hexagon guessed already");
 
                     } else if (HasAtom) {
                         Guessed = true;
+                        //prints to the text area the amount of guesses the experimenter has made
                         if (BoardItems.RoundCount == 0){
+                            //increments the player's correct and total amount of guesses made
                             BoardItems.PlayerOneGuesses[1]++;
                             BoardItems.PlayerOneGuesses[0]++;
+                            //clears the text area as to have only one line that says guesses made instead of multiple
                             if (BoardItems.TextArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.TextArea.setText(BoardItems.TextArea.getText().substring(0, BoardItems.TextArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
                             BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.PlayerOneGuesses[0]);
                         }else{
@@ -121,8 +135,10 @@ public class Hexagon extends Polygon {
                     } else if (!HasAtom) {
                         Guessed = true;
                         if (BoardItems.RoundCount == 0){
+                            //increments the player's score and total amount of guesses made
                             BoardItems.PlayerOneScore += 5;
                             BoardItems.PlayerOneGuesses[0]++;
+                            //clears the text area as to have only one line that says guesses made instead of multiple
                             if (BoardItems.TextArea.getText().contains(InitGame.PlayerOneName + " Guesses"))BoardItems.TextArea.setText(BoardItems.TextArea.getText().substring(0, BoardItems.TextArea.getText().lastIndexOf(InitGame.PlayerOneName + " Guesses")));
                             BoardItems.addLog(InitGame.PlayerOneName + " Guesses made; " + BoardItems.PlayerOneGuesses[0]);
                         }
