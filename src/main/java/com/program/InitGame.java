@@ -41,35 +41,47 @@ public  class InitGame {
             ydefault += 75 * j / 1.3;
             xdefault -= 44 * j / 1.3;
             if (j > 4) l++;
+            //After the 5th row, the incrementing of the x value has to change
+            //Since each row after the 5th we draw one less hexagon instead of one more
+            //so we need to realign them, thus we use l as the new counter variable to count
+            //rows after the 5th
             xdefault += 87 * l / 1.3;
             ArrayList<Hexagon> rows = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
+                //Draw the first 5 hexagons since each row has a minimum of 5 hexagons
+                //And after each draw, increment the x value to shift the hexagons
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * i)/1.3), ydefault, j, k);
-                h1.Draw(Main.Root, 50/1.3); // Draw the hexagon with size 50
+                h1.Draw(Main.Root, 50/1.3);
                 rows.add(h1);
                 k++;
             }
             if (j > 0 && j != 8) {
+                //In all rows except the last row, we have to draw the 6th hexagon
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 5)/1.3), ydefault, j, k);
-                h1.Draw(Main.Root, 50/1.3); // Draw the hexagon with size 50
+                h1.Draw(Main.Root, 50/1.3);
                 rows.add(h1);
                 k++;
             }
             if (j > 1 && j < 7) {
+                //Draw the 7th hexagon but only in the rows 2-6 since the rest
+                //do not have more than 6 hexagons
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 6)/1.3), ydefault, j, k);
-                h1.Draw(Main.Root, 50/1.3); // Draw the hexagon with size 50
+                h1.Draw(Main.Root, 50/1.3);
                 rows.add(h1);
                 k++;
             }
             if (j > 2 && j < 6) {
+                //Draw the 8th hexagon but only in the rows 3-5 since the rest
+                //do not have more than 7 hexagons
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 7)/1.3), ydefault, j, k);
-                h1.Draw(Main.Root, 50/1.3); // Draw the hexagon with size 50
+                h1.Draw(Main.Root, 50/1.3);
                 rows.add(h1);
                 k++;
             }
             if (j == 4) {
+                //Draw the 9th hexagon but only in row 5
                 Hexagon h1 = new Hexagon(xdefault + ((double) (87 * 8)/1.3), ydefault, j, k);
-                h1.Draw(Main.Root, 50/1.3); // Draw the hexagon with size 50
+                h1.Draw(Main.Root, 50/1.3);
                 rows.add(h1);
                 k++;
             }
